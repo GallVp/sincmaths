@@ -29,6 +29,17 @@ operator fun SincMatrix.get(indices: IntArray): SincMatrix {
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
+fun SincMatrix.getRows(mlRows: IntArray): SincMatrix = this.get(mlRows = mlRows, mlCols = this.colIndices)
+
+/**
+ * Indexing starts at 1, like Octave/MATLAB.
+ */
+fun SincMatrix.getRow(mlRow: Int): SincMatrix =
+    this.getRows(mlRows = intArrayOf(mlRow))
+
+/**
+ * Indexing starts at 1, like Octave/MATLAB.
+ */
 internal fun SincMatrix.indexBuilder(mlRows: IntArray, mlCols: IntArray): IntArray {
 
     val vectIndices: ArrayList<Int> = ArrayList()
@@ -38,4 +49,9 @@ internal fun SincMatrix.indexBuilder(mlRows: IntArray, mlCols: IntArray): IntArr
         vectIndices.addAll(mlCols.map { it + numElementsBehind })
     }
     return vectIndices.toIntArray()
+}
+
+internal fun SincMatrix.getIndex(mlRow: Int, mlCol: Int): Int {
+    val numElementsBehind: Int = (mlRow - 1) * this.numCols()
+    return mlCol + numElementsBehind
 }

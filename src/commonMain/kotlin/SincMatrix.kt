@@ -16,8 +16,6 @@ expect class SincMatrix(rowMajArray: DoubleArray, m: Int, n: Int) {
     operator fun times(rhs: Double): SincMatrix
     operator fun plus(rhs: SincMatrix): SincMatrix
     operator fun plus(rhs: Double): SincMatrix
-    operator fun minus(rhs: SincMatrix): SincMatrix
-    operator fun minus(rhs: Double): SincMatrix
 
     companion object {}
 }

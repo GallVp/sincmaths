@@ -12,10 +12,9 @@ fun SincMatrix.conv(B: SincMatrix, shape: ConvolutionShape = ConvolutionShape.fu
         isColumnFlag = true
     }
 
-    val convWithFFTVector = convWorker(this.asArray(), B.asArray())
-    val convSegmentSize =
-        intArrayOf(this.numel() + B.numel() - 1, this.numel(), B.numel()).maxOrNull() ?: 0
-    val convSegment = convWithFFTVector.sliceArray(0 until convSegmentSize)
+    val convResult = convWorker(this.asArray(), B.asArray())
+    val convSegmentSize = intArrayOf(this.numel() + B.numel() - 1, this.numel(), B.numel()).maxOrNull() ?: 0
+    val convSegment = convResult.sliceArray(0 until convSegmentSize)
 
     when (shape) {
         ConvolutionShape.full -> {

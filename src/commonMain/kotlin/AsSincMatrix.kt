@@ -1,0 +1,47 @@
+fun Double.asSincMatrix(): SincMatrix {
+    return SincMatrix(doubleArrayOf(this), 1, 1)
+}
+
+fun DoubleArray.asSincMatrix(asRowVector: Boolean = true): SincMatrix = if (asRowVector) {
+    SincMatrix(this, 1, this.size)
+} else {
+    SincMatrix(this, this.size, 1)
+}
+
+fun DoubleArray.asSincMatrix(m: Int, n: Int): SincMatrix {
+    return SincMatrix(this, m, n)
+}
+
+fun List<Double>.asSincMatrix(asRowVector: Boolean = true): SincMatrix = if (asRowVector) {
+    SincMatrix(this.toDoubleArray(), 1, this.size)
+} else {
+    SincMatrix(this.toDoubleArray(), this.size, 1)
+}
+
+fun List<Double>.asSincMatrix(m: Int, n: Int): SincMatrix {
+    return SincMatrix(this.toDoubleArray(), m, n)
+}
+
+fun IntArray.asSincMatrix(asRowVector: Boolean = true): SincMatrix {
+    return this.map { it.toDouble() }.asSincMatrix(asRowVector)
+}
+
+fun IntArray.asSincMatrix(m: Int, n: Int): SincMatrix {
+    return this.map { it.toDouble() }.asSincMatrix(m, n)
+}
+
+fun IntRange.asSincMatrix(m: Int, n: Int): SincMatrix {
+    return this.map { it.toDouble() }.asSincMatrix(m, n)
+}
+
+fun IntRange.asSincMatrix(asRowVector: Boolean = true): SincMatrix {
+    return this.map { it.toDouble() }.asSincMatrix(asRowVector)
+}
+
+fun List<Int>.asSincMatrix(asRowVector: Boolean = true, intType:Any? = null): SincMatrix {
+    return this.map { it.toDouble() }.asSincMatrix(asRowVector)
+}
+
+fun List<Int>.asSincMatrix(m: Int, n: Int, intType:Any? = null): SincMatrix {
+    return this.map { it.toDouble() }.asSincMatrix(m, n)
+}

@@ -1,10 +1,8 @@
 import kotlin.math.abs
-import kotlin.test.Test
 
 class SincMatrixSignalProc {
 
-    @Test
-    fun testVectorConv() {
+    private fun testVectorConv() {
         // Octave code
         //  format long
         //  A = -10:10;
@@ -33,8 +31,7 @@ class SincMatrixSignalProc {
         SincMathsTests.assert(abs(resultOctave - result) < testTol) { "testVectorConv failed..." }
     }
 
-    @Test
-    fun SincMatrixSignalProcTests() {
+    fun runSignalProcTests() {
         testVectorConv()
     }
 }

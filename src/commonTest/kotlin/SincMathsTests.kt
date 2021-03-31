@@ -4,7 +4,7 @@ class SincMathsTests {
 
     @Test
     fun runAllTests() {
-        SincMatrixSignalProc().SincMatrixSignalProcTests()
+        SincMatrixSignalProc().runSignalProcTests()
     }
 
     companion object {
