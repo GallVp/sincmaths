@@ -24,3 +24,15 @@ internal actual fun convWorker(A: DoubleArray, B: DoubleArray): DoubleArray {
 
     return returnData
 }
+
+internal actual fun parseToInt(expression: String): Int? {
+    TODO("Not yet implemented")
+}
+
+internal actual fun filtfiltWorker(
+    xCoefs: DoubleArray,
+    yCoefs: DoubleArray,
+    data: DoubleArray
+): DoubleArray {
+    TODO("Not yet implemented")
+}

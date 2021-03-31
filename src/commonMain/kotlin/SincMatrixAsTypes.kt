@@ -1,0 +1,27 @@
+fun SincMatrix.asIntArray(): IntArray {
+    require(this.isvector()) { "SMError: Matrix is not a vector and conversion is invalid" }
+
+    return this.asRowMajorArray().map {
+        it.toInt()
+    }.toIntArray()
+}
+
+fun SincMatrix.asScalar(): Double {
+    require(this.isscalar()) { "SMError: Matrix is not a scalar and conversion is invalid" }
+
+    return this[1]
+}
+
+/**
+ * Create a row vector by indexing elements row by row
+ */
+fun SincMatrix.asRowVector(): SincMatrix =
+    SincMatrix(rowMajArray = this.asRowMajorArray(), m = 1, n = this.numel())
+
+fun SincMatrix.asBoolArray(): BooleanArray {
+    require(this.isvector()) { "SMError: Matrix is not a vector and conversion is invalid" }
+
+    return this.asRowMajorArray().map {
+        it != 0.0
+    }.toBooleanArray()
+}

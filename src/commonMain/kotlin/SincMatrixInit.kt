@@ -33,7 +33,7 @@ fun SincMatrix.Companion.init(mlScript: String): SincMatrix {
         val m = dataRows.size
         val n = dataRows.first().split(",").size
         // Initialise the matrix
-        val rMat = SincMatrix(doubleArrayOf(), m, n)
+        val rMat = SincMatrix(DoubleArray(m*n), m, n)
         var ithRow = 1
         var jthColumn: Int
         for (row in dataRows) {
@@ -80,4 +80,19 @@ internal fun SincMatrix.Companion.createRange(mlScript: String): DoubleArray {
     return (0 until numElements).map {
         it * change + startPoint
     }.toDoubleArray()
+}
+
+fun SincMatrix.Companion.zeros(m: Int, n: Int): SincMatrix = DoubleArray(m * n) {
+    0.0
+}.asSincMatrix(m, n)
+
+fun SincMatrix.Companion.ones(m: Int, n: Int): SincMatrix = DoubleArray(m * n) {
+    1.0
+}.asSincMatrix(m, n)
+
+fun SincMatrix.Companion.nans(m: Int, n: Int): SincMatrix {
+    val data = DoubleArray(m * n) {
+        Double.NaN
+    }
+    return SincMatrix(data, m, n)
 }

@@ -6,7 +6,7 @@ get() {
     } else {
         dispString.append("")
         for (ithRow in 1 .. this.numRows()) {
-            val rowString = this.getRow(ithRow).asArray().contentToString().drop(1).dropLast(1)
+            val rowString = this.getRow(ithRow).asRowMajorArray().contentToString().drop(1).dropLast(1)
             dispString.append(rowString + "\n")
         }
     }
@@ -74,3 +74,5 @@ val SincMatrix.indicesRange: IntRange
     get() {
         return 1..this.numel()
     }
+
+fun SincMatrix.copyOf():SincMatrix = this.asRowMajorArray().copyOf().asSincMatrix(this.numRows(), this.numCols())

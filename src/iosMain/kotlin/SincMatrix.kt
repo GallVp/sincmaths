@@ -8,10 +8,13 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
     actual fun numRows(): Int = m
     actual fun numCols(): Int = n
 
+    /*
     actual fun asArray(): DoubleArray {
         require(this.isvector()) { "SMError: Matrix is not a vector and conversion is invalid" }
         return this.matrixData
     }
+
+     */
 
     actual operator fun set(mlRow: Int, mlCol: Int, value: Double) {
         this.matrixData[this.getIndex(mlRow, mlCol) - 1] = value
@@ -63,7 +66,75 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
         return returnData
     }
 
+    actual fun cross(): SincMatrix {
+        TODO("Not yet implemented")
+    }
+
+    actual fun dot(rhs: SincMatrix): Double {
+        TODO("Not yet implemented")
+    }
+
+    actual operator fun div(rhs: SincMatrix): SincMatrix {
+        TODO("Not yet implemented")
+    }
+
+    actual fun elementMult(rhs: SincMatrix): SincMatrix {
+        TODO("Not yet implemented")
+    }
+
+    actual fun elementSum(): Double {
+        TODO("Not yet implemented")
+    }
+
+    actual fun elementPower(power: Double): SincMatrix {
+        TODO("Not yet implemented")
+    }
+
+    actual fun floor(): SincMatrix {
+        TODO("Not yet implemented")
+    }
+
+    actual fun abs(): SincMatrix {
+        TODO("Not yet implemented")
+    }
+
+    actual fun sqrt(): SincMatrix {
+        TODO("Not yet implemented")
+    }
+
+    actual fun sin(): SincMatrix {
+        TODO("Not yet implemented")
+    }
+
+    actual fun cos(): SincMatrix {
+        TODO("Not yet implemented")
+    }
+
+    actual fun flip(): SincMatrix {
+        TODO("Not yet implemented")
+    }
+
+    actual fun find(): SincMatrix {
+        TODO("Not yet implemented")
+    }
+
+    actual fun filter(B: DoubleArray, A: DoubleArray): SincMatrix {
+        TODO("Not yet implemented")
+    }
+
+    actual fun diffWithWavelet(scale: Double, dt: Double): SincMatrix {
+        TODO("Not yet implemented")
+    }
+
     actual companion object {
+        actual fun csvread(
+            filePath: String,
+            separator: String,
+            headerInfo: List<String>,
+            dateFormat: String
+        ): SincMatrix {
+            TODO("Not yet implemented")
+        }
 
     }
 }
