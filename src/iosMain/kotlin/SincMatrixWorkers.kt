@@ -36,3 +36,14 @@ internal actual fun filtfiltWorker(
 ): DoubleArray {
     TODO("Not yet implemented")
 }
+
+/**
+ * Takes date and date format string to produce a time stamp in seconds which represents time since 1970
+ */
+internal actual fun dateToTimeStampWorker(dateFormat: String, date: String): Double {
+    TODO("Not yet implemented")
+}
+
+internal actual fun fileReadWorker(filePath: String): String? {
+    TODO("Not yet implemented")
+}

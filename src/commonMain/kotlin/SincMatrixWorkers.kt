@@ -2,6 +2,12 @@ internal expect fun convWorker(A:DoubleArray, B:DoubleArray):DoubleArray
 internal expect fun parseToInt(expression: String):Int?
 internal expect fun filtfiltWorker(xCoefs: DoubleArray, yCoefs: DoubleArray, data: DoubleArray): DoubleArray
 
+/**
+ * Takes date and date format string to produce a time stamp in seconds which represents time since 1970
+ */
+internal expect fun dateToTimeStampWorker(dateFormat: String, date:String): Double
+internal expect fun fileReadWorker(filePath: String): String?
+
 internal fun SincMatrix.Companion.sgolayWorker(vectorIn: SincMatrix, B: SincMatrix): SincMatrix {
     var vector = vectorIn.copyOf()
     val vectorIsRow = vector.isrow()

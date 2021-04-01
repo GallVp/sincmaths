@@ -3,25 +3,13 @@ expect class SincMatrix(rowMajArray: DoubleArray, m: Int, n: Int) {
     fun numRows():Int
     fun numCols():Int
 
-    //fun asArray():DoubleArray
+    fun asArray():DoubleArray
     fun asRowMajorArray():DoubleArray
 
     /**
      * Indexing starts at 1, like Octave/MATLAB.
      */
     operator fun set(mlRow: Int, mlCol: Int, value: Double)
-
-    /**
-     * Indexing starts at 1, like Octave/MATLAB.
-     * @return A column vector.
-     */
-    operator fun SincMatrix.get(indices: IntArray): SincMatrix
-
-    /**
-     * Indexing starts at 1, like Octave/MATLAB.
-     * @return A column vector.
-     */
-    operator fun SincMatrix.get(indices: IntRange): SincMatrix
 
     fun transpose():SincMatrix
     fun cross(ontoVector: SincMatrix):SincMatrix
@@ -57,19 +45,5 @@ expect class SincMatrix(rowMajArray: DoubleArray, m: Int, n: Int) {
      */
     fun diffWithWavelet(scale:Double, dt:Double):SincMatrix
 
-    companion object {
-        /**
-         * For example usage see SincMathsTests/SincMatrixIO.
-         * @param headerInfo An array of column types. Following column types are allowed:
-         * d: Double
-         * t: Date which is then converted to double as time interval since 1970.
-         * If headerInfo is empty, no header row is assumed. Default date format: "yyyy-MM-dd HH:mm:ss.SSS"
-         */
-        fun csvread(
-            filePath: String,
-            separator: String = ",",
-            headerInfo: List<String> = listOf(),
-            dateFormat: String = "yyyy-MM-dd HH:mm:ss.SSS"
-        ): SincMatrix
-    }
+    companion object {}
 }

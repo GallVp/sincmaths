@@ -34,6 +34,16 @@ operator fun SincMatrix.get(mlScript: String): SincMatrix = if (mlScript.contain
 
 /**
  * Indexing starts at 1, like Octave/MATLAB.
+ * @return A column vector.
+ */
+operator fun SincMatrix.get(indices: IntArray): SincMatrix {
+    val numE = indices.size
+    val subset = this.asRowMajorArray().slice(indices.map { it - 1 }.toList()).toDoubleArray()
+    return SincMatrix(subset, m = numE, n = 1)
+}
+
+/**
+ * Indexing starts at 1, like Octave/MATLAB.
  */
 fun SincMatrix.getCols(mlCols: IntArray): SincMatrix =
     this.get(mlRows = this.rowIndices, mlCols = mlCols)

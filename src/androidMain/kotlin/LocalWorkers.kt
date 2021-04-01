@@ -1,3 +1,16 @@
+import java.text.SimpleDateFormat
+import java.io.IOException
+
+import android.util.Log
+
+import java.io.InputStreamReader
+
+import java.io.BufferedReader
+
+import java.io.InputStream
+import java.nio.charset.Charset
+
+
 private external fun convWithWavelib(
     signalVector: DoubleArray,
     signalLength: Int,
@@ -105,3 +118,16 @@ internal fun filterWorker(
         outValue
     }.toDoubleArray()
 }
+
+internal actual fun dateToTimeStampWorker(dateFormat: String, date:String): Double {
+    val dateFormatter = SimpleDateFormat(dateFormat)
+    val timeMillis = dateFormatter.parse(date)
+    return if(timeMillis != null) {
+        timeMillis.time / 1000.0 // date.time is in milliseconds.
+    } else {
+        -1.0
+    }
+}
+internal actual fun fileReadWorker(filePath: String): String? = SincMatrix.readFileAsTextUsingInputStream(filePath)
+
+private fun SincMatrix.Companion.readFileAsTextUsingInputStream(fileName: String): String? = SincMatrix::class.java.getResourceAsStream(fileName)?.readBytes()?.toString(Charsets.UTF_8)

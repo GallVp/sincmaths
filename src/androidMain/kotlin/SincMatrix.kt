@@ -7,29 +7,15 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
     actual fun numRows(): Int = m
     actual fun numCols(): Int = n
 
-    /*
+
     actual fun asArray(): DoubleArray {
         require(this.isvector()) { "SMError: Matrix is not a vector and conversion is invalid" }
         return this.matrixData
     }
 
-     */
-
     actual fun asRowMajorArray() = this.matrixData
 
     internal fun asSimpleMatrix() = SimpleMatrix(this.numRows(), this.numCols(), true, this.matrixData)
-
-    actual operator fun SincMatrix.get(indices: IntArray): SincMatrix {
-        val numE = indices.size
-        val subset = this.matrixData.slice(indices.map { it - 1 }.toList()).toDoubleArray()
-        return SincMatrix(subset, m = numE, n = 1)
-    }
-
-    actual operator fun SincMatrix.get(indices: IntRange): SincMatrix {
-        val numE = indices.count()
-        val subset = this.matrixData.slice(indices.map { it - 1 }.toList()).toDoubleArray()
-        return SincMatrix(subset, m = numE, n = 1)
-    }
 
     actual operator fun set(mlRow: Int, mlCol: Int, value: Double) {
         this.matrixData[this.getIndex(mlRow, mlCol) - 1] = value
@@ -149,15 +135,6 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
         init {
             System.loadLibrary("wavelib")
             System.loadLibrary("tinyexpr")
-        }
-
-        actual fun csvread(
-            filePath: String,
-            separator: String,
-            headerInfo: List<String>,
-            dateFormat: String
-        ): SincMatrix {
-            TODO("Not yet implemented")
         }
     }
 }

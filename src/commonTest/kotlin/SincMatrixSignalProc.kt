@@ -91,7 +91,7 @@ class SincMatrixSignalProc {
         //  sgolayfilt(testVector', 3, 41) * sgolayfilt(testVector, 3, 41)
         val resultMATLAB = 6.740799259697040
         val testTol = 1E-12
-        val filePath = "/res/raw/test_csv.csv"
+        val filePath = "test_csv.csv"
         val A = SincMatrix.csvread(
             filePath = filePath,
             separator = ",",
@@ -114,7 +114,7 @@ class SincMatrixSignalProc {
         //  sum(sum(sgolayfilt(testMatrix, 3, 7), 2))
         val resultMATLAB = -2.426886809212823e+03
         val testTol = 1E-11
-        val filePath = "/res/raw/test_csv.csv"
+        val filePath = "test_csv.csv"
         val A = SincMatrix.csvread(
             filePath = filePath,
             separator = ",",
@@ -265,7 +265,7 @@ class SincMatrixSignalProc {
     }
 
     private fun testDenoiseCwtft() {
-        val filePath = "/res/raw/example_signal.csv"
+        val filePath = "example_signal.csv"
         val noisySignal = SincMatrix.csvread(filePath = filePath)
         val diffSignal = noisySignal.diffWithWavelet(scale = 16.0, dt = 0.01)
         val resultMATLAB = 1.757498083459348e+04

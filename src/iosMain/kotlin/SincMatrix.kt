@@ -16,6 +16,9 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
 
      */
 
+
+    actual fun asRowMajorArray(): DoubleArray = this.matrixData
+
     actual operator fun set(mlRow: Int, mlCol: Int, value: Double) {
         this.matrixData[this.getIndex(mlRow, mlCol) - 1] = value
     }
@@ -66,7 +69,7 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
         return returnData
     }
 
-    actual fun cross(): SincMatrix {
+    actual fun cross(ontoVector: SincMatrix): SincMatrix {
         TODO("Not yet implemented")
     }
 
@@ -74,19 +77,15 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
         TODO("Not yet implemented")
     }
 
-    actual operator fun div(rhs: SincMatrix): SincMatrix {
+    actual infix fun elMul(rhs: SincMatrix): SincMatrix {
         TODO("Not yet implemented")
     }
 
-    actual fun elementMult(rhs: SincMatrix): SincMatrix {
+    actual fun elSum(): Double {
         TODO("Not yet implemented")
     }
 
-    actual fun elementSum(): Double {
-        TODO("Not yet implemented")
-    }
-
-    actual fun elementPower(power: Double): SincMatrix {
+    actual infix fun elPow(power: Double): SincMatrix {
         TODO("Not yet implemented")
     }
 
@@ -95,10 +94,6 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
     }
 
     actual fun abs(): SincMatrix {
-        TODO("Not yet implemented")
-    }
-
-    actual fun sqrt(): SincMatrix {
         TODO("Not yet implemented")
     }
 
@@ -136,5 +131,9 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
             TODO("Not yet implemented")
         }
 
+    }
+
+    actual infix fun elDiv(rhs: SincMatrix): SincMatrix {
+        TODO("Not yet implemented")
     }
 }
