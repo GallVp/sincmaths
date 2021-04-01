@@ -46,3 +46,11 @@ fun SincMatrix.median(): SincMatrix {
         doubleArrayOf(sortedVector[(sortedVector.size - 1) / 2]).asSincMatrix(m = 1, n = 1)
     }
 }
+
+fun SincMatrix.rms(dim: Int = 1): SincMatrix {
+    return if (this.isvector()) {
+        this.elPow(2.0).mean().sqrt()
+    } else {
+        this.elPow(2.0).mean(dim).sqrt()
+    }
+}

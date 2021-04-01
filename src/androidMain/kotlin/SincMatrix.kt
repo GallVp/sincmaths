@@ -14,11 +14,14 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
     }
 
     actual fun asRowMajorArray() = this.matrixData
-
     internal fun asSimpleMatrix() = SimpleMatrix(this.numRows(), this.numCols(), true, this.matrixData)
 
     actual operator fun set(mlRow: Int, mlCol: Int, value: Double) {
         this.matrixData[this.getIndex(mlRow, mlCol) - 1] = value
+    }
+
+    actual operator fun set(index: Int, value: Double) {
+        this.matrixData[index - 1] = value
     }
 
     actual fun transpose(): SincMatrix = this.asSimpleMatrix().transpose().asSincMatrix()
@@ -31,9 +34,12 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
 
         return this.asSimpleMatrix().mult(rhs.asSimpleMatrix()).asSincMatrix()
     }
+
     actual operator fun times(rhs: Double): SincMatrix = this.asSimpleMatrix().scale(rhs).asSincMatrix()
 
-    actual operator fun plus(rhs: SincMatrix): SincMatrix = this.asSimpleMatrix().plus(rhs.asSimpleMatrix()).asSincMatrix()
+    actual operator fun plus(rhs: SincMatrix): SincMatrix =
+        this.asSimpleMatrix().plus(rhs.asSimpleMatrix()).asSincMatrix()
+
     actual operator fun plus(rhs: Double): SincMatrix = this.asSimpleMatrix().plus(rhs).asSincMatrix()
 
     actual fun cross(ontoVector: SincMatrix): SincMatrix {
@@ -57,9 +63,11 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
 
     actual fun dot(rhs: SincMatrix): Double = this.asSimpleMatrix().dot(rhs.asSimpleMatrix())
 
-    actual infix fun elMul(rhs: SincMatrix): SincMatrix = this.asSimpleMatrix().elementMult(rhs.asSimpleMatrix()).asSincMatrix()
+    actual infix fun elMul(rhs: SincMatrix): SincMatrix =
+        this.asSimpleMatrix().elementMult(rhs.asSimpleMatrix()).asSincMatrix()
 
-    actual infix fun elDiv(rhs: SincMatrix): SincMatrix = this.asSimpleMatrix().elementDiv(rhs.asSimpleMatrix()).asSincMatrix()
+    actual infix fun elDiv(rhs: SincMatrix): SincMatrix =
+        this.asSimpleMatrix().elementDiv(rhs.asSimpleMatrix()).asSincMatrix()
 
     actual fun elSum(): Double = this.asSimpleMatrix().elementSum()
 
@@ -70,11 +78,60 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
             floor(it)
         }.toDoubleArray(), numRows(), numCols())
 
-    actual fun abs(): SincMatrix = SincMatrix(this.matrixData.map { kotlin.math.abs(it) }.toDoubleArray(), numRows(), numCols())
+    actual fun abs(): SincMatrix =
+        SincMatrix(this.matrixData.map { kotlin.math.abs(it) }.toDoubleArray(), numRows(), numCols())
+
+    actual fun min(dim: Int): SincMatrix {
+        if (this.isvector()) {
+            return SincMatrix(
+                rowMajArray = doubleArrayOf(this.matrixData.minOrNull()!!),
+                m = 1,
+                n = 1
+            )
+        } else {
+            return if (dim == 1) {
+                val result = nans(m = 1, n = this.numCols())
+                for (i in 1..this.numCols()) {
+                    result[i] = this.getCol(mlCol = i).matrixData.minOrNull()!!
+                }
+                result
+            } else {
+                val result = nans(m = this.numRows(), n = 1)
+                for (i in 1..this.numRows()) {
+                    result[i] = this.getRow(mlRow = i).matrixData.minOrNull()!!
+                }
+                result
+            }
+        }
+    }
+
+    actual fun max(dim: Int): SincMatrix {
+        if (this.isvector()) {
+            return SincMatrix(
+                rowMajArray = doubleArrayOf(this.matrixData.maxOrNull()!!),
+                m = 1,
+                n = 1
+            )
+        } else {
+            return if (dim == 1) {
+                val result = nans(m = 1, n = this.numCols())
+                for (i in 1..this.numCols()) {
+                    result[i] = this.getCol(mlCol = i).matrixData.maxOrNull()!!
+                }
+                result
+            } else {
+                val result = nans(m = this.numRows(), n = 1)
+                for (i in 1..this.numRows()) {
+                    result[i] = this.getRow(mlRow = i).matrixData.maxOrNull()!!
+                }
+                result
+            }
+        }
+    }
 
     actual fun sin(): SincMatrix = SincMatrix(this.matrixData.map {
-            kotlin.math.sin(it)
-        }.toDoubleArray(), numRows(), numCols())
+        kotlin.math.sin(it)
+    }.toDoubleArray(), numRows(), numCols())
 
     actual fun cos(): SincMatrix =
         SincMatrix(this.matrixData.map {

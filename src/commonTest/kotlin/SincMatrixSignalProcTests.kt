@@ -1,6 +1,6 @@
 import kotlin.math.abs
 
-class SincMatrixSignalProc {
+class SincMatrixSignalProcTests {
 
     private fun testVectorConv() {
         // Octave code

@@ -1,3 +1,15 @@
+
+/**
+ * Indexing starts at 1, like Octave/MATLAB.
+ */
+operator fun SincMatrix.get(logicalVect: SincMatrix): SincMatrix {
+    require(this.numel() == logicalVect.numel()) {
+        "SMError: In indexing by a logical vector, numel(self) == numel(logicalVect)"
+    }
+
+    return this.get(indices = logicalVect.find().asIntArray())
+}
+
 /**
  * Supported Octave scripts: 1:5,4:7 and 1:5,4 and 1:5,: and 1,4:7 and :,4:7 and : and
  * 1:end,end:end-1 and 1:5 and 1:end-1 and end:end-1

@@ -10,6 +10,10 @@ expect class SincMatrix(rowMajArray: DoubleArray, m: Int, n: Int) {
      * Indexing starts at 1, like Octave/MATLAB.
      */
     operator fun set(mlRow: Int, mlCol: Int, value: Double)
+    /**
+     * Indexing starts at 1, like Octave/MATLAB.
+     */
+    operator fun set(index: Int, value: Double)
 
     fun transpose():SincMatrix
     fun cross(ontoVector: SincMatrix):SincMatrix
@@ -27,6 +31,8 @@ expect class SincMatrix(rowMajArray: DoubleArray, m: Int, n: Int) {
 
     fun floor():SincMatrix
     fun abs():SincMatrix
+    fun min(dim: Int = 1):SincMatrix
+    fun max(dim: Int = 1):SincMatrix
 
     fun sin():SincMatrix
     fun cos():SincMatrix

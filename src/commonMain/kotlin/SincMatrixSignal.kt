@@ -181,3 +181,14 @@ fun SincMatrix.findpeaks(): SincMatrix {
         result
     }
 }
+
+fun SincMatrix.cumsum(): SincMatrix {
+    require(this.isvector()) { "SMError: This function works only for vectors" }
+
+    val inputVector = this.asRowMajorArray()
+    val resultVector = inputVector.copyOf()
+    for (i in 1 until resultVector.size) {
+        resultVector[i] = resultVector[i] + resultVector[i - 1]
+    }
+    return SincMatrix(rowMajArray = resultVector, m = this.numRows(), n = this.numCols())
+}
