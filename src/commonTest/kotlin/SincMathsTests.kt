@@ -4,8 +4,11 @@ class SincMathsTests {
 
     @Test
     fun runAllTests() {
-        SincMatrixIOTests().runSincMatrixIOTests()
-        SincMatrixSignalProcTests().runSignalProcTests()
+        SincMatrixIOTests().performAll()
+        SincMatrixRobotics().performAll()
+        SincMatrixMathsAndStats().performAll()
+        SincMatrixSignalProcTests().performAll()
+
     }
 
     companion object {

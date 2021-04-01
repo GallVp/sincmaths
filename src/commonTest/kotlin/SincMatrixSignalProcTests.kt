@@ -274,7 +274,7 @@ class SincMatrixSignalProcTests {
         SincMathsTests.assert(abs(resultMATLAB - result) < testTol) { "testDenoiseCwtft failed..." }
     }
 
-    fun runSignalProcTests() {
+    fun performAll() {
         testVectorConv()
         testMatrixDiff()
         testMatrixFilter()

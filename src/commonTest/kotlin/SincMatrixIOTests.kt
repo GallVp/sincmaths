@@ -150,7 +150,7 @@ class SincMatrixIOTests {
     }
 
 
-    fun runSincMatrixIOTests() {
+    fun performAll() {
         testMatrixInput()
         testMatrixCSVRead()
         testMatrixIndexing()

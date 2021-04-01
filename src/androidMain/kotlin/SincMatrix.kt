@@ -7,24 +7,24 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
     actual fun numRows(): Int = m
     actual fun numCols(): Int = n
 
-
+    // ************************************************************************* SincMatrixAsTypes
     actual fun asArray(): DoubleArray {
         require(this.isvector()) { "SMError: Matrix is not a vector and conversion is invalid" }
         return this.matrixData
     }
-
     actual fun asRowMajorArray() = this.matrixData
     internal fun asSimpleMatrix() = SimpleMatrix(this.numRows(), this.numCols(), true, this.matrixData)
+
+    // ************************************************************************* SincMatrixSet
 
     actual operator fun set(mlRow: Int, mlCol: Int, value: Double) {
         this.matrixData[this.getIndex(mlRow, mlCol) - 1] = value
     }
-
     actual operator fun set(index: Int, value: Double) {
         this.matrixData[index - 1] = value
     }
 
-    actual fun transpose(): SincMatrix = this.asSimpleMatrix().transpose().asSincMatrix()
+    // ************************************************************************* SincMatrixArithmetic
 
     actual operator fun times(rhs: SincMatrix): SincMatrix {
 
@@ -34,14 +34,20 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
 
         return this.asSimpleMatrix().mult(rhs.asSimpleMatrix()).asSincMatrix()
     }
-
     actual operator fun times(rhs: Double): SincMatrix = this.asSimpleMatrix().scale(rhs).asSincMatrix()
-
     actual operator fun plus(rhs: SincMatrix): SincMatrix =
         this.asSimpleMatrix().plus(rhs.asSimpleMatrix()).asSincMatrix()
-
     actual operator fun plus(rhs: Double): SincMatrix = this.asSimpleMatrix().plus(rhs).asSincMatrix()
+    actual infix fun elMul(rhs: SincMatrix): SincMatrix =
+        this.asSimpleMatrix().elementMult(rhs.asSimpleMatrix()).asSincMatrix()
+    actual infix fun elDiv(rhs: SincMatrix): SincMatrix =
+        this.asSimpleMatrix().elementDiv(rhs.asSimpleMatrix()).asSincMatrix()
+    actual fun elSum(): Double = this.asSimpleMatrix().elementSum()
+    actual infix fun elPow(power: Double): SincMatrix = this.asSimpleMatrix().elementPower(power).asSincMatrix()
 
+    // ************************************************************************* SincMatrixMaths
+
+    actual fun transpose(): SincMatrix = this.asSimpleMatrix().transpose().asSincMatrix()
     actual fun cross(ontoVector: SincMatrix): SincMatrix {
         require(
             this.isvector() && ontoVector.isvector() &&
@@ -60,27 +66,15 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
             doubleArrayOf(c1, c2, c3).asSincMatrix(m = 1, n = 3)
         }
     }
-
     actual fun dot(rhs: SincMatrix): Double = this.asSimpleMatrix().dot(rhs.asSimpleMatrix())
-
-    actual infix fun elMul(rhs: SincMatrix): SincMatrix =
-        this.asSimpleMatrix().elementMult(rhs.asSimpleMatrix()).asSincMatrix()
-
-    actual infix fun elDiv(rhs: SincMatrix): SincMatrix =
-        this.asSimpleMatrix().elementDiv(rhs.asSimpleMatrix()).asSincMatrix()
-
-    actual fun elSum(): Double = this.asSimpleMatrix().elementSum()
-
-    actual infix fun elPow(power: Double): SincMatrix = this.asSimpleMatrix().elementPower(power).asSincMatrix()
-
     actual fun floor(): SincMatrix =
         SincMatrix(this.matrixData.map {
             floor(it)
         }.toDoubleArray(), numRows(), numCols())
-
     actual fun abs(): SincMatrix =
         SincMatrix(this.matrixData.map { kotlin.math.abs(it) }.toDoubleArray(), numRows(), numCols())
 
+    // ************************************************************************* SincMatrixStats
     actual fun min(dim: Int): SincMatrix {
         if (this.isvector()) {
             return SincMatrix(
@@ -104,7 +98,6 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
             }
         }
     }
-
     actual fun max(dim: Int): SincMatrix {
         if (this.isvector()) {
             return SincMatrix(
@@ -129,21 +122,23 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
         }
     }
 
+    // ************************************************************************* SincMatrixTrigonometry
+
     actual fun sin(): SincMatrix = SincMatrix(this.matrixData.map {
         kotlin.math.sin(it)
     }.toDoubleArray(), numRows(), numCols())
-
     actual fun cos(): SincMatrix =
         SincMatrix(this.matrixData.map {
             kotlin.math.cos(it)
         }.toDoubleArray(), numRows(), numCols())
+
+    // ************************************************************************* SincMatrixSignal
 
     actual fun flip(): SincMatrix {
         require(this.isvector()) { "SMError: This function works only for vectors" }
 
         return SincMatrix(this.matrixData.reversedArray(), this.numRows(), this.numCols())
     }
-
     actual fun find(): SincMatrix {
         val array = this.matrixData
         val actualIndices = array.indices.filter { array[it] != 0.0 }
@@ -163,7 +158,6 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
             )
         }
     }
-
     actual fun filter(B: DoubleArray, A: DoubleArray): SincMatrix {
         require(this.isvector()) { "SMError: This function works only for vectors" }
         require((B.size == 3) && (A.size == 3)) {
@@ -176,7 +170,6 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
             n = this.numCols()
         )
     }
-
     actual fun diffWithWavelet(scale: Double, dt: Double): SincMatrix {
         require(this.isvector()) { "SMError: This function works only for vectors" }
 
