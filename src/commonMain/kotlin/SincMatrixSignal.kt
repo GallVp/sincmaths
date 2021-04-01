@@ -192,3 +192,9 @@ fun SincMatrix.cumsum(): SincMatrix {
     }
     return SincMatrix(rowMajArray = resultVector, m = this.numRows(), n = this.numCols())
 }
+
+fun SincMatrix.flip(): SincMatrix {
+    require(this.isvector()) { "SMError: This function works only for vectors" }
+
+    return SincMatrix(this.asRowMajorArray().reversedArray(), this.numRows(), this.numCols())
+}

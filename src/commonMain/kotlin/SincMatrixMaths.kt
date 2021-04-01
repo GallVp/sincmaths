@@ -8,3 +8,24 @@ fun SincMatrix.sign(): SincMatrix {
 }
 
 fun SincMatrix.sqrt(): SincMatrix = this elPow (1.0 / 2.0)
+
+fun SincMatrix.cross(ontoVector: SincMatrix): SincMatrix {
+    require(
+        this.isvector() && ontoVector.isvector() &&
+                this.numel() == 3 && ontoVector.numel() == 3
+    ) {
+        "SMError: This function works only for vectors of length 3"
+    }
+
+    val c1 = this[2] * ontoVector[3] - this[3] * ontoVector[2]
+    val c2 = this[3] * ontoVector[1] - this[1] * ontoVector[3]
+    val c3 = this[1] * ontoVector[2] - this[2] * ontoVector[1]
+
+    return if (this.iscolumn() && ontoVector.iscolumn()) {
+        doubleArrayOf(c1, c2, c3).asSincMatrix(m = 3, n = 1)
+    } else {
+        doubleArrayOf(c1, c2, c3).asSincMatrix(m = 1, n = 3)
+    }
+}
+
+fun SincMatrix.dot(rhs: SincMatrix):SincMatrix = (this elMul rhs).sum()

@@ -33,8 +33,6 @@ expect class SincMatrix(rowMajArray: DoubleArray, m: Int, n: Int) {
     // ************************************************************************* SincMatrixMaths
 
     fun transpose():SincMatrix
-    fun cross(ontoVector: SincMatrix):SincMatrix
-    fun dot(rhs: SincMatrix):Double
     fun floor():SincMatrix
     fun abs():SincMatrix
 
@@ -50,7 +48,6 @@ expect class SincMatrix(rowMajArray: DoubleArray, m: Int, n: Int) {
 
     // ************************************************************************* SincMatrixSignal
 
-    fun flip():SincMatrix
     fun find():SincMatrix
     /**
      * Only second order filters are supported. Thus, length(B) == length(A) == 3 is assumed.
