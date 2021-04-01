@@ -50,10 +50,6 @@ expect class SincMatrix(rowMajArray: DoubleArray, m: Int, n: Int) {
 
     fun find():SincMatrix
     /**
-     * Only second order filters are supported. Thus, length(B) == length(A) == 3 is assumed.
-     */
-    fun filter(B: DoubleArray, A: DoubleArray):SincMatrix
-    /**
      * Differentiates the vector by wavelet transformation using the mexican-hat wavelet.
      * @param scale Wavelet scale parameter
      * @param dt Sampling time

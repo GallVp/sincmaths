@@ -15,7 +15,7 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
     }
 
     actual fun asRowMajorArray() = this.matrixData
-    internal fun asSimpleMatrix() = SimpleMatrix(this.numRows(), this.numCols(), true, this.matrixData)
+    private fun asSimpleMatrix() = SimpleMatrix(this.numRows(), this.numCols(), true, this.matrixData)
 
     // ************************************************************************* SincMatrixSet
 
@@ -144,19 +144,6 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
                 n = 1
             )
         }
-    }
-
-    actual fun filter(B: DoubleArray, A: DoubleArray): SincMatrix {
-        require(this.isvector()) { "SMError: This function works only for vectors" }
-        require((B.size == 3) && (A.size == 3)) {
-            "SMError: Only 2nd order coefficients are allowed. Thus, length(B) == length(A) == 3"
-        }
-
-        return SincMatrix(
-            rowMajArray = filterWorker(B, A, this.matrixData, doubleArrayOf(0.0, 0.0)),
-            m = this.numRows(),
-            n = this.numCols()
-        )
     }
 
     actual fun diffWithWavelet(scale: Double, dt: Double): SincMatrix {

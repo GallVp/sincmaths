@@ -119,6 +119,22 @@ fun SincMatrix.movmean(wlen: Int, endpoints: MovWinShape = MovWinShape.shrink): 
 /**
  * Only second order filters are supported. Thus, length(B) == length(A) == 3 is assumed.
  */
+fun SincMatrix.filter(B: DoubleArray, A: DoubleArray): SincMatrix {
+    require(this.isvector()) { "SMError: This function works only for vectors" }
+    require((B.size == 3) && (A.size == 3)) {
+        "SMError: Only 2nd order coefficients are allowed. Thus, length(B) == length(A) == 3"
+    }
+
+    return SincMatrix(
+        rowMajArray = filterWorker(B, A, this.asRowMajorArray(), doubleArrayOf(0.0, 0.0)),
+        m = this.numRows(),
+        n = this.numCols()
+    )
+}
+
+/**
+ * Only second order filters are supported. Thus, length(B) == length(A) == 3 is assumed.
+ */
 fun SincMatrix.filtfilt(B: DoubleArray, A: DoubleArray): SincMatrix {
     require((B.size == 3) && (A.size == 3)) {
         "SMError: Only 2nd order coefficients are allowed. Thus, length(B) == length(A) == 3"
@@ -140,10 +156,10 @@ fun SincMatrix.filtfilt(B: DoubleArray, A: DoubleArray): SincMatrix {
 fun SincMatrix.sgolayfilter(B: SincMatrix): SincMatrix {
 
     return if (this.isvector()) {
-        SincMatrix.sgolayWorker(this, B)
+        sgolayWorker(this, B)
     } else {
         SincMatrix.createMatFromColumns(this.getMatrixCols().map {
-            SincMatrix.sgolayWorker(it, B)
+            sgolayWorker(it, B)
         })
     }
 }
