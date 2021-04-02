@@ -63,6 +63,30 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
     actual fun abs(): SincMatrix =
         SincMatrix(this.matrixData.map { kotlin.math.abs(it) }.toDoubleArray(), numRows(), numCols())
 
+    actual fun find(): SincMatrix {
+        val array = this.matrixData
+        val actualIndices = array.indices.filter { array[it] != 0.0 }
+        val actualCount = actualIndices.size
+
+        return if (this.isrow()) {
+            SincMatrix(
+                rowMajArray = actualIndices.map { it.toDouble() + 1.0 }.toDoubleArray(),
+                m = 1,
+                n = actualCount
+            )
+        } else {
+            SincMatrix(
+                rowMajArray = actualIndices.map { it.toDouble() + 1.0 }.toDoubleArray(),
+                m = actualCount,
+                n = 1
+            )
+        }
+    }
+
+    // ************************************************************************* SincMatrixSolvers
+
+    actual fun solve(b: SincMatrix): SincMatrix = this.asSimpleMatrix().solve(b.asSimpleMatrix()).asSincMatrix()
+
     // ************************************************************************* SincMatrixStats
 
     actual fun min(dim: Int): SincMatrix {
@@ -125,26 +149,6 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
         }.toDoubleArray(), numRows(), numCols())
 
     // ************************************************************************* SincMatrixSignal
-
-    actual fun find(): SincMatrix {
-        val array = this.matrixData
-        val actualIndices = array.indices.filter { array[it] != 0.0 }
-        val actualCount = actualIndices.size
-
-        return if (this.isrow()) {
-            SincMatrix(
-                rowMajArray = actualIndices.map { it.toDouble() + 1.0 }.toDoubleArray(),
-                m = 1,
-                n = actualCount
-            )
-        } else {
-            SincMatrix(
-                rowMajArray = actualIndices.map { it.toDouble() + 1.0 }.toDoubleArray(),
-                m = actualCount,
-                n = 1
-            )
-        }
-    }
 
     actual fun diffWithWavelet(scale: Double, dt: Double): SincMatrix {
         require(this.isvector()) { "SMError: This function works only for vectors" }

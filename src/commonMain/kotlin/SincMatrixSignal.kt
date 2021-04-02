@@ -173,7 +173,7 @@ fun SincMatrix.acf(numLags: Int): SincMatrix {
 
     val detrendMatrix = (this + (-this.mean().asScalar()))
     val convSum = detrendMatrix.conv(B = detrendMatrix.flip())
-    val scale = 1.0 / detrendMatrix.dot(detrendMatrix)
+    val scale = 1.0 / detrendMatrix.dot(detrendMatrix).asScalar()
     val scaledConvSum = convSum * scale
     val numElements = ((numel() + 1)..(numel() + numLags)).toList().toIntArray()
     return if (this.isrow()) {

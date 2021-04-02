@@ -79,6 +79,28 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
 
     actual fun abs(): SincMatrix = absOfElementsOfVector(this.matrixData).asSincMatrix(this.numRows(), this.numCols())
 
+    actual fun find(): SincMatrix {
+        val actualIndices = findNonZeroIndices(this.matrixData, false)
+        val actualCount = actualIndices.size
+        if (actualCount < 1) {
+            return SincMatrix(doubleArrayOf(), 0, 0)
+        }
+        return if (this.isrow()) {
+            SincMatrix(rowMajArray = actualIndices, m = 1, n = actualCount)
+        } else {
+            SincMatrix(rowMajArray = actualIndices, m = actualCount, n = 1)
+        }
+    }
+
+    // ************************************************************************* SincMatrixSolvers
+
+    actual fun solve(b: SincMatrix): SincMatrix = solveSparseSystemWithQR_2x2(
+        this.matrixData,
+        this.numRows(),
+        this.numCols(),
+        b.matrixData
+    ).asSincMatrix(b.numRows(), b.numCols())
+
     // ************************************************************************* SincMatrixStats
 
     actual fun min(dim: Int): SincMatrix {
@@ -96,11 +118,6 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
     actual fun cos(): SincMatrix = cosOfElementsOfVector(this.matrixData).asSincMatrix(this.numRows(), this.numCols())
 
     // ************************************************************************* SincMatrixSignal
-
-    actual fun find(): SincMatrix {
-        TODO("Not yet implemented")
-    }
-
 
     actual fun diffWithWavelet(scale: Double, dt: Double): SincMatrix {
         TODO("Not yet implemented")

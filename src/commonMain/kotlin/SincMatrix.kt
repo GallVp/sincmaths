@@ -36,6 +36,9 @@ expect class SincMatrix(rowMajArray: DoubleArray, m: Int, n: Int) {
     fun floor():SincMatrix
     fun abs():SincMatrix
 
+    // ************************************************************************* SincMatrixSolvers
+    fun solve(b:SincMatrix):SincMatrix
+
     // ************************************************************************* SincMatrixStats
 
     fun min(dim: Int = 1):SincMatrix

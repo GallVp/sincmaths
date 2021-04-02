@@ -29,14 +29,6 @@ internal actual fun parseToInt(expression: String): Int? {
     TODO("Not yet implemented")
 }
 
-internal actual fun filtfiltWorker(
-    xCoefs: DoubleArray,
-    yCoefs: DoubleArray,
-    data: DoubleArray
-): DoubleArray {
-    TODO("Not yet implemented")
-}
-
 /**
  * Takes date and date format string to produce a time stamp in seconds which represents time since 1970
  */
