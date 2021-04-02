@@ -295,14 +295,15 @@ internal fun solveSparseSystemWithQR_2x2(
             this.data = valuesOfA.toCValues().ptr
         }
 
-        val QR = SparseFactor(SparseFactorizationQR, sparseA)
+        val qrDecomposition = SparseFactor(SparseFactorizationQR, sparseA)
 
         val bDense = cValue<DenseMatrix_Double> {
             this.rowCount = 2
             this.columnCount = 1
             this.columnStride = 2
+            this.data = bVector.toCValues().ptr
         }
-        SparseSolve(QR, bDense)
+        SparseSolve(qrDecomposition, bDense)
         val xDense = bDense.useContents { this.data }
         if (xDense != null) {
             xVector[0] = xDense[0]

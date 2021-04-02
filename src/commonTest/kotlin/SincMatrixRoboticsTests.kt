@@ -16,8 +16,8 @@ class SincMatrixRobotics {
         val testTol = 1.0E-15
         val eyeMat =
             doubleArrayOf(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0).asSincMatrix(m = 3, n = 3)
-        SincMathsTests.assert((((resultA - eyeMat)!!).lessThan(testTol)).all()) { "testMatrixEul2Rotm failed..." }
-        SincMathsTests.assert((((rotmB - eyeMat)!!).lessThan(testTol)).all()) { "testMatrixEul2Rotm failed..." }
+        SincMathsTests.assert((((resultA - eyeMat)).lessThan(testTol)).all()) { "testMatrixEul2Rotm failed..." }
+        SincMathsTests.assert((((rotmB - eyeMat)).lessThan(testTol)).all()) { "testMatrixEul2Rotm failed..." }
     }
 
     private fun testMatrixQuatConverter() {
@@ -26,7 +26,7 @@ class SincMatrixRobotics {
             sequence = AngleSequence.XYZ
         )
         val testTol = 1.0E-15
-        val testDiff = (testMat.rotm2quat().quat2rotm() - testMat)!!.abs()
+        val testDiff = (testMat.rotm2quat().quat2rotm() - testMat).abs()
         val testResults = (testDiff.lessThan(testTol)).all()
         SincMathsTests.assert(testResults) { "testMatrixQuatConverter failed..." }
     }

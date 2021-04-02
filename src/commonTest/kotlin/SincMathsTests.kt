@@ -8,7 +8,6 @@ class SincMathsTests {
         SincMatrixRobotics().performAll()
         SincMatrixMathsAndStats().performAll()
         SincMatrixSignalProcTests().performAll()
-
     }
 
     companion object {
