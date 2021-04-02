@@ -60,6 +60,26 @@ internal fun findNonZeroIndices(ofVector:DoubleArray, isZeroIndexed:Boolean = tr
     return nonZeroIndices
 }
 
+internal fun minOfVectorElements(vector: DoubleArray): Double {
+    val vectorLen = vector.size
+    val resultValue = nativeHeap.allocArray<DoubleVar>(1L)
+    vDSP_minvD(vector.toCValues(), 1L, resultValue, vectorLen.toULong())
+
+    val returnValue = resultValue[0]
+    nativeHeap.free(resultValue)
+    return returnValue
+}
+
+internal fun maxOfVectorElements(vector: DoubleArray): Double {
+    val vectorLen = vector.size
+    val resultValue = nativeHeap.allocArray<DoubleVar>(1L)
+    vDSP_maxvD(vector.toCValues(), 1L, resultValue, vectorLen.toULong())
+
+    val returnValue = resultValue[0]
+    nativeHeap.free(resultValue)
+    return returnValue
+}
+
 internal fun sumOfVectorElements(vector: DoubleArray): Double {
     val vectorLen = vector.size
     val resultValue = nativeHeap.allocArray<DoubleVar>(1L)
