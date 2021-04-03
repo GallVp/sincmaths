@@ -36,16 +36,15 @@ class SincMatrixMathsAndStats {
         //  rand("seed", 12)
         //  A = rand(1, 5);
         //  B = 1:5;
-        //  (B*(A'*B))*A'
-        val resultOctave = 56.10961884481494
-        val testTol = 1E-12
+        //  (B*(A'*B))*A' / sum(B)
+        val resultOctave = 3.740641256320996
+        val testTol = 1E-15
         // Start with two row vectors
         val A =
             SincMatrix.init(mlScript = "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, 9.351466298103333e-01, 1.077670305967331e-01]")
-                .transpose()
         val B = SincMatrix.init(mlScript = "[1, 2, 3, 4, 5]")
-        val result = (((B * ((A * B)))) * A).asArray().firstOrNull()!!
-        SincMathsTests.assert(abs(resultOctave - result) < testTol) { "testVectorMatrixMultiply failed..." }
+        val result = ((B * (A.t * B)) * A.t) elDiv B.sum()
+        SincMathsTests.assert(abs(resultOctave - result.asScalar()) < testTol) { "testVectorMatrixMultiply failed..." }
     }
 
     private fun testVectorMatrixMultiplyII() {

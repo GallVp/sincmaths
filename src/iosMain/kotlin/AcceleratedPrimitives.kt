@@ -162,9 +162,9 @@ internal fun divideElementsOfVectors(vectorA: DoubleArray, vectorB: DoubleArray)
     val vectorLen = vectorA.size
     val resultVector = nativeHeap.allocArray<DoubleVar>(vectorLen)
     vDSP_vdivD(
-        vectorA.toCValues(),
-        1L,
         vectorB.toCValues(),
+        1L,
+        vectorA.toCValues(),
         1L,
         resultVector,
         1L,

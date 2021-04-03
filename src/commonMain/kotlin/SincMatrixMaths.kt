@@ -29,3 +29,11 @@ fun SincMatrix.cross(ontoVector: SincMatrix): SincMatrix {
 }
 
 fun SincMatrix.dot(rhs: SincMatrix):SincMatrix = (this elMul rhs).sum()
+
+/**
+ * Matrix transpose
+ */
+val SincMatrix.t:SincMatrix
+get() {
+    return this.transpose()
+}
