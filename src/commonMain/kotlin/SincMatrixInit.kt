@@ -51,7 +51,7 @@ fun SincMatrix.Companion.init(mlScript: String): SincMatrix {
     }
 }
 
-internal fun SincMatrix.Companion.createRange(mlScript: String): DoubleArray {
+private fun SincMatrix.Companion.createRange(mlScript: String): DoubleArray {
     val literals = mlScript.split(":")
     if (literals.size == 1) {
         return doubleArrayOf(literals[0].trim().toDouble())
@@ -95,4 +95,23 @@ fun SincMatrix.Companion.nans(m: Int, n: Int): SincMatrix {
         Double.NaN
     }
     return SincMatrix(data, m, n)
+}
+
+object SincMatrixMakers {
+    /**
+     * Creates a SincMatrix from Octave scripts, such as:
+     *
+     * matrixFrom("[1, 2, 3; 4, 5, 6]")
+     *
+     * matrixFrom("[1, 2, 3, 4]")
+     *
+     * matrixFrom("[5;6;7;8;9;10]")
+     *
+     * matrixFrom("1:10")
+     *
+     * matrixFrom("-1.5:-1:-7.9")
+     */
+    fun matrixFrom(mlScript: String):SincMatrix = SincMatrix.init(mlScript)
+    fun zeros(m: Int, n: Int) = SincMatrix.zeros(m, n)
+    fun ones(m: Int, n: Int) = SincMatrix.ones(m, n)
 }

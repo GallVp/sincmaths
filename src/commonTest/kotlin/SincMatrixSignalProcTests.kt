@@ -1,5 +1,6 @@
 import SincMathsTests.Companion.sgolayfilterTestTol
 import SincMathsTests.Companion.testTol
+import SincMatrixMakers.matrixFrom
 import kotlin.math.abs
 import kotlin.test.Test
 
@@ -90,6 +91,7 @@ class SincMatrixSignalProcTests {
         SincMathsTests.assert(abs(resultMATLAB - result) < testTol)
     }
 
+    @Test
     private fun testVectorSgolayFilter() {
         // MATLAB code
         //  format long
@@ -104,18 +106,19 @@ class SincMatrixSignalProcTests {
             headerInfo = listOf("t", "d", "d", "d", "d", "d", "d", "d", "d", "d")
         )
         val testVector = A.getCol(2)
-        val B = SincMatrix.init(SGCoeffs.sgo3x41)
+        val B = matrixFrom(SGCoeffs.sgo3x41)
         val result = testVector.t.sgolayfilter(B) * testVector.sgolayfilter(B)
         SincMathsTests.assert(abs(resultMATLAB - result.scalar) < sgolayfilterTestTol)
     }
 
+    @Test
     private fun testMatrixSgolayFilter() {
-        // Octave code
+        // MATLAB code
         //  format long
         //  A = csvread('test_csv.csv');
         //  testMatrix = A(:, 2:4);
-        //  sum(sum(sgolayfilt(testMatrix, 3, 7), 2))
-        val resultMATLAB = -2.426886809212823e+03
+        //  sum(sum(sgolayfilt(testMatrix, 3, 7), 2)) / 1000.0
+        val resultMATLAB = -2.426886809212823
         val testTol = 1E-11
         val filePath = "test_csv.csv"
         val A = SincMatrix.csvread(
@@ -123,10 +126,11 @@ class SincMatrixSignalProcTests {
             separator = ",",
             headerInfo = listOf("t", "d", "d", "d", "d", "d", "d", "d", "d", "d")
         )
-        val testMatrix = A.get(mlScript = ":,2:4")
-        val B = SincMatrix.init(mlScript = SGCoeffs.sgo3x7)
-        val result = testMatrix.sgolayfilter(B = B).sum(dim = 2).sum().asScalar()
-        SincMathsTests.assert(abs(resultMATLAB - result) < testTol) { "testMatrixSgolayFilter failed..." }
+        val testMatrix = A[":,2:4"]
+        val B = SincMatrix.init(SGCoeffs.sgo3x7)
+        val result = testMatrix.sgolayfilter(B).sum(2).sum().scalar / 1000.0
+        print("RES: $result")
+        SincMathsTests.assert(abs(resultMATLAB - result) < testTol)
     }
 
     private fun testMovSum() {
