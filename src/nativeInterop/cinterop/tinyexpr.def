@@ -1,4 +1,4 @@
 package = tinyexpr
-headers = /Users/usman/Documents/Projects/SincMathsMP/src/cpp/tinyexpr/include/tinyexpr.h
+headers = tinyexpr.h
 staticLibraries = libtinyexpr.a
-libraryPaths = /Users/usman/Documents/Projects/SincMathsMP/src/cpp/tinyexpr/build
+libraryPaths = src/cpp/tinyexpr/build

@@ -17,8 +17,14 @@ kotlin {
     android()
     iosX64('ios') {
         compilations.main.cinterops {
-            tinyexpr
-            wavelib
+            tinyexpr {
+                defFile "$projectDir/src/nativeInterop/cinterop/tinyexpr.def"
+                includeDirs "$projectDir/src/cpp/tinyexpr/include"
+            }
+            wavelib {
+                defFile "$projectDir/src/nativeInterop/cinterop/wavelib.def"
+                includeDirs "$projectDir/src/cpp/wavelib/include"
+            }
         }
         binaries {
             framework {
