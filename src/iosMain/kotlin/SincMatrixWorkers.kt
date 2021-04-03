@@ -2,6 +2,7 @@ import kotlinx.cinterop.*
 import platform.Accelerate.vDSP_convD
 import platform.Accelerate.vDSP_vrvrsD
 import platform.Accelerate.vDSP_vsmulD
+import platform.Foundation.*
 import tinyexpr.te_interp
 import wavelib.diff_cwtft
 
@@ -53,11 +54,20 @@ private fun parseToDouble(expr: String) : Double? {
  * Takes date and date format string to produce a time stamp in seconds which represents time since 1970
  */
 internal actual fun dateToTimeStampWorker(dateFormat: String, date: String): Double {
-    TODO("Not yet implemented")
+    val dateFormatter = NSDateFormatter()
+    dateFormatter.dateFormat = dateFormat
+    val dateValue = dateFormatter.dateFromString(date)
+    return dateValue?.timeIntervalSince1970() ?: -1.0
 }
 
 internal actual fun fileReadWorker(filePath: String): String? {
-    TODO("Not yet implemented")
+    val fileTokens = filePath.split(".")
+    if(fileTokens.count() != 2) {
+        return null
+    }
+    val bundlePath = NSBundle.mainBundle.pathForResource(fileTokens.first(), fileTokens.last()) ?: return null
+
+    return NSString.stringWithContentsOfFile(bundlePath, NSUTF8StringEncoding, null)
 }
 
 internal actual fun diffCWTFTWorker (
