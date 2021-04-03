@@ -1,6 +1,5 @@
 import SincMathsTests.Companion.testTol
 import kotlin.math.abs
-import kotlin.test.Test
 
 class SincMatrixSignalProcTests {
 
@@ -32,7 +31,6 @@ class SincMatrixSignalProcTests {
         SincMathsTests.assert(abs(resultOctave - result.scalar) < testTol)
     }
 
-    @Test
     private fun testMatrixDiff() {
         // Octave code
         //  format long
@@ -40,11 +38,13 @@ class SincMatrixSignalProcTests {
         //  A = rand(1, 5);
         //  diff(A)*diff(A')
         val resultOctave = 1.080192559976076
-        val testTol = 1E-12
         val A =
-            SincMatrix.init(mlScript = "[4.418510198593140e-02, 4.279963076114655e-01, 8.155888915061951e-01, 7.815348356962204e-02, 5.668686628341675e-01]")
-        val result = (A.diff() * A.transpose().diff()).asArray().firstOrNull()!!
-        SincMathsTests.assert(abs(resultOctave - result) < testTol) { "testMatrixDiff failed..." }
+            SincMatrix.init(
+                mlScript = "[4.418510198593140e-02, 4.279963076114655e-01, 8.155888915061951e-01, " +
+                        "7.815348356962204e-02, 5.668686628341675e-01]"
+            )
+        val result = (A.diff() * A.t.diff()).scalar
+        SincMathsTests.assert(abs(resultOctave - result) < testTol)
     }
 
     private fun testMatrixFilter() {
@@ -58,7 +58,10 @@ class SincMatrixSignalProcTests {
         val resultOctave = 2.429411901632733e-01
         val testTol = 1E-12
         val testVector =
-            SincMatrix.init(mlScript = "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, 5.843927264213562e-01, 2.296017855405807e-01]")
+            SincMatrix.init(
+                mlScript = "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, " +
+                        "5.843927264213562e-01, 2.296017855405807e-01]"
+            )
         val B = doubleArrayOf(1.0, 2.0, 3.0)
         val A = doubleArrayOf(4.0, 5.0, 6.0)
         val result = (testVector.filter(
@@ -137,7 +140,11 @@ class SincMatrixSignalProcTests {
         val resultOctave = 190.0905953111295
         val testTol = 1E-12
         val testVector =
-            SincMatrix.init(mlScript = "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, 5.843927264213562e-01, 2.296017855405807e-01, 7.710580229759216e-01, 1.801824271678925e-01, 3.308660686016083e-01, 2.962400913238525e-01, 5.188712477684021e-02]")
+            SincMatrix.init(
+                mlScript = "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, " +
+                        "5.843927264213562e-01, 2.296017855405807e-01, 7.710580229759216e-01, 1.801824271678925e-01, " +
+                        "3.308660686016083e-01, 2.962400913238525e-01, 5.188712477684021e-02]"
+            )
         val result = ((testVector.movsum(wlen = 3) * testVector.transpose()
             .movsum(wlen = 3)) * (testVector.movsum(
             wlen = 3,
@@ -156,7 +163,11 @@ class SincMatrixSignalProcTests {
         val resultOctave = 2.387150841604956
         val testTol = 1E-12
         val testVector =
-            SincMatrix.init(mlScript = "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, 5.843927264213562e-01, 2.296017855405807e-01, 7.710580229759216e-01, 1.801824271678925e-01, 3.308660686016083e-01, 2.962400913238525e-01, 5.188712477684021e-02]")
+            SincMatrix.init(
+                mlScript = "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, " +
+                        "5.843927264213562e-01, 2.296017855405807e-01, 7.710580229759216e-01, 1.801824271678925e-01, " +
+                        "3.308660686016083e-01, 2.962400913238525e-01, 5.188712477684021e-02]"
+            )
         val result = ((testVector.movmean(wlen = 3) * testVector.transpose()
             .movmean(wlen = 3)) * (testVector.movmean(
             wlen = 3,
@@ -236,11 +247,14 @@ class SincMatrixSignalProcTests {
         ) { "testMovMeanEvenShrink failed..." }
     }
 
+    /**
+     * Citation: [Matlab central](https://au.mathworks.com/matlabcentral/fileexchange/30540-autocorrelation-function-acf)
+     */
     private fun testAcf() {
         // Octave code
         //  format long
         //  x = 1:100;
-        //  y = acf(x', 15);         % Note: acf <- https://au.mathworks.com/matlabcentral/fileexchange/30540-autocorrelation-function-acf
+        //  y = acf(x', 15);
         //  y'*y
         val resultOctave = 8.951995481744394
         val testTol = 1E-12
