@@ -219,3 +219,16 @@ internal fun SincMatrix.Companion.createIndexRange(mlScript: String): IntArray {
         }.toList().toIntArray()
     }
 }
+
+val SincMatrix.first:Double
+get() {
+    return this[1]
+}
+
+/**
+ * Returns a value if the matrix is scalar otherwise throws an error.
+ */
+val SincMatrix.scalar:Double
+    get() {
+        return this.asScalar()
+    }

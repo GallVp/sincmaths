@@ -1,4 +1,6 @@
+import SincMathsTests.Companion.testTol
 import kotlin.math.abs
+import kotlin.test.Test
 
 class SincMatrixSignalProcTests {
 
@@ -12,9 +14,8 @@ class SincMatrixSignalProcTests {
         //  O = conv(A, B, 'valid') * conv(A', B', 'valid');
         //  P = conv(B, A, 'full') * conv(B', A', 'full');
         //  Q = conv(B, A, 'same') * conv(B', A', 'same');
-        //  result = M + N + O + P + Q
-        val resultOctave = 3086686.720000000
-        val testTol = 1E-8
+        //  result = (M + N + O + P + Q) / sum(B)^3.5
+        val resultOctave = 2.102544125534404
         val A = SincMatrix.init(mlScript = "-10:10")
         val B = SincMatrix.init(mlScript = "1:0.3:6")
         val M = (A.conv(B = B, shape = ConvolutionShape.full) * A.transpose()
@@ -27,10 +28,11 @@ class SincMatrixSignalProcTests {
             .conv(B = A.transpose(), shape = ConvolutionShape.full))
         val Q = (B.conv(B = A, shape = ConvolutionShape.same) * B.transpose()
             .conv(B = A.transpose(), shape = ConvolutionShape.same))
-        val result = (((M + N) + (O + P)) + Q).asArray().firstOrNull()!!
-        SincMathsTests.assert(abs(resultOctave - result) < testTol) { "testVectorConv failed..." }
+        val result = (((M + N) + (O + P)) + Q) elDiv (B.sum() elPow 3.5)
+        SincMathsTests.assert(abs(resultOctave - result.scalar) < testTol)
     }
 
+    @Test
     private fun testMatrixDiff() {
         // Octave code
         //  format long
