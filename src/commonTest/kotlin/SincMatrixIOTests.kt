@@ -26,9 +26,17 @@ class SincMatrixIOTests {
         val resultMATLAB = 1.040499533820819e+04
         val testTol = 1E-10
         val sgMatrix = SincMatrix.init(mlScript = SGCoeffs.sgo3x41)
-        val result = A.getCols(mlCols = 2..10).sgolayfilter(B = sgMatrix)
+        val result = A.getCols(mlCols = 2..10)
+            .sgolayfilter(B = sgMatrix)
             .sum()
-            .diff().abs().asRowVector().cumsum().asRowVector().flip().rms().asScalar()
+            .diff()
+            .abs()
+            .asRowVector()
+            .cumsum()
+            .asRowVector()
+            .flip()
+            .rms()
+            .asScalar()
         SincMathsTests.assert(abs(resultMATLAB - result) < testTol) { "testMatrixCSVRead failed..." }
     }
 
@@ -74,7 +82,7 @@ class SincMatrixIOTests {
     }
 
     private fun testMatrixIndexingEdges() {
-        val M: SincMatrix = (1 .. 110).asSincMatrix(m = 11, n = 10)
+        val M: SincMatrix = (1..110).asSincMatrix(m = 11, n = 10)
 
         assertFailsWith<IndexOutOfBoundsException> {
             M[0]
@@ -104,7 +112,7 @@ class SincMatrixIOTests {
     private fun testMatrixMutations() {
         val testTol = 1E-12
         // SincMatrix is row-major; Octave/MATLAB are column-major
-        val A: SincMatrix = (1 .. 110).asSincMatrix(m = 11, n = 10)
+        val A: SincMatrix = (1..110).asSincMatrix(m = 11, n = 10)
         val selectorA = listOf(10, 50, 89, 32).asSincMatrix()
         val valueA = -677.0
         val selectorB = listOf(3, 30, 60, 90, 110).asSincMatrix()
@@ -121,32 +129,44 @@ class SincMatrixIOTests {
         //  valueA = -677.0
         //  A(selectorA) = valueA
         //  sum(mean(A'))
-        SincMathsTests.assert(A.set2(indices = selectorA, value = valueA).mean().sum().asScalar() == 292.3636363636364) { "testMatrixMutations failed..." }
+        SincMathsTests.assert(
+            A.set2(indices = selectorA, value = valueA).mean().sum().asScalar() == 292.3636363636364
+        ) { "testMatrixMutations failed..." }
         // Octave code
         //  A = reshape(1:110, 10, 11);
         //  selectorB = [3, 30, 60, 90, 110]
         //  valuesB = [-3, -30, -60.9, -90, -110.0001]
         //  A(selectorB) = valuesB
         //  mean(max(A'))
-        SincMathsTests.assert(A.set2(indices = selectorB, values = valuesB).max().mean().asScalar() == 104.5) { "testMatrixMutations failed..." }
+        SincMathsTests.assert(
+            A.set2(indices = selectorB, values = valuesB).max().mean().asScalar() == 104.5
+        ) { "testMatrixMutations failed..." }
         // Octave code
         //  A = reshape(1:110, 10, 11);
         //  selectorC = [3, 30, 60, 90, 110]
         //  A(selectorC) = []
         //  std(A)
-        SincMathsTests.assert(A.set2(indices = selectorC, values = valuesC).std().asScalar() == 31.51891402621514) { "testMatrixMutations failed..." }
+        SincMathsTests.assert(
+            A.set2(indices = selectorC, values = valuesC).std().asScalar() == 31.51891402621514
+        ) { "testMatrixMutations failed..." }
         // Octave code
         //  A = reshape(1:110, 10, 11);
         //  selectorD = A < 55
         //  A(selectorD) = []
         //  std(A)
-        SincMathsTests.assert(A.setWithLV(logicalVect = selectorD, values = valuesD).std().asScalar() == 16.30950643030009) { "testMatrixMutations failed..." }
+        SincMathsTests.assert(
+            A.setWithLV(logicalVect = selectorD, values = valuesD).std().asScalar() == 16.30950643030009
+        ) { "testMatrixMutations failed..." }
         // Octave code
         //  A = reshape(1:110, 10, 11);
         //  selectorE = A > 23
         //  A(selectorE) = 22.101
         //  sum(mean(A'))
-        SincMathsTests.assert(abs(A.setWithLV(logicalVect = selectorE, value = valuesE).mean().sum().asScalar() - 199.8897272727273) < testTol) { "testMatrixMutations failed..." }
+        SincMathsTests.assert(
+            abs(
+                A.setWithLV(logicalVect = selectorE, value = valuesE).mean().sum().asScalar() - 199.8897272727273
+            ) < testTol
+        ) { "testMatrixMutations failed..." }
     }
 
 

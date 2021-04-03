@@ -148,19 +148,6 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
             kotlin.math.cos(it)
         }.toDoubleArray(), numRows(), numCols())
 
-    // ************************************************************************* SincMatrixSignal
-
-    actual fun diffWithWavelet(scale: Double, dt: Double): SincMatrix {
-        require(this.isvector()) { "SMError: This function works only for vectors" }
-
-        val signal = this.asRowMajorArray()
-        return SincMatrix(
-            rowMajArray = diffCWTFT(signal, signal.size, scale, dt),
-            m = this.numRows(),
-            n = this.numCols()
-        )
-    }
-
     actual companion object {
         init {
             System.loadLibrary("wavelib")

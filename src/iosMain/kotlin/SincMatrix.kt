@@ -1,3 +1,6 @@
+import kotlinx.cinterop.toCValues
+import wavelib.diff_cwtft
+
 actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val m: Int, private val n: Int) {
 
     private val matrixData = rowMajArray
@@ -155,12 +158,6 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
     actual fun sin(): SincMatrix = sinOfElementsOfVector(this.matrixData).asSincMatrix(this.numRows(), this.numCols())
 
     actual fun cos(): SincMatrix = cosOfElementsOfVector(this.matrixData).asSincMatrix(this.numRows(), this.numCols())
-
-    // ************************************************************************* SincMatrixSignal
-
-    actual fun diffWithWavelet(scale: Double, dt: Double): SincMatrix {
-        TODO("Not yet implemented")
-    }
 
     actual companion object
 }

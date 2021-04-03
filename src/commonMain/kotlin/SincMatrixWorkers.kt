@@ -1,6 +1,11 @@
+internal expect fun diffCWTFTWorker(
+    signalVector: DoubleArray,
+    signalLength: Int,
+    scale: Double,
+    dt: Double
+): DoubleArray
 internal expect fun convWorker(A:DoubleArray, B:DoubleArray):DoubleArray
 internal expect fun parseToInt(expression: String):Int?
-
 /**
  * Takes date and date format string to produce a time stamp in seconds which represents time since 1970
  */

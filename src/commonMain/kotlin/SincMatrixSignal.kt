@@ -214,3 +214,19 @@ fun SincMatrix.flip(): SincMatrix {
 
     return SincMatrix(this.asRowMajorArray().reversedArray(), this.numRows(), this.numCols())
 }
+
+/**
+ * Differentiates the vector by wavelet transformation using the mexican-hat wavelet.
+ * @param scale Wavelet scale parameter
+ * @param dt Sampling time
+ */
+fun SincMatrix.diffWithWavelet(scale: Double, dt: Double): SincMatrix {
+    require(this.isvector()) { "SMError: This function works only for vectors" }
+
+    val signal = this.asRowMajorArray()
+    return SincMatrix(
+        rowMajArray = diffCWTFTWorker(signal, signal.size, scale, dt),
+        m = this.numRows(),
+        n = this.numCols()
+    )
+}

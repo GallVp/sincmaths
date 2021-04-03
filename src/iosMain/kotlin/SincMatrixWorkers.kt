@@ -3,6 +3,7 @@ import platform.Accelerate.vDSP_convD
 import platform.Accelerate.vDSP_vrvrsD
 import platform.Accelerate.vDSP_vsmulD
 import tinyexpr.te_interp
+import wavelib.diff_cwtft
 
 internal actual fun convWorker(A: DoubleArray, B: DoubleArray): DoubleArray {
 
@@ -32,7 +33,6 @@ internal actual fun parseToInt(expression: String): Int? {
 
 }
 
-
 private fun parseToDouble(expr: String) : Double? {
     val error = nativeHeap.alloc<IntVar>()
     error.value = -1
@@ -49,7 +49,6 @@ private fun parseToDouble(expr: String) : Double? {
     }
 }
 
-
 /**
  * Takes date and date format string to produce a time stamp in seconds which represents time since 1970
  */
@@ -59,4 +58,19 @@ internal actual fun dateToTimeStampWorker(dateFormat: String, date: String): Dou
 
 internal actual fun fileReadWorker(filePath: String): String? {
     TODO("Not yet implemented")
+}
+
+internal actual fun diffCWTFTWorker (
+    signalVector: DoubleArray,
+    signalLength: Int,
+    scale: Double,
+    dt: Double
+): DoubleArray {
+    val outVector = nativeHeap.allocArray<DoubleVar>(signalLength)
+    diff_cwtft(signalVector.toCValues(), outVector, signalLength, scale, dt)
+
+    val returnArray = outVector.createCopyArray(signalLength)
+    nativeHeap.free(outVector)
+
+    return returnArray
 }

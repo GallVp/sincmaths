@@ -52,12 +52,6 @@ expect class SincMatrix(rowMajArray: DoubleArray, m: Int, n: Int) {
     // ************************************************************************* SincMatrixSignal
 
     fun find():SincMatrix
-    /**
-     * Differentiates the vector by wavelet transformation using the mexican-hat wavelet.
-     * @param scale Wavelet scale parameter
-     * @param dt Sampling time
-     */
-    fun diffWithWavelet(scale:Double, dt:Double):SincMatrix
 
     companion object {}
 }

@@ -9,6 +9,13 @@ private external fun convWithWavelib(
 
 private external fun parseToDouble(expr: String): Double
 
+internal actual fun diffCWTFTWorker(
+    signalVector: DoubleArray,
+    signalLength: Int,
+    scale: Double,
+    dt: Double
+) = diffCWTFT(signalVector, signalLength, scale, dt)
+
 internal external fun diffCWTFT(
     signalVector: DoubleArray,
     signalLength: Int,
