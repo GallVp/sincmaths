@@ -1,4 +1,5 @@
 import kotlin.math.abs
+import kotlin.test.Test
 
 class SincMatrixSignalProcTests {
 
@@ -263,10 +264,11 @@ class SincMatrixSignalProcTests {
         val result = (locs * locs.transpose()).asScalar()
         SincMathsTests.assert(abs(resultOctave - result) < testTol) { "testFindPeaks failed..." }
     }
-
+    @Test
     private fun testDenoiseCwtft() {
         val filePath = "example_signal.csv"
         val noisySignal = SincMatrix.csvread(filePath = filePath)
+        print("File data: ${noisySignal.description}")
         val diffSignal = noisySignal.diffWithWavelet(scale = 16.0, dt = 0.01)
         val resultMATLAB = 1.757498083459348e+04
         val testTol = 1E-11

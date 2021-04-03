@@ -32,13 +32,13 @@ ${OUT_DIR}:
 $(OUT):$(ALL_OBJS)
 	libtool -static -o $@ $^
 
-$(OBJ_iphonesimulator_x86_64):$(SRC)
+$(OBJ_iphonesimulator_x86_64):%_iphonesimulator_x86_64.o:%.c
 	$(PLT_STP) iphonesimulator $(CC) -arch x86_64 $(INCLUDES) -c $< -o $@
 
-$(OBJ_iphoneos_arm64):$(SRC)
+$(OBJ_iphoneos_arm64):%_iphoneos_arm64.o:%.c
 	$(PLT_STP) iphoneos $(CC) -arch arm64 $(INCLUDES) -c $< -o $@
 
-$(OBJ_macosx_x86_64):$(SRC)
+$(OBJ_macosx_x86_64):%_macosx_x86_64.o:%.c
 	$(PLT_STP) macosx $(CC) -arch x86_64 $(INCLUDES) -c $< -o $@
 
 clean:
