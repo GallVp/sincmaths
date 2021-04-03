@@ -2,6 +2,7 @@ import kotlinx.cinterop.*
 import platform.Accelerate.vDSP_convD
 import platform.Accelerate.vDSP_vrvrsD
 import platform.Accelerate.vDSP_vsmulD
+import tinyexpr.te_interp
 
 internal actual fun convWorker(A: DoubleArray, B: DoubleArray): DoubleArray {
 
@@ -26,8 +27,28 @@ internal actual fun convWorker(A: DoubleArray, B: DoubleArray): DoubleArray {
 }
 
 internal actual fun parseToInt(expression: String): Int? {
-    TODO("Not yet implemented")
+    val doubleValue = parseToDouble(expr = expression) ?: return null
+    return doubleValue.toInt()
+
 }
+
+
+private fun parseToDouble(expr: String) : Double? {
+    val error = nativeHeap.alloc<IntVar>()
+    error.value = -1
+    val doubleValue = te_interp(expr, error.ptr)
+
+    val errorVal = error.value
+
+    nativeHeap.free(error)
+
+    return if (errorVal == 0) {
+        doubleValue
+    } else {
+        null
+    }
+}
+
 
 /**
  * Takes date and date format string to produce a time stamp in seconds which represents time since 1970

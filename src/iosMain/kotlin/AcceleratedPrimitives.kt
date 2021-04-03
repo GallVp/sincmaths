@@ -225,7 +225,7 @@ internal fun sinOfElementsOfVector(vector: DoubleArray): DoubleArray {
 internal fun cosOfElementsOfVector(vector: DoubleArray): DoubleArray {
     val vectorLen = vector.size
     val resultVector = nativeHeap.allocArray<DoubleVar>(vectorLen)
-    vvcos(resultVector, vector.toCValues(), vectorLen.toLong().toCPointer())
+    vvcos(resultVector, vector.toCValues(), intArrayOf(vectorLen).toCValues())
 
     val returnVector = resultVector.createCopyArray(vectorLen)
     nativeHeap.free(resultVector)
@@ -274,6 +274,7 @@ internal fun transposeOfRowMajorMatrix(mat: DoubleArray, m: Int, n: Int): Double
     return returnData
 }
 
+/*
 internal fun solveSparseSystemWithQR_2x2(
     rowMajorMatrix: DoubleArray,
     m: Int,
@@ -312,3 +313,5 @@ internal fun solveSparseSystemWithQR_2x2(
     }
     return xVector
 }
+
+ */

@@ -94,12 +94,15 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
 
     // ************************************************************************* SincMatrixSolvers
 
-    actual fun solve(b: SincMatrix): SincMatrix = solveSparseSystemWithQR_2x2(
+    actual fun solve(b: SincMatrix): SincMatrix = zeros(2, 1)
+    /*solveSparseSystemWithQR_2x2(
         this.matrixData,
         this.numRows(),
         this.numCols(),
         b.matrixData
     ).asSincMatrix(b.numRows(), b.numCols())
+
+     */
 
     // ************************************************************************* SincMatrixStats
 

@@ -16,6 +16,10 @@ repositories {
 kotlin {
     android()
     iosX64('ios') {
+        compilations.main.cinterops {
+            tinyexpr
+            wavelib
+        }
         binaries {
             framework {
                 baseName = 'SincMaths'
