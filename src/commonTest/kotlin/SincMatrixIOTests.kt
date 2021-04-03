@@ -1,4 +1,5 @@
 import kotlin.math.abs
+import kotlin.test.Test
 import kotlin.test.assertFailsWith
 
 class SincMatrixIOTests {
@@ -81,6 +82,7 @@ class SincMatrixIOTests {
         SincMathsTests.assert(abs(resultOctave - result) < testTol) { "testMatrixIndexing failed..." }
     }
 
+    @Test
     private fun testMatrixIndexingEdges() {
         val M: SincMatrix = (1..110).asSincMatrix(m = 11, n = 10)
 
@@ -169,6 +171,7 @@ class SincMatrixIOTests {
         ) { "testMatrixMutations failed..." }
     }
 
+    @Test
     fun performAll() {
         testMatrixInput()
         testMatrixCSVRead()

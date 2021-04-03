@@ -84,3 +84,11 @@ android {
 
     sourceSets.main.manifest.srcFile('src/androidMain/AndroidManifest.xml')
 }
+
+tasks.iosProcessResources {
+    copy {
+        from "$projectDir/src/androidTest/resources/"
+        into "$projectDir/build/bin/ios/debugTest"
+        include '*.csv'
+    }
+}

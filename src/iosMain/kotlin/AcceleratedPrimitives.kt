@@ -182,9 +182,9 @@ internal fun exponentOfVector(vector: DoubleArray, exponent: Double): DoubleArra
     val resultVector = nativeHeap.allocArray<DoubleVar>(vectorLen)
     vvpow(
         resultVector,
-        doubleArrayOf(exponent).toCValues(),
+        createVector(exponent, vectorLen).toCValues(),
         vector.toCValues(),
-        vectorLen.toLong().toCPointer()
+        intArrayOf(vectorLen).toCValues()
     )
 
     val returnVector = resultVector.createCopyArray(vectorLen)
@@ -195,7 +195,7 @@ internal fun exponentOfVector(vector: DoubleArray, exponent: Double): DoubleArra
 internal fun floorOfElementsOfVector(vector: DoubleArray): DoubleArray {
     val vectorLen = vector.size
     val resultVector = nativeHeap.allocArray<DoubleVar>(vectorLen)
-    vvfloor(resultVector, vector.toCValues(), vectorLen.toLong().toCPointer())
+    vvfloor(resultVector, vector.toCValues(), intArrayOf(vectorLen).toCValues())
 
     val returnVector = resultVector.createCopyArray(vectorLen)
     nativeHeap.free(resultVector)
@@ -205,7 +205,7 @@ internal fun floorOfElementsOfVector(vector: DoubleArray): DoubleArray {
 internal fun absOfElementsOfVector(vector: DoubleArray): DoubleArray {
     val vectorLen = vector.size
     val resultVector = nativeHeap.allocArray<DoubleVar>(vectorLen)
-    vvfabs(resultVector, vector.toCValues(), vectorLen.toLong().toCPointer())
+    vvfabs(resultVector, vector.toCValues(), intArrayOf(vectorLen).toCValues())
 
     val returnVector = resultVector.createCopyArray(vectorLen)
     nativeHeap.free(resultVector)
@@ -215,7 +215,7 @@ internal fun absOfElementsOfVector(vector: DoubleArray): DoubleArray {
 internal fun sinOfElementsOfVector(vector: DoubleArray): DoubleArray {
     val vectorLen = vector.size
     val resultVector = nativeHeap.allocArray<DoubleVar>(vectorLen)
-    vvsin(resultVector, vector.toCValues(), vectorLen.toLong().toCPointer())
+    vvsin(resultVector, vector.toCValues(), intArrayOf(vectorLen).toCValues())
 
     val returnVector = resultVector.createCopyArray(vectorLen)
     nativeHeap.free(resultVector)
