@@ -1,5 +1,7 @@
+import SincMathsTests.Companion.sgolayfilterTestTol
 import SincMathsTests.Companion.testTol
 import kotlin.math.abs
+import kotlin.test.Test
 
 class SincMatrixSignalProcTests {
 
@@ -56,7 +58,6 @@ class SincMatrixSignalProcTests {
         //  A = [4 5 6];
         //  filter(B, A, testVector)*filter(B, A, testVector')
         val resultOctave = 2.429411901632733e-01
-        val testTol = 1E-12
         val testVector =
             SincMatrix.init(
                 mlScript = "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, " +
@@ -67,10 +68,11 @@ class SincMatrixSignalProcTests {
         val result = (testVector.filter(
             B = B,
             A = A
-        ) * testVector.transpose().filter(B = B, A = A)).asArray().firstOrNull()!!
-        SincMathsTests.assert(abs(resultOctave - result) < testTol) { "testMatrixFilter failed..." }
+        ) * testVector.transpose().filter(B = B, A = A)).scalar
+        SincMathsTests.assert(abs(resultOctave - result) < testTol)
     }
 
+    @Test
     private fun testMatrixFiltfilt() {
         // MATLAB code
         //  format long
@@ -85,7 +87,7 @@ class SincMatrixSignalProcTests {
         val A = doubleArrayOf(1.000000000000000, -1.647459981076977, 0.700896781188403)
         val R = testMat.filtfilt(B = B, A = A) * (testMat.transpose().filtfilt(B = B, A = A))
         val result = R.sum().sum().asScalar()
-        SincMathsTests.assert(abs(resultMATLAB - result) < testTol) { "testMatrixFiltfilt failed..." }
+        SincMathsTests.assert(abs(resultMATLAB - result) < testTol)
     }
 
     private fun testVectorSgolayFilter() {
@@ -95,20 +97,16 @@ class SincMatrixSignalProcTests {
         //  testVector = A(:, 2);
         //  sgolayfilt(testVector', 3, 41) * sgolayfilt(testVector, 3, 41)
         val resultMATLAB = 6.740799259697040
-        val testTol = 1E-12
         val filePath = "test_csv.csv"
         val A = SincMatrix.csvread(
             filePath = filePath,
             separator = ",",
             headerInfo = listOf("t", "d", "d", "d", "d", "d", "d", "d", "d", "d")
         )
-        val testVector = A.getCol(mlCol = 2)
-        val B = SincMatrix.init(mlScript = SGCoeffs.sgo3x41)
-        val result = (testVector.transpose()
-            .sgolayfilter(B = B) * testVector.sgolayfilter(B = B)).asArray().firstOrNull()!!
-        SincMathsTests.assert(
-            abs(resultMATLAB - result) < testTol
-        ) { "testMatrixCSVRead failed..." }
+        val testVector = A.getCol(2)
+        val B = SincMatrix.init(SGCoeffs.sgo3x41)
+        val result = testVector.t.sgolayfilter(B) * testVector.sgolayfilter(B)
+        SincMathsTests.assert(abs(resultMATLAB - result.scalar) < sgolayfilterTestTol)
     }
 
     private fun testMatrixSgolayFilter() {
