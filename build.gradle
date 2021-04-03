@@ -54,10 +54,8 @@ kotlin {
             resources.srcDirs = ['src/androidTest/resources/']
         }
         iosMain {
-
         }
         iosTest {
-
         }
     }
 }

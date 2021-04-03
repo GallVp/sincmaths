@@ -169,7 +169,6 @@ class SincMatrixIOTests {
         ) { "testMatrixMutations failed..." }
     }
 
-
     fun performAll() {
         testMatrixInput()
         testMatrixCSVRead()

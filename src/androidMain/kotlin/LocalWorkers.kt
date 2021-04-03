@@ -40,6 +40,6 @@ internal actual fun dateToTimeStampWorker(dateFormat: String, date:String): Doub
         -1.0
     }
 }
-internal actual fun fileReadWorker(filePath: String): String? = SincMatrix.readFileAsTextUsingInputStream(filePath)
+internal actual fun fileReadWorker(filePath: String, bundleID:String?): String? = SincMatrix.readFileAsTextUsingInputStream(filePath)
 
 private fun SincMatrix.Companion.readFileAsTextUsingInputStream(fileName: String): String? = SincMatrix::class.java.getResourceAsStream(fileName)?.readBytes()?.toString(Charsets.UTF_8)

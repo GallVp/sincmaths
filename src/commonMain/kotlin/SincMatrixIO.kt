@@ -4,15 +4,17 @@
  * d: Double
  * t: Date which is then converted to double as time interval in seconds since 1970.
  * If headerInfo is empty, no header row is assumed. Default date format: "yyyy-MM-dd HH:mm:ss.SSS"
+ * @param bundleID A string identifier for the iOS bundle which contains the file.
  */
 fun SincMatrix.Companion.csvread(
     filePath: String,
     separator: String = ",",
     headerInfo: List<String> = listOf(),
-    dateFormat: String = "yyyy-MM-dd HH:mm:ss.SSS"
+    dateFormat: String = "yyyy-MM-dd HH:mm:ss.SSS",
+    bundleID:String? = null
 ): SincMatrix {
 
-    val contents: String? = fileReadWorker(filePath)
+    val contents: String? = fileReadWorker(filePath, bundleID)
     require(!contents.isNullOrEmpty()) { "File is empty" }
 
     val text: ArrayList<ArrayList<String>> = ArrayList()

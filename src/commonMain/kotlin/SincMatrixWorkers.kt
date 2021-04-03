@@ -10,7 +10,7 @@ internal expect fun parseToInt(expression: String):Int?
  * Takes date and date format string to produce a time stamp in seconds which represents time since 1970
  */
 internal expect fun dateToTimeStampWorker(dateFormat: String, date:String): Double
-internal expect fun fileReadWorker(filePath: String): String?
+internal expect fun fileReadWorker(filePath: String, bundleID:String?): String?
 
 internal fun sgolayWorker(vectorIn: SincMatrix, B: SincMatrix): SincMatrix {
     var vector = vectorIn.copyOf()
