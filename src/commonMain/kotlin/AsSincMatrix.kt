@@ -45,3 +45,9 @@ fun List<Int>.asSincMatrix(asRowVector: Boolean = true, intType:Any? = null): Si
 fun List<Int>.asSincMatrix(m: Int, n: Int, intType:Any? = null): SincMatrix {
     return this.map { it.toDouble() }.asSincMatrix(m, n)
 }
+
+fun DoubleArray.asSincMatrix(size: List<Int>):SincMatrix {
+    require(size.count() == 2) {"SMError: Size should have two elements"}
+
+    return this.asSincMatrix(size[0], size[1])
+}

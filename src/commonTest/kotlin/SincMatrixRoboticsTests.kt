@@ -1,34 +1,23 @@
+import SincMathsTests.Companion.testTol
 import kotlin.math.PI
 
 class SincMatrixRobotics {
     private fun testMatrixEul2Rotm() {
-        val rotmA = SincMatrix.eul2rotm(
-            xyzRadianAngles = doubleArrayOf(PI / 2.0, -PI / 1.05, PI / 3.03),
-            sequence = AngleSequence.XYZ
-        )
-        val rotmB = SincMatrix.eul2rotm(
-            xyzRadianAngles = doubleArrayOf(2.0 * PI, 2.0 * PI, 2.0 * PI),
-            sequence = AngleSequence.XYZ
-        )
-        val resultA = (rotmA * rotmA.transpose())
-        // Check orthognality. Result eye(3)
+        // Check orthogonality. Result eye(3)
         // Check 360 degree rotation. Result eye(3)
-        val testTol = 1.0E-15
-        val eyeMat =
-            doubleArrayOf(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0).asSincMatrix(m = 3, n = 3)
-        SincMathsTests.assert((((resultA - eyeMat)).lessThan(testTol)).all()) { "testMatrixEul2Rotm failed..." }
-        SincMathsTests.assert((((rotmB - eyeMat)).lessThan(testTol)).all()) { "testMatrixEul2Rotm failed..." }
+        val matA = SincMatrix.eul2rotm(doubleArrayOf(PI / 2.0, -PI / 1.05, PI / 3.03), AngleSequence.XYZ)
+        val matB = SincMatrix.eul2rotm(doubleArrayOf(2.0 * PI, 2.0 * PI, 2.0 * PI), AngleSequence.XYZ)
+        val resultA = (matA * matA.t)
+        val eyeMat = doubleArrayOf(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0).asSincMatrix(m = 3, n = 3)
+        SincMathsTests.assert(((resultA - eyeMat) lt testTol).all())
+        SincMathsTests.assert(((matB - eyeMat) lt testTol).all())
     }
 
     private fun testMatrixQuatConverter() {
-        val testMat = SincMatrix.eul2rotm(
-            xyzRadianAngles = doubleArrayOf(PI / 2.0, -PI / 1.05, PI / 3.03),
-            sequence = AngleSequence.XYZ
-        )
-        val testTol = 1.0E-15
+        val testMat = SincMatrix.eul2rotm(doubleArrayOf(PI / 2.0, -PI / 1.05, PI / 3.03), AngleSequence.XYZ)
         val testDiff = (testMat.rotm2quat().quat2rotm() - testMat).abs()
-        val testResults = (testDiff.lessThan(testTol)).all()
-        SincMathsTests.assert(testResults) { "testMatrixQuatConverter failed..." }
+        val testResults = (testDiff lt testTol).all()
+        SincMathsTests.assert(testResults)
     }
 
     fun performAll() {

@@ -16,5 +16,11 @@ class SincMathsTests {
                 throw Exception(message())
             }
         }
+        fun assert(condition: Boolean) {
+            if (!condition) {
+                throw Exception()
+            }
+        }
+        const val testTol = 1.0E-15
     }
 }
