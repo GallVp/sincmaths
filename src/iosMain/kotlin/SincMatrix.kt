@@ -62,7 +62,13 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
         return divideElementsOfVectors(this.matrixData, rhs.matrixData).asSincMatrix(this.numRows(), this.numCols())
     }
 
-    actual fun elSum(): Double = sumOfVectorElements(this.matrixData)
+    actual fun elSum(): Double {
+        return if (this.isempty()) {
+            0.0
+        } else {
+            sumOfVectorElements(this.matrixData)
+        }
+    }
 
     actual infix fun elPow(power: Double): SincMatrix =
         exponentOfVector(this.matrixData, power).asSincMatrix(this.numRows(), this.numCols())

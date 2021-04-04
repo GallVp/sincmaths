@@ -11,11 +11,6 @@ class SincMathsTests {
     }
 
     companion object {
-        fun assert(condition: Boolean, message: () -> String) {
-            if (!condition) {
-                throw Exception(message())
-            }
-        }
         fun assert(condition: Boolean) {
             if (!condition) {
                 throw Exception()

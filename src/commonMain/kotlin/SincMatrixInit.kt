@@ -96,3 +96,16 @@ fun SincMatrix.Companion.nans(m: Int, n: Int): SincMatrix {
     }
     return SincMatrix(data, m, n)
 }
+
+fun rowVectorOf(vararg values: Double): SincMatrix = values.asSincMatrix()
+fun colVectorOf(vararg values: Double): SincMatrix = values.asSincMatrix(asRowVector = false)
+fun matrixOf(m: Int, n: Int, vararg values: Double): SincMatrix = values.asSincMatrix(m, n)
+
+fun rowVectorOf(vararg values: Int): SincMatrix = values.asSincMatrix()
+fun colVectorOf(vararg values: Int): SincMatrix = values.asSincMatrix(asRowVector = false)
+fun matrixOf(m: Int, n: Int, vararg values: Int): SincMatrix = values.asSincMatrix(m, n)
+
+fun rowVectorOf(values: IntRange): SincMatrix = values.asSincMatrix()
+fun colVectorOf(values: IntRange): SincMatrix = values.asSincMatrix(asRowVector = false)
+fun matrixOf(m: Int, n: Int, values: IntRange): SincMatrix = values.asSincMatrix(m, n)
+

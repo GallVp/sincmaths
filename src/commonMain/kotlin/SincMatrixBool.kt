@@ -40,7 +40,7 @@ infix fun SincMatrix.et(rhs: Double): SincMatrix = this.equalsTo(rhs)
  */
 infix fun SincMatrix.net(rhs: Double): SincMatrix = this.notEqualsTo(rhs)
 /**
- * Equals to 0 as in !A or ~A
+ * !A or ~A
  */
 operator fun SincMatrix.not(): SincMatrix {
     return this et 0.0

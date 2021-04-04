@@ -376,7 +376,6 @@ class SincMatrixMathsAndStats {
         //  testVector = [1 -1 0.1 0.2 0.3 0 0 -0.12 0 1.2];
         //  find(testVector) * find(testVector')
         val resultOctave = 219.0
-        // Start with two row vectors
         val testVector = SincMatrix.from("[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
         val result = (testVector.find() * testVector.transpose().find()).asScalar()
         SincMathsTests.assert(abs(resultOctave - result) < testTol)
