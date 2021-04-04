@@ -1,4 +1,5 @@
 import SincMathsTests.Companion.convTestTol
+import SincMathsTests.Companion.convTestTolAndroid
 import SincMathsTests.Companion.testTol
 import kotlin.math.abs
 
@@ -179,7 +180,7 @@ class SincMatrixSignalProcTests {
         val resultMatlab = 3.924920127795551
         val testVector = SincMatrix.from("-97:0.31:97")
         val result = testVector.movsum(42, MovWinShape.discard).sum() elDiv (testVector elMul 10.0).sum()
-        SincMathsTests.assert(abs(resultMatlab - result.scalar) < convTestTol)
+        SincMathsTests.assert(abs(resultMatlab - result.scalar) < convTestTolAndroid)
     }
 
     private fun testMovSumOddDiscard() {
