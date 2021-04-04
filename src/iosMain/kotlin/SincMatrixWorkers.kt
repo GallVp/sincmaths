@@ -12,18 +12,18 @@ internal actual fun parseToInt(expression: String): Int? {
 }
 
 private fun parseToDouble(expr: String) : Double? {
-    val error = nativeHeap.alloc<IntVar>()
-    error.value = -1
-    val doubleValue = te_interp(expr, error.ptr)
+    memScoped {
+        val error = nativeHeap.alloc<IntVar>()
+        error.value = -1
+        val doubleValue = te_interp(expr, error.ptr)
 
-    val errorVal = error.value
+        val errorVal = error.value
 
-    nativeHeap.free(error)
-
-    return if (errorVal == 0) {
-        doubleValue
-    } else {
-        null
+        return if (errorVal == 0) {
+            doubleValue
+        } else {
+            null
+        }
     }
 }
 
@@ -82,11 +82,9 @@ internal actual fun diffCWTFTWorker (
     scale: Double,
     dt: Double
 ): DoubleArray {
-    val outVector = nativeHeap.allocArray<DoubleVar>(signalLength)
-    diff_cwtft(signalVector.toCValues(), outVector, signalLength, scale, dt)
-
-    val returnArray = outVector.createCopyArray(signalLength)
-    nativeHeap.free(outVector)
-
-    return returnArray
+    memScoped {
+        val outVector = nativeHeap.allocArray<DoubleVar>(signalLength)
+        diff_cwtft(signalVector.toCValues(), outVector, signalLength, scale, dt)
+        return outVector.createCopyArray(signalLength)
+    }
 }
