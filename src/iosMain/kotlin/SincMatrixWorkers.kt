@@ -1,32 +1,9 @@
 import kotlinx.cinterop.*
-import platform.Accelerate.vDSP_convD
-import platform.Accelerate.vDSP_vrvrsD
-import platform.Accelerate.vDSP_vsmulD
 import platform.Foundation.*
 import tinyexpr.te_interp
 import wavelib.diff_cwtft
 
-internal actual fun convWorker(A: DoubleArray, B: DoubleArray): DoubleArray {
-
-    val initArray = createZerosVector(B.size - 1)
-    val midArray = A
-    val finalArray = createZerosVector(B.size)
-    val paddedArray = initArray + midArray + finalArray
-
-    val bufferLength = intArrayOf(A.size + B.size - 1, A.size, B.size).maxOrNull() ?: 0
-    val buffer = nativeHeap.allocArray<DoubleVar>(bufferLength)
-    val negativeReverseBuffer = nativeHeap.allocArray<DoubleVar>(bufferLength)
-
-    vDSP_convD(paddedArray.toCValues(), 1L, B.toCValues(), 1L, buffer, 1L, bufferLength.toULong(), B.size.toULong())
-    vDSP_vrvrsD(buffer, 1, bufferLength.toULong())
-    vDSP_vsmulD(buffer, 1L, doubleArrayOf(-1.0).toCValues(), negativeReverseBuffer, 1L, bufferLength.toULong())
-
-    val returnData = negativeReverseBuffer.createCopyArray(bufferLength)
-    nativeHeap.free(buffer)
-    nativeHeap.free(negativeReverseBuffer)
-
-    return returnData
-}
+internal actual fun convWorker(A: DoubleArray, B: DoubleArray) = convolveVectors(A, B)
 
 internal actual fun parseToInt(expression: String): Int? {
     val doubleValue = parseToDouble(expr = expression) ?: return null

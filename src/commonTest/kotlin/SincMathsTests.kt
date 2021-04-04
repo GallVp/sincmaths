@@ -23,5 +23,6 @@ class SincMathsTests {
         }
         const val testTol = 1.0E-15
         const val sgolayfilterTestTol = 1.0E-13
+        const val convValidTestTol = 1.0E-13
     }
 }

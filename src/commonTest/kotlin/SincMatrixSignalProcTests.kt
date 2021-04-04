@@ -1,3 +1,4 @@
+import SincMathsTests.Companion.convValidTestTol
 import SincMathsTests.Companion.sgolayfilterTestTol
 import SincMathsTests.Companion.testTol
 import kotlin.math.abs
@@ -178,18 +179,15 @@ class SincMatrixSignalProcTests {
         SincMathsTests.assert(abs(resultOctave - result) < testTol)
     }
 
-    @Test
     private fun testMovSumEvenDiscard() {
-        // Octave code
+        // MATLAB code
         //  format long
         //  testVector = -97:0.31:97;
-        //  sum(movsum(testVector, 42, "Endpoints", "discard"))
-        val resultOctave = -3071.250000000089
-        val testTol = 1E-7
+        //  sum(movsum(testVector, 42, "Endpoints", "discard")) / sum(testVector.*10)
+        val resultMatlab = 3.924920127795551
         val testVector = SincMatrix.from("-97:0.31:97")
-        val result = testVector.movsum(42, MovWinShape.discard).sum().scalar
-        print("RESULT: ${testVector.movsum(42, MovWinShape.discard)}")
-        SincMathsTests.assert(abs(resultOctave - result) < testTol)
+        val result = testVector.movsum(42, MovWinShape.discard).sum() elDiv (testVector elMul 10.0).sum()
+        SincMathsTests.assert(abs(resultMatlab - result.scalar) < convValidTestTol)
     }
 
     private fun testMovSumOddDiscard() {

@@ -27,7 +27,7 @@ internal fun createZerosVector(totalCount: Int): DoubleArray {
     return returnVector
 }
 
-internal fun createVector(fillValue:Double, totalCount: Int): DoubleArray {
+internal fun createVector(fillValue: Double, totalCount: Int): DoubleArray {
     val resultVector = nativeHeap.allocArray<DoubleVar>(totalCount)
     vDSP_vfillD(
         doubleArrayOf(fillValue).toCValues(),
@@ -40,16 +40,18 @@ internal fun createVector(fillValue:Double, totalCount: Int): DoubleArray {
     return returnVector
 }
 
-internal fun findNonZeroIndices(ofVector:DoubleArray, isZeroIndexed:Boolean = true):DoubleArray {
+internal fun createOnesVector(totalCount: Int) = createVector(1.0, totalCount)
+
+internal fun findNonZeroIndices(ofVector: DoubleArray, isZeroIndexed: Boolean = true): DoubleArray {
     val vectorLen = ofVector.size
     val vectorOfOnes = createVector(1.0, vectorLen)
     val resultVector = nativeHeap.allocArray<DoubleVar>(vectorLen)
-    for(i in 0 until vectorLen) {
+    for (i in 0 until vectorLen) {
         resultVector[i] = 0.0
     }
     vDSP_vcmprsD(vectorOfOnes.toCValues(), 1L, ofVector.toCValues(), 1, resultVector, 1, vectorLen.toULong())
     val numberOfElements = sumOfVectorElements(resultVector.createCopyArray(vectorLen)).toInt()
-    val indices = if(isZeroIndexed) {
+    val indices = if (isZeroIndexed) {
         createRampVector(0.0, 1.0, vectorLen)
     } else {
         createRampVector(1.0, 1.0, vectorLen)
@@ -271,6 +273,38 @@ internal fun transposeOfRowMajorMatrix(mat: DoubleArray, m: Int, n: Int): Double
     )
     val returnData = transposedMatrix.createCopyArray(matrixSize)
     nativeHeap.free(transposedMatrix)
+    return returnData
+}
+
+internal fun convolveVectors(vectorA: DoubleArray, vectorB: DoubleArray): DoubleArray {
+    val initArray = createZerosVector(vectorB.size - 1)
+    val midArray = vectorA
+    val finalArray = createZerosVector(vectorB.size)
+    val paddedArray = initArray + midArray + finalArray
+
+    val bufferLength = intArrayOf(vectorA.size + vectorB.size - 1, vectorA.size, vectorB.size).maxOrNull() ?: 0
+    val buffer = nativeHeap.allocArray<DoubleVar>(bufferLength)
+
+    val convKernel = nativeHeap.allocArray<DoubleVar>(vectorB.size)
+    for (i in vectorB.indices) {
+        convKernel[i] = vectorB[i]
+    }
+
+    vDSP_convD(
+        paddedArray.toCValues(),
+        1L,
+        convKernel + (vectorB.size - 1),
+        -1L,
+        buffer,
+        1L,
+        bufferLength.toULong(),
+        vectorB.size.toULong()
+    )
+
+    val returnData = buffer.createCopyArray(bufferLength)
+    nativeHeap.free(buffer)
+    nativeHeap.free(convKernel)
+
     return returnData
 }
 
