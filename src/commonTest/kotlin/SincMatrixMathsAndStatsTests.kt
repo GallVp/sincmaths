@@ -365,6 +365,9 @@ class SincMatrixMathsAndStats {
                 1
             ).asSincMatrix()) et 0.0).all()
         )
+
+        SincMathsTests.assert(testVector.gt(0.0).any())
+        SincMathsTests.assert(testVector.gt(5.0).not().all())
     }
 
     private fun testMatrixFind() {
