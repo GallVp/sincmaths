@@ -4,11 +4,11 @@ import kotlin.test.assertFailsWith
 class SincMatrixIOTests {
 
     private fun testMatrixInput() {
-        val A = SincMatrix.init(mlScript = "[1, 2, 3; 4, 5, 6]")
-        val B = SincMatrix.init(mlScript = "[1, 2, 3, 4]")
-        val C = SincMatrix.init(mlScript = "[5;6;7;8;9;10]")
-        val D = SincMatrix.init(mlScript = "1:10")
-        val E = SincMatrix.init(mlScript = "-1.5:-1:-7.9")
+        val A = SincMatrix.from(script = "[1, 2, 3; 4, 5, 6]")
+        val B = SincMatrix.from(script = "[1, 2, 3, 4]")
+        val C = SincMatrix.from(script = "[5;6;7;8;9;10]")
+        val D = SincMatrix.from(script = "1:10")
+        val E = SincMatrix.from(script = "-1.5:-1:-7.9")
         val resultOctave = 15.02765035409749
         val testTol = 1E-12
         val result = A.sum().min() + B.max() + C.median() + D.std() + E.mean()
@@ -25,7 +25,7 @@ class SincMatrixIOTests {
         )
         val resultMATLAB = 1.040499533820819e+04
         val testTol = 1E-10
-        val sgMatrix = SincMatrix.init(mlScript = SGCoeffs.sgo3x41)
+        val sgMatrix = SincMatrix.from(script = SGCoeffs.sgo3x41)
         val result = A.getCols(mlCols = 2..10)
             .sgolayfilter(B = sgMatrix)
             .sum()

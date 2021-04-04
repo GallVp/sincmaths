@@ -3,24 +3,24 @@ import kotlin.math.floor
 /**
  * Creates a SincMatrix from Octave scripts, such as:
  *
- * SincMatrix.init("[1, 2, 3; 4, 5, 6]")
+ * SincMatrix.from("[1, 2, 3; 4, 5, 6]")
  *
- * SincMatrix.init("[1, 2, 3, 4]")
+ * SincMatrix.from("[1, 2, 3, 4]")
  *
- * SincMatrix.init("[5;6;7;8;9;10]")
+ * SincMatrix.from("[5;6;7;8;9;10]")
  *
- * SincMatrix.init("1:10")
+ * SincMatrix.from("1:10")
  *
- * SincMatrix.init("-1.5:-1:-7.9")
+ * SincMatrix.from("-1.5:-1:-7.9")
  */
-fun SincMatrix.Companion.init(mlScript: String): SincMatrix {
-    if (mlScript.contains(":")) {
+fun SincMatrix.Companion.from(script: String): SincMatrix {
+    if (script.contains(":")) {
         //2:5 or 1:2:7 type expression
-        val range = createRange(mlScript.trim())
+        val range = createRange(script.trim())
         return SincMatrix(range, 1, range.size)
     } else {
         //[1, 2, 3; 4, 5, 6] type expression
-        val mlScriptTrimmed = mlScript.trim()
+        val mlScriptTrimmed = script.trim()
         val firstBrace = mlScriptTrimmed.first()
         val lastBrace = mlScriptTrimmed.last()
         require(firstBrace == '[' && lastBrace == ']') {
@@ -95,23 +95,4 @@ fun SincMatrix.Companion.nans(m: Int, n: Int): SincMatrix {
         Double.NaN
     }
     return SincMatrix(data, m, n)
-}
-
-object SincMatrixMakers {
-    /**
-     * Creates a SincMatrix from Octave scripts, such as:
-     *
-     * matrixFrom("[1, 2, 3; 4, 5, 6]")
-     *
-     * matrixFrom("[1, 2, 3, 4]")
-     *
-     * matrixFrom("[5;6;7;8;9;10]")
-     *
-     * matrixFrom("1:10")
-     *
-     * matrixFrom("-1.5:-1:-7.9")
-     */
-    fun matrixFrom(mlScript: String):SincMatrix = SincMatrix.init(mlScript)
-    fun zeros(m: Int, n: Int) = SincMatrix.zeros(m, n)
-    fun ones(m: Int, n: Int) = SincMatrix.ones(m, n)
 }

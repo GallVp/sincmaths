@@ -2,6 +2,7 @@ expect class SincMatrix(rowMajArray: DoubleArray, m: Int, n: Int) {
 
     fun numRows():Int
     fun numCols():Int
+    override fun toString(): String
 
     // ************************************************************************* SincMatrixAsTypes
 

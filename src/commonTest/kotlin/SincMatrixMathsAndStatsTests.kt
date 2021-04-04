@@ -10,8 +10,8 @@ class SincMatrixMathsAndStats {
             //  A = rand(1, 5);
             //  B = -7:0.3890210:401;
             val A =
-                SincMatrix.init(mlScript = "[7.301949858665466e-01, 8.112192153930664e-02, 5.081893205642700e-01, 1.602365076541901e-01, 4.644139707088470e-01]")
-            val B = SincMatrix.init(mlScript = "-7:0.3890210:401")
+                SincMatrix.from(script = "[7.301949858665466e-01, 8.112192153930664e-02, 5.081893205642700e-01, 1.602365076541901e-01, 4.644139707088470e-01]")
+            val B = SincMatrix.from(script = "-7:0.3890210:401")
 
             return Pair(A, B)
         }
@@ -24,8 +24,8 @@ class SincMatrixMathsAndStats {
             //  A = rand(1, 5);
             //  B = -7:0.00001:-0.00001;
             val A =
-                SincMatrix.init(mlScript = "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, 5.843927264213562e-01, 2.296017855405807e-01]")
-            val B = SincMatrix.init(mlScript = "-7:0.00001:-0.00001")
+                SincMatrix.from(script = "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, 5.843927264213562e-01, 2.296017855405807e-01]")
+            val B = SincMatrix.from(script = "-7:0.00001:-0.00001")
 
             return Pair(A, B)
         }
@@ -41,8 +41,8 @@ class SincMatrixMathsAndStats {
         val testTol = 1E-15
         // Start with two row vectors
         val A =
-            SincMatrix.init(mlScript = "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, 9.351466298103333e-01, 1.077670305967331e-01]")
-        val B = SincMatrix.init(mlScript = "[1, 2, 3, 4, 5]")
+            SincMatrix.from(script = "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, 9.351466298103333e-01, 1.077670305967331e-01]")
+        val B = SincMatrix.from(script = "[1, 2, 3, 4, 5]")
         val result = ((B * (A.t * B)) * A.t) elDiv B.sum()
         SincMathsTests.assert(abs(resultOctave - result.asScalar()) < testTol) { "testVectorMatrixMultiply failed..." }
     }
@@ -72,8 +72,8 @@ class SincMatrixMathsAndStats {
         val testTol = 1E-12
         // Start with two row vectors
         val A =
-            SincMatrix.init(mlScript = "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, 9.351466298103333e-01, 1.077670305967331e-01]")
-        val B = SincMatrix.init(mlScript = "[1, 2, 3, 4, 5]")
+            SincMatrix.from(script = "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, 9.351466298103333e-01, 1.077670305967331e-01]")
+        val B = SincMatrix.from(script = "[1, 2, 3, 4, 5]")
         val M = A.transpose() * B
         val result = ((M.sum() * M.sum(dim = 2)) * A.sum()).asArray().firstOrNull()!!
         SincMathsTests.assert(abs(resultOctave - result) < testTol) { "testMatrixSum failed..." }
@@ -107,8 +107,8 @@ class SincMatrixMathsAndStats {
         val testTol = 1E-12
         // Start with two row vectors
         val A =
-            SincMatrix.init(mlScript = "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, 9.351466298103333e-01, 1.077670305967331e-01]")
-        val B = SincMatrix.init(mlScript = "[1, 2, 3, 4, 5]")
+            SincMatrix.from(script = "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, 9.351466298103333e-01, 1.077670305967331e-01]")
+        val B = SincMatrix.from(script = "[1, 2, 3, 4, 5]")
         val M = A.transpose() * B
         val result =
             ((M.mean() * M.mean(dim = 2)) * A.mean()).asArray().firstOrNull()!!
@@ -193,8 +193,8 @@ class SincMatrixMathsAndStats {
         val testTol = 1E-12
         // Start with two row vectors
         val A =
-            SincMatrix.init(mlScript = "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, 9.351466298103333e-01, 1.077670305967331e-01]")
-        val B = SincMatrix.init(mlScript = "[1, 2, 3, 4, 5]")
+            SincMatrix.from(script = "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, 9.351466298103333e-01, 1.077670305967331e-01]")
+        val B = SincMatrix.from(script = "[1, 2, 3, 4, 5]")
         // Perform the test operations Vector x Vector -> sum(r:Matrix) -> r:Vector x Vector -> Scalar
         val M = A.transpose() * B
         val result = ((M.rms() * M.rms(dim = 2)) * A.rms()).asArray().firstOrNull()!!
@@ -213,8 +213,8 @@ class SincMatrixMathsAndStats {
         val testTol = 1E-12
         // Start with two row vectors
         val A =
-            SincMatrix.init(mlScript = "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, 9.351466298103333e-01, 1.077670305967331e-01]")
-        val B = SincMatrix.init(mlScript = "[1, 2, 3, 4, 5]")
+            SincMatrix.from(script = "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, 9.351466298103333e-01, 1.077670305967331e-01]")
+        val B = SincMatrix.from(script = "[1, 2, 3, 4, 5]")
         // Perform the test operations Vector x Vector -> sum(r:Matrix) -> r:Vector x Vector -> Scalar
         val M = A.transpose() * B
         val result = ((M.max() * M.max(dim = 2)) * A.max()).asArray().firstOrNull()!!
@@ -229,14 +229,14 @@ class SincMatrixMathsAndStats {
         val resultOctave = 7.0
         val testTol = 1E-12
         // Start with two row vectors
-        val testVector = SincMatrix.init(mlScript = "[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
+        val testVector = SincMatrix.from(script = "[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
         val result = (testVector.sign() * testVector.transpose().sign()).asScalar()
         SincMathsTests.assert(abs(resultOctave - result) < testTol) { "testMatrixSign failed..." }
     }
 
     private fun testMatrixComparisons() {
         // Start with a row vector
-        val testVector = SincMatrix.init(mlScript = "[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
+        val testVector = SincMatrix.from(script = "[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
         // Compared against octave
         SincMathsTests.assert(
             (((testVector.lessThan(0.3)) - doubleArrayOf(
@@ -376,7 +376,7 @@ class SincMatrixMathsAndStats {
         val resultOctave = 219.0
         val testTol = 1E-12
         // Start with two row vectors
-        val testVector = SincMatrix.init(mlScript = "[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
+        val testVector = SincMatrix.from(script = "[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
         val result = (testVector.find() * testVector.transpose().find()).asScalar()
         SincMathsTests.assert(abs(resultOctave - result) < testTol) { "testMatrixFind failed..." }
     }

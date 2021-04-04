@@ -8,9 +8,9 @@ import wavelib.diff_cwtft
 
 internal actual fun convWorker(A: DoubleArray, B: DoubleArray): DoubleArray {
 
-    val initArray = DoubleArray(B.size - 1) {0.0}
+    val initArray = createZerosVector(B.size - 1)
     val midArray = A
-    val finalArray = DoubleArray(B.size){0.0}
+    val finalArray = createZerosVector(B.size)
     val paddedArray = initArray + midArray + finalArray
 
     val bufferLength = intArrayOf(A.size + B.size - 1, A.size, B.size).maxOrNull() ?: 0

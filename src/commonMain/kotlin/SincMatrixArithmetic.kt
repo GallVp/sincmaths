@@ -4,3 +4,4 @@ operator fun SincMatrix.div(rhs: Double): SincMatrix = this * (1/rhs)
 operator fun SincMatrix.unaryMinus(): SincMatrix {
     return this * -1.0
 }
+infix fun SincMatrix.elMul(rhs: Double): SincMatrix = this * rhs

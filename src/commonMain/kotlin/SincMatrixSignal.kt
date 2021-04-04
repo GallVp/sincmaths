@@ -72,8 +72,7 @@ fun SincMatrix.movsum(wlen: Int, endpoints: MovWinShape = MovWinShape.shrink): S
             return this.conv(B = convKernel, shape = ConvolutionShape.valid)
         }
         MovWinShape.shrink -> {
-            return if (wlen % 2 < 1) {
-                //Even
+            return if (wlen % 2 < 1) { //Even
                 val computedSegment = this.conv(B = convKernel, shape = ConvolutionShape.same)
                 val computedArray = computedSegment.asRowMajorArray()
                 val movSumTwoToEnd = computedArray.sliceArray(0 until (computedArray.size - 1))

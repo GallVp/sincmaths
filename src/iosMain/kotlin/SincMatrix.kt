@@ -1,11 +1,9 @@
-import kotlinx.cinterop.toCValues
-import wavelib.diff_cwtft
-
 actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val m: Int, private val n: Int) {
 
     private val matrixData = rowMajArray
     actual fun numRows(): Int = m
     actual fun numCols(): Int = n
+    actual override fun toString(): String = this.description
 
     // ************************************************************************* SincMatrixAsTypes
 

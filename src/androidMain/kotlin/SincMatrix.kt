@@ -6,6 +6,7 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
     private val matrixData = rowMajArray
     actual fun numRows(): Int = m
     actual fun numCols(): Int = n
+    actual override fun toString(): String = this.description
 
     // ************************************************************************* SincMatrixAsTypes
 
