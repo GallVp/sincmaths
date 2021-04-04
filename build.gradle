@@ -15,7 +15,7 @@ repositories {
 
 kotlin {
     android()
-    iosX64('ios') {
+    ios {
         compilations.main.cinterops {
             tinyexpr {
                 defFile "$projectDir/src/nativeInterop/cinterop/tinyexpr.def"
@@ -26,12 +26,14 @@ kotlin {
                 includeDirs "$projectDir/src/cpp/wavelib/include"
             }
         }
+
         binaries {
             framework {
                 baseName = 'SincMaths'
             }
         }
     }
+
     sourceSets {
         commonMain {
         }
@@ -85,10 +87,10 @@ android {
     sourceSets.main.manifest.srcFile('src/androidMain/AndroidManifest.xml')
 }
 
-tasks.iosProcessResources {
+tasks.iosX64ProcessResources {
     copy {
         from "$projectDir/src/androidTest/resources/"
-        into "$projectDir/build/bin/ios/debugTest"
+        into "$projectDir/build/bin/iosX64/debugTest"
         include '*.csv'
     }
 }
