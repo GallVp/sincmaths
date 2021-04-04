@@ -1,5 +1,6 @@
 import kotlin.math.abs
 
+
 class SincMatrixMathsAndStats {
 
     private val testCaseIIMatrices: Pair<SincMatrix, SincMatrix>
