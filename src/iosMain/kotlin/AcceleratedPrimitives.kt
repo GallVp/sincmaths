@@ -308,44 +308,46 @@ internal fun convolveVectors(vectorA: DoubleArray, vectorB: DoubleArray): Double
     return returnData
 }
 
-/*
-internal fun solveSparseSystemWithQR_2x2(
+/**
+ * Ref: https://linux.die.net/man/l/dsgesv
+ */
+internal fun solveNonsymSquareSystem(
     rowMajorMatrix: DoubleArray,
     m: Int,
     n: Int,
     bVector: DoubleArray
 ): DoubleArray {
-    val nonZeroRowIndices = intArrayOf(0, 1, 0, 1)
-    val columnStarts = longArrayOf(0, 2, 4)
-    val valuesOfA = transposeOfRowMajorMatrix(rowMajorMatrix, m, n)
-    val xVector = doubleArrayOf(Double.NaN, Double.NaN)
-
+    val colMajMatA = transposeOfRowMajorMatrix(rowMajorMatrix, m, n)
+    val xVector = nativeHeap.allocArray<DoubleVar>(m)
     memScoped {
-        val sparseA = cValue<SparseMatrix_Double> {
-            this.structure.rowCount = 2
-            this.structure.columnCount = 2
-            this.structure.columnStarts = columnStarts.toCValues().ptr
-            this.structure.rowIndices = nonZeroRowIndices.toCValues().ptr
-            this.structure.blockSize = 1u
-            this.data = valuesOfA.toCValues().ptr
-        }
 
-        val qrDecomposition = SparseFactor(SparseFactorizationQR, sparseA)
+        val numEq = alloc<IntVar>()
+        numEq.value = m
 
-        val bDense = cValue<DenseMatrix_Double> {
-            this.rowCount = 2
-            this.columnCount = 1
-            this.columnStride = 2
-            this.data = bVector.toCValues().ptr
-        }
-        SparseSolve(qrDecomposition, bDense)
-        val xDense = bDense.useContents { this.data }
-        if (xDense != null) {
-            xVector[0] = xDense[0]
-            xVector[1] = xDense[1]
-        }
+        val numColsB = alloc<IntVar>()
+        numColsB.value = 1
+
+        val mutableA = colMajMatA.toCValues()
+
+        val leadDimOfA = intArrayOf(m).toCValues()
+
+        val ipiv = IntArray(m) { 0 }.toCValues()
+
+        val b = bVector.toCValues()
+
+        val ldb = intArrayOf(m).toCValues()
+
+        val ldx = intArrayOf(m).toCValues()
+
+        val work = DoubleArray(m) {0.0}.toCValues()
+        val swork = FloatArray(m*(m+1)) {0.0F}.toCValues()
+
+        val iter = intArrayOf(0).toCValues()
+        val info = intArrayOf(0).toCValues()
+
+        dsgesv_(numEq.ptr, numColsB.ptr, mutableA, leadDimOfA, ipiv, b, ldb, xVector, ldx, work, swork, iter, info)
     }
-    return xVector
+    val returnArray = xVector.createCopyArray(m)
+    nativeHeap.free(xVector)
+    return returnArray
 }
-
- */
