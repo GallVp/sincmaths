@@ -88,10 +88,12 @@ android {
 }
 
 
-tasks.iosProcessResources {
-    copy {
-        from "$projectDir/src/androidTest/resources/"
-        into "$projectDir/build/bin/ios/debugTest"
-        include '*.csv'
+tasks.iosTest {
+    doFirst {
+        copy {
+            from "$projectDir/src/androidTest/resources/"
+            into "$projectDir/build/bin/ios/debugTest"
+            include "*.csv"
+        }
     }
 }
