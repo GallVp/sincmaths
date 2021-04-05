@@ -13,8 +13,12 @@ repositories {
     jcenter()
 }
 
+import org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask
+
 kotlin {
-    android()
+    android {
+        publishAllLibraryVariants()
+    }
     ios {
         compilations.main.cinterops {
             tinyexpr {
@@ -32,6 +36,24 @@ kotlin {
                 baseName = 'SincMaths'
             }
         }
+    }
+
+    tasks.register("debugFatFramework", FatFrameworkTask) {
+        baseName = "SincMaths"
+        destinationDir = file("$buildDir/fat-framework/debug")
+        from(
+                targets.iosX64.binaries.getFramework("DEBUG"),
+                targets.iosArm64.binaries.getFramework("DEBUG")
+        )
+    }
+
+    tasks.register("releaseFatFramework", FatFrameworkTask) {
+        baseName = "SincMaths"
+        destinationDir = file("$buildDir/fat-framework/release")
+        from(
+                targets.iosX64.binaries.getFramework("RELEASE"),
+                targets.iosArm64.binaries.getFramework("RELEASE")
+        )
     }
 
     sourceSets {
