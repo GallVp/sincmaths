@@ -15,7 +15,7 @@ repositories {
 
 kotlin {
     android()
-    iosX64('ios') {
+    ios {
         compilations.main.cinterops {
             tinyexpr {
                 defFile "$projectDir/src/nativeInterop/cinterop/tinyexpr.def"
@@ -87,12 +87,11 @@ android {
     sourceSets.main.manifest.srcFile('src/androidMain/AndroidManifest.xml')
 }
 
-
-tasks.iosTest {
+tasks.iosX64Test {
     doFirst {
         copy {
             from "$projectDir/src/androidTest/resources/"
-            into "$projectDir/build/bin/ios/debugTest"
+            into "$projectDir/build/bin/iosX64/debugTest"
             include "*.csv"
         }
     }
