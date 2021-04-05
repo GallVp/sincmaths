@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'nz.ac.aut.sincmaths'
-version = '0.1'
+version = '0.1-SNAPSHOT'
 
 repositories {
     google()
