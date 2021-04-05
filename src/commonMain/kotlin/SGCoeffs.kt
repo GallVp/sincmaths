@@ -1,3 +1,5 @@
+package sincmaths.coefficients
+
 object SGCoeffs {
     const val sgo3x5: String = """
 [0.9857142857142881,0.05714285714285386,-0.08571428571428598,0.0571428571428594,-0.01428571428571507;

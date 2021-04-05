@@ -1,3 +1,8 @@
+package sincmaths.sincmatrix
+
+import sincmaths.SincMatrix
+import sincmaths.asSincMatrix
+
 fun SincMatrix.sign(): SincMatrix {
     // Octave code: floor(t./(abs(t)+1)) - floor(-t./(abs(-t)+1))
     val negSelf = this * -1.0
@@ -28,12 +33,12 @@ fun SincMatrix.cross(ontoVector: SincMatrix): SincMatrix {
     }
 }
 
-fun SincMatrix.dot(rhs: SincMatrix):SincMatrix = (this elMul rhs).sum()
+fun SincMatrix.dot(rhs: SincMatrix): SincMatrix = (this elMul rhs).sum()
 
 /**
  * Matrix transpose
  */
-val SincMatrix.t:SincMatrix
-get() {
-    return this.transpose()
-}
+val SincMatrix.t: SincMatrix
+    get() {
+        return this.transpose()
+    }

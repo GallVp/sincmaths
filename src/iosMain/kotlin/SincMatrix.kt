@@ -1,3 +1,8 @@
+package sincmaths
+
+import sincmaths.sincmatrix.*
+import sincmaths.primitives.*
+
 actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val m: Int, private val n: Int) {
 
     private val matrixData = rowMajArray

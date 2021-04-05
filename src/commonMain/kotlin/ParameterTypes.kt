@@ -1,3 +1,5 @@
+package sincmaths
+
 enum class ConvolutionShape(val rawValue: Int) {
     full(1), same(2), valid(3);
 

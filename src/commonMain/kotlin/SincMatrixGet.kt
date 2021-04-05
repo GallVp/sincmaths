@@ -1,3 +1,7 @@
+package sincmaths.sincmatrix
+
+import sincmaths.SincMatrix
+import sincmaths.sincmatrix.workers.parseToInt
 
 /**
  * Indexing starts at 1, like Octave/MATLAB.
@@ -19,7 +23,7 @@ operator fun SincMatrix.get(logicalVect: SincMatrix): SincMatrix {
 operator fun SincMatrix.get(mlScript: String): SincMatrix = if (mlScript.contains(",")) {
     val stringLiterals = mlScript.split(",")
 
-    require(stringLiterals.count() == 2) {"SMError: With comma usage, mlScript must contain both row and column indices"}
+    require(stringLiterals.count() == 2) { "SMError: With comma usage, mlScript must contain both row and column indices" }
 
     val rowsScript = stringLiterals.first().replace("end", this.numRows().toString(), false)
     val colsScript = stringLiterals.last().replace("end", this.numCols().toString(), false)
@@ -186,7 +190,7 @@ internal fun SincMatrix.Companion.createIndexRange(mlScript: String): IntArray {
     val change: Int?
     val endPoint: Int?
 
-    require(literals.count() >= 2) {"SMError: Incomplete mlScript"}
+    require(literals.count() >= 2) { "SMError: Incomplete mlScript" }
 
     if (literals.size == 3) {
         // 1:2:7 type
@@ -201,7 +205,7 @@ internal fun SincMatrix.Companion.createIndexRange(mlScript: String): IntArray {
         change = 1
     }
 
-    require(startPoint != null && change != null && endPoint != null) {"SMError: Invalid mlScript"}
+    require(startPoint != null && change != null && endPoint != null) { "SMError: Invalid mlScript" }
 
     if (change > 0 && (startPoint > endPoint)) {
         return IntArray(0)
@@ -220,15 +224,15 @@ internal fun SincMatrix.Companion.createIndexRange(mlScript: String): IntArray {
     }
 }
 
-val SincMatrix.first:Double
-get() {
-    return this[1]
-}
+val SincMatrix.first: Double
+    get() {
+        return this[1]
+    }
 
 /**
  * Returns a value if the matrix is scalar otherwise throws an error.
  */
-val SincMatrix.scalar:Double
+val SincMatrix.scalar: Double
     get() {
         return this.asScalar()
     }

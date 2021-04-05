@@ -1,4 +1,7 @@
+package sincmaths.sincmatrix.workers
+
 import kotlinx.cinterop.*
+import sincmaths.sincmatrix.helpers.createCopyArray
 import tinyexpr.te_interp
 import wavelib.diff_cwtft
 
@@ -8,7 +11,7 @@ internal actual fun parseToInt(expression: String): Int? {
 
 }
 
-private fun parseToDouble(expr: String) : Double? {
+private fun parseToDouble(expr: String): Double? {
     memScoped {
         val error = nativeHeap.alloc<IntVar>()
         error.value = -1
@@ -24,7 +27,7 @@ private fun parseToDouble(expr: String) : Double? {
     }
 }
 
-internal actual fun diffCWTFTWorker (
+internal actual fun diffCWTFTWorker(
     signalVector: DoubleArray,
     signalLength: Int,
     scale: Double,

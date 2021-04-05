@@ -1,3 +1,5 @@
+package sincmaths.test
+
 import kotlin.test.Test
 
 class SincMathsTests {
@@ -16,6 +18,7 @@ class SincMathsTests {
                 throw Exception()
             }
         }
+
         const val testTol = 1.0E-15
         const val multSumTestTol = 1.0E-14
         const val convTestTol = 1.0E-13

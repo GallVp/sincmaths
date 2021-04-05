@@ -1,6 +1,13 @@
-import SincMathsTests.Companion.convTestTol
-import SincMathsTests.Companion.convTestTolAndroid
-import SincMathsTests.Companion.testTol
+package sincmaths.test
+
+import sincmaths.ConvolutionShape
+import sincmaths.MovWinShape
+import sincmaths.SincMatrix
+import sincmaths.coefficients.SGCoeffs
+import sincmaths.sincmatrix.*
+import sincmaths.test.SincMathsTests.Companion.convTestTol
+import sincmaths.test.SincMathsTests.Companion.convTestTolAndroid
+import sincmaths.test.SincMathsTests.Companion.testTol
 import kotlin.math.abs
 
 class SincMatrixSignalProcTests {
@@ -17,8 +24,8 @@ class SincMatrixSignalProcTests {
         //  Q = conv(B, A, 'same') * conv(B', A', 'same');
         //  result = (M + N + O + P + Q) / sum(B)^3.5
         val resultOctave = 2.102544125534404
-        val A = SincMatrix.from(script = "-10:10")
-        val B = SincMatrix.from(script = "1:0.3:6")
+        val A = matrixFrom(script = "-10:10")
+        val B = matrixFrom(script = "1:0.3:6")
         val M = (A.conv(B = B, shape = ConvolutionShape.full) * A.transpose()
             .conv(B = B.transpose(), shape = ConvolutionShape.full))
         val N = (A.conv(B = B, shape = ConvolutionShape.same) * A.transpose()
@@ -41,7 +48,7 @@ class SincMatrixSignalProcTests {
         //  diff(A)*diff(A')
         val resultOctave = 1.080192559976076
         val A =
-            SincMatrix.from(
+            matrixFrom(
                 script = "[4.418510198593140e-02, 4.279963076114655e-01, 8.155888915061951e-01, " +
                         "7.815348356962204e-02, 5.668686628341675e-01]"
             )
@@ -59,7 +66,7 @@ class SincMatrixSignalProcTests {
         //  filter(B, A, testVector)*filter(B, A, testVector')
         val resultOctave = 2.429411901632733e-01
         val testVector =
-            SincMatrix.from(
+            matrixFrom(
                 script = "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, " +
                         "5.843927264213562e-01, 2.296017855405807e-01]"
             )
@@ -80,7 +87,7 @@ class SincMatrixSignalProcTests {
         //  testMat = sgolay(3, 41)
         //  sum(sum(filtfilt(B, A, testMat)*filtfilt(B, A, testMat'))) / 10.0
         val resultMATLAB = 4.0999999999996817
-        val testMat = SincMatrix.from(script = SGCoeffs.sgo3x41)
+        val testMat = matrixFrom(script = SGCoeffs.sgo3x41)
         val B = doubleArrayOf(0.013359200027856, 0.026718400055713, 0.013359200027856)
         val A = doubleArrayOf(1.000000000000000, -1.647459981076977, 0.700896781188403)
         val R = testMat.filtfilt(B = B, A = A) * (testMat.transpose().filtfilt(B = B, A = A))
@@ -102,7 +109,7 @@ class SincMatrixSignalProcTests {
             headerInfo = listOf("t", "d", "d", "d", "d", "d", "d", "d", "d", "d")
         )
         val testVector = A.getCol(2)
-        val B = SincMatrix.from(SGCoeffs.sgo3x41)
+        val B = matrixFrom(SGCoeffs.sgo3x41)
         val result = testVector.t.sgolayfilter(B) * testVector.sgolayfilter(B)
         SincMathsTests.assert(abs(resultMATLAB - result.scalar) < convTestTol)
     }
@@ -121,7 +128,7 @@ class SincMatrixSignalProcTests {
             headerInfo = listOf("t", "d", "d", "d", "d", "d", "d", "d", "d", "d")
         )
         val testMatrix = A[":,2:4"]
-        val B = SincMatrix.from(SGCoeffs.sgo3x7)
+        val B = matrixFrom(SGCoeffs.sgo3x7)
         val result = testMatrix.sgolayfilter(B).sum(2).sum().scalar / 1000.0
         SincMathsTests.assert(abs(resultMATLAB - result) < convTestTol)
     }
@@ -135,7 +142,7 @@ class SincMatrixSignalProcTests {
         //  * movsum(testVector', 3, "Endpoints", "discard")) / (sum(testVector .* 35.03))
         val resultOctave = 1.493351200742660
         val testVector =
-            SincMatrix.from(
+            matrixFrom(
                 "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, " +
                         "5.843927264213562e-01, 2.296017855405807e-01, 7.710580229759216e-01, 1.801824271678925e-01, " +
                         "3.308660686016083e-01, 2.962400913238525e-01, 5.188712477684021e-02]"
@@ -158,7 +165,7 @@ class SincMatrixSignalProcTests {
         //  * (movmean(testVector, 3, "Endpoints", "discard") * movmean(testVector', 3, "Endpoints", "discard"))
         val resultOctave = 2.387150841604956
         val testVector =
-            SincMatrix.from(
+            matrixFrom(
                 "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, " +
                         "5.843927264213562e-01, 2.296017855405807e-01, 7.710580229759216e-01, 1.801824271678925e-01, " +
                         "3.308660686016083e-01, 2.962400913238525e-01, 5.188712477684021e-02]"
@@ -178,7 +185,7 @@ class SincMatrixSignalProcTests {
         //  testVector = -97:0.31:97;
         //  sum(movsum(testVector, 42, "Endpoints", "discard")) / sum(testVector.*10)
         val resultMatlab = 3.924920127795551
-        val testVector = SincMatrix.from("-97:0.31:97")
+        val testVector = matrixFrom("-97:0.31:97")
         val result = testVector.movsum(42, MovWinShape.discard).sum() elDiv (testVector elMul 10.0).sum()
         SincMathsTests.assert(abs(resultMatlab - result.scalar) < convTestTolAndroid)
     }
@@ -189,7 +196,7 @@ class SincMatrixSignalProcTests {
         //  testVector = -97:0.31:97;
         //  sum(movsum(testVector, 7)) / 100.0
         val resultOctave = -5.425000000000064
-        val testVector = SincMatrix.from(script = "-97:0.31:97")
+        val testVector = matrixFrom(script = "-97:0.31:97")
         val result = testVector.movsum(wlen = 7, endpoints = MovWinShape.discard).sum().scalar / 100.0
         SincMathsTests.assert(abs(resultOctave - result) < convTestTol)
     }
@@ -200,7 +207,7 @@ class SincMatrixSignalProcTests {
         //  testVector = -97:0.31:97;
         //  sum(movsum(testVector, 7)) / 100.0
         val resultOctave = -5.462500000000020
-        val testVector = SincMatrix.from("-97:0.31:97")
+        val testVector = matrixFrom("-97:0.31:97")
         val result = testVector.movsum(7, MovWinShape.shrink).sum().scalar / 100.0
         SincMathsTests.assert(abs(resultOctave - result) < convTestTol)
     }
@@ -211,7 +218,7 @@ class SincMatrixSignalProcTests {
         //  testVector = -97:0.31:97;
         //  sum(movsum(testVector, 42)) / 1000.0
         val resultOctave = -5.200649999999969
-        val testVector = SincMatrix.from("-97:0.31:97")
+        val testVector = matrixFrom("-97:0.31:97")
         val result = testVector.movsum(42, MovWinShape.shrink).sum().scalar / 1000.0
         SincMathsTests.assert(abs(resultOctave - result) < convTestTol)
     }
@@ -222,7 +229,7 @@ class SincMatrixSignalProcTests {
         //  testVector = -97:0.31:97;
         //  sum(movmean(testVector, 42)) / 100.0
         val resultOctave = -1.720249999999999
-        val testVector = SincMatrix.from("-97:0.31:97")
+        val testVector = matrixFrom("-97:0.31:97")
         val result = testVector.movmean(42, MovWinShape.shrink).sum().scalar / 100.0
         SincMathsTests.assert(abs(resultOctave - result) < convTestTol)
     }
@@ -237,7 +244,7 @@ class SincMatrixSignalProcTests {
         //  y = acf(x', 15);
         //  y'*y
         val resultOctave = 8.951995481744394
-        val testVector = SincMatrix.from("1:100")
+        val testVector = matrixFrom("1:100")
         val acfResult = testVector.acf(15)
         val result = (acfResult * acfResult.transpose()).asScalar()
         SincMathsTests.assert(abs(resultOctave - result) < testTol)
@@ -251,7 +258,7 @@ class SincMatrixSignalProcTests {
         //  [~, locs] = findpeaks(y);
         //  locs * locs'
         val resultOctave = 1394229519.0
-        val x = SincMatrix.from("0:0.001:30")
+        val x = matrixFrom("0:0.001:30")
         val y = x.sin() + 1.0
         val locs = y.findpeaks()
         val result = (locs * locs.transpose()).asScalar()

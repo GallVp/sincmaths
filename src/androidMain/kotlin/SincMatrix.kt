@@ -1,4 +1,8 @@
+package sincmaths
+
 import org.ejml.simple.SimpleMatrix
+import sincmaths.sincmatrix.*
+import sincmaths.sincmatrix.helpers.asSincMatrix
 import kotlin.math.floor
 
 actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val m: Int, private val n: Int) {

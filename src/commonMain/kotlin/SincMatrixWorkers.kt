@@ -1,16 +1,24 @@
+package sincmaths.sincmatrix.workers
+
+import sincmaths.ConvolutionShape
+import sincmaths.SincMatrix
+import sincmaths.sincmatrix.*
+
 internal expect fun diffCWTFTWorker(
     signalVector: DoubleArray,
     signalLength: Int,
     scale: Double,
     dt: Double
 ): DoubleArray
-internal expect fun convWorker(A:DoubleArray, B:DoubleArray):DoubleArray
-internal expect fun parseToInt(expression: String):Int?
+
+internal expect fun convWorker(A: DoubleArray, B: DoubleArray): DoubleArray
+internal expect fun parseToInt(expression: String): Int?
+
 /**
  * Takes date and date format string to produce a time stamp in seconds which represents time since 1970
  */
-internal expect fun dateToTimeStampWorker(dateFormat: String, date:String): Double
-internal expect fun fileReadWorker(filePath: String, bundleID:String?): String?
+internal expect fun dateToTimeStampWorker(dateFormat: String, date: String): Double
+internal expect fun fileReadWorker(filePath: String, bundleID: String?): String?
 
 internal fun sgolayWorker(vectorIn: SincMatrix, B: SincMatrix): SincMatrix {
     var vector = vectorIn.copyOf()

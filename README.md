@@ -10,3 +10,5 @@ This library provides a 2D matrix which stores data in row-major format as oppos
 + Added new functions: `unaryMinus`, `and`, `or` and `not`.
 + Added new property: `scalar` and `t`.
 + Cleaned up tests and unified test tolerances.
++ Added `matrixFrom` func and package names.
++ Added dokka for documentation.

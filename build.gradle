@@ -3,6 +3,7 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android-extensions'
     id 'maven-publish'
+    id("org.jetbrains.dokka") version "1.4.30"
 }
 
 group = 'nz.ac.aut.sincmaths'
@@ -112,7 +113,7 @@ android {
 tasks.iosX64Test {
     doFirst {
         copy {
-            from "$projectDir/src/androidTest/resources/"
+            from "$projectDir/src/androidTest/resources/sincmaths"
             into "$projectDir/build/bin/iosX64/debugTest"
             include "*.csv"
         }

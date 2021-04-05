@@ -1,3 +1,5 @@
+package sincmaths.sincmatrix.helpers
+
 import kotlinx.cinterop.CArrayPointer
 import kotlinx.cinterop.DoubleVar
 import kotlinx.cinterop.get

@@ -1,17 +1,22 @@
+package sincmaths.sincmatrix
+
+import sincmaths.SincMatrix
+import sincmaths.asSincMatrix
+
 val SincMatrix.description: String
-get() {
-    val dispString = StringBuilder()
-    if (this.isempty()) {
-        dispString.append("Empty matrix")
-    } else {
-        dispString.append("")
-        for (ithRow in 1 .. this.numRows()) {
-            val rowString = this.getRow(ithRow).asRowMajorArray().contentToString().drop(1).dropLast(1)
-            dispString.append(rowString + "\n")
+    get() {
+        val dispString = StringBuilder()
+        if (this.isempty()) {
+            dispString.append("Empty matrix")
+        } else {
+            dispString.append("")
+            for (ithRow in 1..this.numRows()) {
+                val rowString = this.getRow(ithRow).asRowMajorArray().contentToString().drop(1).dropLast(1)
+                dispString.append(rowString + "\n")
+            }
         }
+        return dispString.toString()
     }
-    return dispString.toString()
-}
 
 fun SincMatrix.disp() = this.description
 
@@ -75,4 +80,4 @@ val SincMatrix.indicesRange: IntRange
         return 1..this.numel()
     }
 
-fun SincMatrix.copyOf():SincMatrix = this.asRowMajorArray().copyOf().asSincMatrix(this.numRows(), this.numCols())
+fun SincMatrix.copyOf(): SincMatrix = this.asRowMajorArray().copyOf().asSincMatrix(this.numRows(), this.numCols())

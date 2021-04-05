@@ -1,13 +1,17 @@
+package sincmaths.sincmatrix
+
+import sincmaths.SincMatrix
+import sincmaths.asSincMatrix
 import kotlin.math.floor
 
 /**
  * Creates a SincMatrix from Octave scripts, such as:
  *
- * SincMatrix.from("[1, 2, 3; 4, 5, 6]")
+ * SincMatrix.from("&#91;1, 2, 3; 4, 5, 6&#93;")
  *
- * SincMatrix.from("[1, 2, 3, 4]")
+ * SincMatrix.from("&#91;1, 2, 3, 4&#93;")
  *
- * SincMatrix.from("[5;6;7;8;9;10]")
+ * SincMatrix.from("&#91;5;6;7;8;9;10&#93;")
  *
  * SincMatrix.from("1:10")
  *
@@ -33,7 +37,7 @@ fun SincMatrix.Companion.from(script: String): SincMatrix {
         val m = dataRows.size
         val n = dataRows.first().split(",").size
         // Initialise the matrix
-        val rMat = SincMatrix(DoubleArray(m*n), m, n)
+        val rMat = SincMatrix(DoubleArray(m * n), m, n)
         var ithRow = 1
         var jthColumn: Int
         for (row in dataRows) {
@@ -108,4 +112,19 @@ fun matrixOf(m: Int, n: Int, vararg values: Int): SincMatrix = values.asSincMatr
 fun rowVectorOf(values: IntRange): SincMatrix = values.asSincMatrix()
 fun colVectorOf(values: IntRange): SincMatrix = values.asSincMatrix(asRowVector = false)
 fun matrixOf(m: Int, n: Int, values: IntRange): SincMatrix = values.asSincMatrix(m, n)
+
+/**
+ * Creates a SincMatrix from Octave scripts, such as:
+ *
+ * matrixFrom("&#91;1, 2, 3; 4, 5, 6&#93;")
+ *
+ * matrixFrom("&#91;1, 2, 3, 4&#93;")
+ *
+ * matrixFrom("&#91;5;6;7;8;9;10&#93;")
+ *
+ * matrixFrom("1:10")
+ *
+ * matrixFrom("-1.5:-1:-7.9")
+ */
+fun matrixFrom(script:String) = SincMatrix.from(script)
 

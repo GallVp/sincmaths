@@ -1,3 +1,8 @@
+package sincmaths.sincmatrix
+
+import sincmaths.SincMatrix
+import sincmaths.asSincMatrix
+
 fun SincMatrix.sum(dim: Int = 1): SincMatrix {
     return if (this.isvector()) {
         SincMatrix(rowMajArray = doubleArrayOf(this.elSum()), m = 1, n = 1)

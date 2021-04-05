@@ -1,4 +1,7 @@
+package sincmaths.sincmatrix.workers
+
 import kotlinx.cinterop.*
+import sincmaths.sincmatrix.helpers.createCopyArray
 import tinyexpr.te_interp
 import wavelib.diff_cwtft
 

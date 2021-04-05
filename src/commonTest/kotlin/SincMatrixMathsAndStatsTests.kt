@@ -1,5 +1,10 @@
-import SincMathsTests.Companion.multSumTestTol
-import SincMathsTests.Companion.testTol
+package sincmaths.test
+
+import sincmaths.SincMatrix
+import sincmaths.asSincMatrix
+import sincmaths.sincmatrix.*
+import sincmaths.test.SincMathsTests.Companion.multSumTestTol
+import sincmaths.test.SincMathsTests.Companion.testTol
 import kotlin.math.abs
 
 
@@ -13,11 +18,11 @@ class SincMatrixMathsAndStats {
             //  A = rand(1, 5);
             //  B = -7:0.3890210:401;
             val A =
-                SincMatrix.from(
+                matrixFrom(
                     "[7.301949858665466e-01, 8.112192153930664e-02, 5.081893205642700e-01," +
                             " 1.602365076541901e-01, 4.644139707088470e-01]"
                 )
-            val B = SincMatrix.from("-7:0.3890210:401")
+            val B = matrixFrom("-7:0.3890210:401")
 
             return Pair(A, B)
         }
@@ -30,11 +35,11 @@ class SincMatrixMathsAndStats {
             //  A = rand(1, 5);
             //  B = -7:0.00001:-0.00001;
             val A =
-                SincMatrix.from(
+                matrixFrom(
                     "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, " +
                             "5.843927264213562e-01, 2.296017855405807e-01]"
                 )
-            val B = SincMatrix.from("-7:0.00001:-0.00001")
+            val B = matrixFrom("-7:0.00001:-0.00001")
 
             return Pair(A, B)
         }
@@ -49,11 +54,11 @@ class SincMatrixMathsAndStats {
         val resultOctave = 3.740641256320996
         // Start with two row vectors
         val A =
-            SincMatrix.from(
+            matrixFrom(
                 "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, " +
                         "9.351466298103333e-01, 1.077670305967331e-01]"
             )
-        val B = SincMatrix.from("[1, 2, 3, 4, 5]")
+        val B = matrixFrom("[1, 2, 3, 4, 5]")
         val result = ((B * (A.t * B)) * A.t) elDiv B.sum()
         SincMathsTests.assert(abs(resultOctave - result.asScalar()) < testTol)
     }
@@ -81,11 +86,11 @@ class SincMatrixMathsAndStats {
         val resultOctave = 7.650137609214315
         // Start with two row vectors
         val A =
-            SincMatrix.from(
+            matrixFrom(
                 "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, " +
                         "9.351466298103333e-01, 1.077670305967331e-01]"
             )
-        val B = SincMatrix.from("[1, 2, 3, 4, 5]")
+        val B = matrixFrom("[1, 2, 3, 4, 5]")
         val M = A.transpose() * B
         val result = ((M.sum() * M.sum(2)) * A.sum()).scalar / 100.0
         SincMathsTests.assert(abs(resultOctave - result) < testTol)
@@ -114,11 +119,11 @@ class SincMatrixMathsAndStats {
         //  mean(M)*mean(M, 2)*mean(A)
         val resultOctave = 6.120110087371452
         val A =
-            SincMatrix.from(
+            matrixFrom(
                 "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, " +
                         "9.351466298103333e-01, 1.077670305967331e-01]"
             )
-        val B = SincMatrix.from("[1, 2, 3, 4, 5]")
+        val B = matrixFrom("[1, 2, 3, 4, 5]")
         val M = A.transpose() * B
         val result =
             ((M.mean() * M.mean(2)) * A.mean()).scalar
@@ -194,11 +199,11 @@ class SincMatrixMathsAndStats {
         //  rms(M)*rms(M, 2)*rms(A)
         val resultOctave = 9.227648044294494
         val A =
-            SincMatrix.from(
+            matrixFrom(
                 "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, " +
                         "9.351466298103333e-01, 1.077670305967331e-01]"
             )
-        val B = SincMatrix.from("[1, 2, 3, 4, 5]")
+        val B = matrixFrom("[1, 2, 3, 4, 5]")
         val M = A.transpose() * B
         val result = ((M.rms() * M.rms(2)) * A.rms()).scalar
         SincMathsTests.assert(abs(resultOctave - result) < multSumTestTol)
@@ -214,11 +219,11 @@ class SincMatrixMathsAndStats {
         //  max(M)*max(M, [], 2)*max(A) / 10.0
         val resultOctave = 3.275277408827981
         val A =
-            SincMatrix.from(
+            matrixFrom(
                 "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, " +
                         "9.351466298103333e-01, 1.077670305967331e-01]"
             )
-        val B = SincMatrix.from("[1, 2, 3, 4, 5]")
+        val B = matrixFrom("[1, 2, 3, 4, 5]")
         val M = A.t * B
         val result = ((M.max() * M.max(2)) * A.max()).scalar / 10.0
         SincMathsTests.assert(abs(resultOctave - result) < testTol)
@@ -230,14 +235,14 @@ class SincMatrixMathsAndStats {
         //  testVector = [1 -1 0.1 0.2 0.3 0 0 -0.12 0 1.2];
         //  sign(testVector) * sign(testVector')
         val resultOctave = 7.0
-        val testVector = SincMatrix.from("[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
+        val testVector = matrixFrom("[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
         val result = (testVector.sign() * testVector.transpose().sign()).asScalar()
         SincMathsTests.assert(abs(resultOctave - result) < testTol)
     }
 
     private fun testMatrixComparisons() {
         // Compared against octave
-        val testVector = SincMatrix.from("[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
+        val testVector = matrixFrom("[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
         SincMathsTests.assert(
             (((testVector lt 0.3) - doubleArrayOf(
                 0.0,
@@ -376,7 +381,7 @@ class SincMatrixMathsAndStats {
         //  testVector = [1 -1 0.1 0.2 0.3 0 0 -0.12 0 1.2];
         //  find(testVector) * find(testVector')
         val resultOctave = 219.0
-        val testVector = SincMatrix.from("[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
+        val testVector = matrixFrom("[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
         val result = (testVector.find() * testVector.transpose().find()).asScalar()
         SincMathsTests.assert(abs(resultOctave - result) < testTol)
     }

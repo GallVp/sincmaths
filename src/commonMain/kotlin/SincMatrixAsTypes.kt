@@ -1,3 +1,7 @@
+package sincmaths.sincmatrix
+
+import sincmaths.SincMatrix
+
 fun SincMatrix.asIntArray(): IntArray {
     require(this.isvector()) { "SMError: Matrix is not a vector and conversion is invalid" }
 

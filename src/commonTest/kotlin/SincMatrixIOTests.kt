@@ -1,16 +1,22 @@
-import SincMathsTests.Companion.convTestTol
-import SincMathsTests.Companion.testTol
+package sincmaths.test
+
+import sincmaths.SincMatrix
+import sincmaths.asSincMatrix
+import sincmaths.coefficients.SGCoeffs
+import sincmaths.sincmatrix.*
+import sincmaths.test.SincMathsTests.Companion.convTestTol
+import sincmaths.test.SincMathsTests.Companion.testTol
 import kotlin.math.abs
 import kotlin.test.assertFailsWith
 
 class SincMatrixIOTests {
 
     private fun testMatrixInput() {
-        val A = SincMatrix.from(script = "[1, 2, 3; 4, 5, 6]")
-        val B = SincMatrix.from(script = "[1, 2, 3, 4]")
-        val C = SincMatrix.from(script = "[5;6;7;8;9;10]")
-        val D = SincMatrix.from(script = "1:10")
-        val E = SincMatrix.from(script = "-1.5:-1:-7.9")
+        val A = matrixFrom("[1, 2, 3; 4, 5, 6]")
+        val B = matrixFrom("[1, 2, 3, 4]")
+        val C = matrixFrom("[5;6;7;8;9;10]")
+        val D = matrixFrom("1:10")
+        val E = matrixFrom("-1.5:-1:-7.9")
         val resultOctave = 1.502765035409749
         val result = (A.sum().min() + B.max() + C.median() + D.std() + E.mean()).scalar / 10.0
         SincMathsTests.assert(abs(resultOctave - result) < testTol)

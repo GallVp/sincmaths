@@ -1,4 +1,10 @@
-import SincMathsTests.Companion.testTol
+package sincmaths.test
+
+import sincmaths.AngleSequence
+import sincmaths.SincMatrix
+import sincmaths.asSincMatrix
+import sincmaths.sincmatrix.*
+import sincmaths.test.SincMathsTests.Companion.testTol
 import kotlin.math.PI
 
 class SincMatrixRobotics {

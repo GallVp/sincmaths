@@ -1,3 +1,9 @@
+package sincmaths.sincmatrix
+
+import sincmaths.SincMatrix
+import sincmaths.sincmatrix.workers.dateToTimeStampWorker
+import sincmaths.sincmatrix.workers.fileReadWorker
+
 /**
  * For example usage see SincMathsTests/SincMatrixIO.
  * @param headerInfo An array of column types. Following column types are allowed:
@@ -11,7 +17,7 @@ fun SincMatrix.Companion.csvread(
     separator: String = ",",
     headerInfo: List<String> = listOf(),
     dateFormat: String = "yyyy-MM-dd HH:mm:ss.SSS",
-    bundleID:String? = null
+    bundleID: String? = null
 ): SincMatrix {
 
     val contents: String? = fileReadWorker(filePath, bundleID)

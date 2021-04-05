@@ -1,3 +1,5 @@
+package sincmaths
+
 fun Double.asSincMatrix(): SincMatrix {
     return SincMatrix(doubleArrayOf(this), 1, 1)
 }
@@ -38,16 +40,16 @@ fun IntRange.asSincMatrix(asRowVector: Boolean = true): SincMatrix {
     return this.map { it.toDouble() }.asSincMatrix(asRowVector)
 }
 
-fun List<Int>.asSincMatrix(asRowVector: Boolean = true, intType:Any? = null): SincMatrix {
+fun List<Int>.asSincMatrix(asRowVector: Boolean = true, intType: Any? = null): SincMatrix {
     return this.map { it.toDouble() }.asSincMatrix(asRowVector)
 }
 
-fun List<Int>.asSincMatrix(m: Int, n: Int, intType:Any? = null): SincMatrix {
+fun List<Int>.asSincMatrix(m: Int, n: Int, intType: Any? = null): SincMatrix {
     return this.map { it.toDouble() }.asSincMatrix(m, n)
 }
 
-fun DoubleArray.asSincMatrix(size: List<Int>):SincMatrix {
-    require(size.count() == 2) {"SMError: Size should have two elements"}
+fun DoubleArray.asSincMatrix(size: List<Int>): SincMatrix {
+    require(size.count() == 2) { "SMError: Size should have two elements" }
 
     return this.asSincMatrix(size[0], size[1])
 }

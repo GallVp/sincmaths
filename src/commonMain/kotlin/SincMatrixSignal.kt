@@ -1,3 +1,10 @@
+package sincmaths.sincmatrix
+
+import sincmaths.ConvolutionShape
+import sincmaths.MovWinShape
+import sincmaths.SincMatrix
+import sincmaths.asSincMatrix
+import sincmaths.sincmatrix.workers.*
 import kotlin.math.roundToInt
 
 fun SincMatrix.conv(B: SincMatrix, shape: ConvolutionShape = ConvolutionShape.full): SincMatrix {
