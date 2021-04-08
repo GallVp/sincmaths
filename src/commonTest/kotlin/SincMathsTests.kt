@@ -6,6 +6,7 @@ class SincMathsTests {
 
     @Test
     fun runAllTests() {
+        SincMatrixBasicTests().performAll()
         SincMatrixIOTests().performAll()
         SincMatrixRobotics().performAll()
         SincMatrixMathsAndStats().performAll()

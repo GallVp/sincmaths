@@ -7,6 +7,22 @@ fun SincMatrix.equalsTo(rhs: Double): SincMatrix {
     return (signedResult - 1.0) * -1.0
 }
 
+fun SincMatrix.equalsTo(rhs: SincMatrix): SincMatrix {
+    require(this.size() == rhs.size()) {
+        "SMError: size(A) should be equal to size(B)"
+    }
+
+    return (this - rhs).abs() et 0.0
+}
+
+fun SincMatrix.notEqualsTo(rhs: SincMatrix): SincMatrix {
+    require(this.size() == rhs.size()) {
+        "SMError: size(A) should be equal to size(B)"
+    }
+
+    return (this - rhs).abs() net 0.0
+}
+
 fun SincMatrix.notEqualsTo(rhs: Double): SincMatrix = (this - rhs).sign().abs()
 
 fun SincMatrix.lessThan(rhs: Double): SincMatrix {
@@ -46,6 +62,16 @@ infix fun SincMatrix.et(rhs: Double): SincMatrix = this.equalsTo(rhs)
  * Not equals to as in A != B or A ~= B
  */
 infix fun SincMatrix.net(rhs: Double): SincMatrix = this.notEqualsTo(rhs)
+
+/**
+ * Equals to as in A == B
+ */
+infix fun SincMatrix.et(rhs: SincMatrix): SincMatrix = this.equalsTo(rhs)
+
+/**
+ * Not equals to as in A != B or A ~= B
+ */
+infix fun SincMatrix.net(rhs: SincMatrix): SincMatrix = this.notEqualsTo(rhs)
 
 /**
  * !A or ~A

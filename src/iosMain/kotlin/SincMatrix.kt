@@ -5,7 +5,13 @@ import sincmaths.primitives.*
 
 actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val m: Int, private val n: Int) {
 
-    private val matrixData = rowMajArray
+    private val matrixData:DoubleArray
+
+    init {
+        require(rowMajArray.size == m*n) { "SMError: length(rowMajArray) should be equal to m*n" }
+        matrixData = rowMajArray
+    }
+
     actual fun numRows(): Int = m
     actual fun numCols(): Int = n
     actual override fun toString(): String = this.description
