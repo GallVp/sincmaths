@@ -375,6 +375,19 @@ class SincMatrixMathsAndStats {
         SincMathsTests.assert(testVector.gt(5.0).not().all())
     }
 
+    private fun testMatrixAndOr() {
+        val vectorA = rowVectorOf(0, 1, 0, 0, 0, 1, 1, 1, 1)
+        val vectorB = rowVectorOf(0, 1, 0, 1, 1, 1, -1, -1, 1)
+
+        SincMathsTests.assert((
+                vectorA.and(vectorB) et rowVectorOf(0, 1, 0, 0, 0, 1, 1, 1, 1)
+                ).all())
+
+        SincMathsTests.assert((
+                vectorA.or(vectorB) et rowVectorOf(0, 1, 0, 1, 1, 1, 1, 1, 1)
+                ).all())
+    }
+
     private fun testMatrixFind() {
         // Octave code
         //  format long
@@ -399,6 +412,7 @@ class SincMatrixMathsAndStats {
         testMatrixMax()
         testMatrixSign()
         testMatrixComparisons()
+        testMatrixAndOr()
         testMatrixFind()
     }
 

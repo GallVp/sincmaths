@@ -175,5 +175,6 @@ class SincMatrixBasicTests {
         testMatrixIndexing()
         testMatrixIndexingEdges()
         testMatrixMutations()
+        circShiftTest()
     }
 }
