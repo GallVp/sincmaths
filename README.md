@@ -15,3 +15,4 @@ This library provides a 2D matrix which stores data in row-major format as oppos
 + Added `et` and `net` for comparing two matrices.
 + Added `circshift` for vectors.
 + Added tests for `and` and `or` functions.
++ Updated kotlin and gradle
