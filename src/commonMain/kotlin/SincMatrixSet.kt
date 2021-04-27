@@ -3,100 +3,125 @@ package sincmaths.sincmatrix
 import sincmaths.SincMatrix
 
 /**
- * Indexing starts at 1, like Octave/MATLAB.
+ * Indexing with a logical vector containing 0's and 1's.
  */
-fun SincMatrix.setWithLV(logicalVect: SincMatrix, values: DoubleArray): SincMatrix {
-    require(this.numel() == logicalVect.numel()) {
+fun SincMatrix.setWithLV(logicalVector: SincMatrix, values: DoubleArray) {
+    require(this.numel() == logicalVector.numel()) {
         "SMError: numel(logicalVect) == numel(this matrix) is violated"
     }
-    val indicesAsArray = logicalVect.find().asIntArray()
-    return if ((values.isEmpty())) {
-        val includedIndices = logicalVect.equalsTo(0.0)
-        this[includedIndices]
+    val indicesAsArray = logicalVector.find().asIntArray()
+    if (values.isEmpty()) {
+        this.removeAt(indicesAsArray)
     } else {
-        require(indicesAsArray.count() == values.count()) {
-            "SMError: Number of elements selected by logicalVect is not equal to length of values array"
-        }
-        val mutatedData = this.asRowMajorArray().copyOf()
-        for (i in indicesAsArray.indices) {
-            mutatedData[indicesAsArray[i] - 1] = values[i - 1]
-        }
-        SincMatrix(rowMajArray = mutatedData, m = this.numRows(), n = this.numCols())
+        this.setWithIndices(indicesAsArray, values)
     }
 }
 
 /**
- * Indexing starts at 1, like Octave/MATLAB.
+ * Indexing with a logical vector containing 0's and 1's.
  */
-fun SincMatrix.setWithLV(logicalVect: SincMatrix, value: Double): SincMatrix {
-    val indicesAsArray = logicalVect.find().asIntArray()
-    val mutatedData = this.asRowMajorArray().copyOf()
+fun SincMatrix.setWithLV(logicalVector: SincMatrix, value: Double) {
+    val indicesAsArray = logicalVector.find().asIntArray()
     for (i in indicesAsArray.indices) {
-        mutatedData[indicesAsArray[i] - 1] = value
+        this[indicesAsArray[i]] = value
     }
-    return SincMatrix(rowMajArray = mutatedData, m = this.numRows(), n = this.numCols())
+}
+
+/**
+ * Indexing with a logical vector containing 0's and 1's.
+ */
+fun SincMatrix.setWithLV(logicalVector: SincMatrix, values: SincMatrix) {
+    val valuesArray = values.asArray()
+    this.setWithLV(logicalVector, valuesArray)
 }
 
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
-fun SincMatrix.set2(indices: IntArray, values: DoubleArray): SincMatrix {
-    return if ((values.isEmpty())) {
-        val matIndices = SincMatrix.ones(m = this.numel(), n = 1)
-        val selectorMat = matIndices.set2(indices, 0.0)
-        this[selectorMat]
+fun SincMatrix.setWithIndices(indices: IntArray, values: DoubleArray) {
+    if (values.isEmpty()) {
+        this.removeAt(indices)
     } else {
         require(indices.count() == values.count()) {
             "SMError: numel(indices) is not equal to numel(values)"
         }
-        val mutatedData = this.asRowMajorArray().copyOf()
         for (i in indices.indices) {
-            mutatedData[indices[i] - 1] = values[i]
+            this[indices[i]] = values[i]
         }
-        SincMatrix(rowMajArray = mutatedData, m = this.numRows(), n = this.numCols())
     }
 }
 
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
-fun SincMatrix.setWithLV(logicalVect: SincMatrix, values: SincMatrix): SincMatrix {
-    val valuesArray = values.asArray()
-    return this.setWithLV(logicalVect = logicalVect, values = valuesArray)
+fun SincMatrix.setWithIndices(indices: IntArray, value: Double) {
+    this.setWithIndices(indices, DoubleArray(indices.count()) { value })
 }
 
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
-fun SincMatrix.set2(index: Int, value: Double): SincMatrix =
-    this.set2(indices = intArrayOf(index), values = doubleArrayOf(value))
-
-/**
- * Indexing starts at 1, like Octave/MATLAB.
- */
-fun SincMatrix.set2(indices: IntArray, value: Double): SincMatrix =
-    this.set2(indices, DoubleArray(indices.count()) { value })
-
-/**
- * Indexing starts at 1, like Octave/MATLAB.
- */
-fun SincMatrix.set2(indices: SincMatrix, value: Double): SincMatrix {
+fun SincMatrix.setWithIndices(indices: SincMatrix, value: Double) {
     val indicesAsArray = indices.asIntArray()
-    return this.set2(indices = indicesAsArray, value = value)
+    this.setWithIndices(indicesAsArray, value)
 }
 
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
-fun SincMatrix.set2(indices: SincMatrix, values: DoubleArray): SincMatrix {
+fun SincMatrix.setWithIndices(indices: SincMatrix, values: DoubleArray) {
     val indicesAsArray = indices.asIntArray()
-    return this.set2(indices = indicesAsArray, values = values)
+    this.setWithIndices(indicesAsArray, values)
 }
 
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
-fun SincMatrix.set2(indices: SincMatrix, values: SincMatrix): SincMatrix {
+fun SincMatrix.setWithIndices(indices: SincMatrix, values: SincMatrix) {
     val valuesArray = values.asArray()
-    return this.set2(indices = indices, values = valuesArray)
+    this.setWithIndices(indices, valuesArray)
+}
+
+/**
+ * Indexing starts at 1, like Octave/MATLAB.
+ */
+fun SincMatrix.setRow(mlRow:Int, values: DoubleArray) {
+    val indices = this.indexBuilder(intArrayOf(mlRow), this.colIndices)
+    this.setWithIndices(indices, values)
+}
+
+/**
+ * Indexing starts at 1, like Octave/MATLAB.
+ */
+fun SincMatrix.setCol(mlCol:Int, values: DoubleArray) {
+    val indices = this.indexBuilder(this.rowIndices, intArrayOf(mlCol))
+    this.setWithIndices(indices, values)
+}
+
+/**
+ * Indexing starts at 1, like Octave/MATLAB.
+ */
+fun SincMatrix.setRow(mlRow:Int, values: SincMatrix) {
+    this.setRow(mlRow, values.asArray())
+}
+
+/**
+ * Indexing starts at 1, like Octave/MATLAB.
+ */
+fun SincMatrix.setCol(mlCol:Int, values: SincMatrix) {
+    this.setCol(mlCol, values.asArray())
+}
+
+/**
+ * Indexing starts at 1, like Octave/MATLAB.
+ */
+fun SincMatrix.setRow(mlRow:Int, value: Double) {
+    this.setRow(mlRow, DoubleArray(this.numCols()){value})
+}
+
+/**
+ * Indexing starts at 1, like Octave/MATLAB.
+ */
+fun SincMatrix.setCol(mlCol:Int, value: Double) {
+    this.setCol(mlCol, DoubleArray(this.numRows()){value})
 }

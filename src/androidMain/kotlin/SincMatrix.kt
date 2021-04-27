@@ -5,9 +5,9 @@ import sincmaths.sincmatrix.*
 import sincmaths.sincmatrix.helpers.asSincMatrix
 import kotlin.math.floor
 
-actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val m: Int, private val n: Int) {
+actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private var m: Int, private var n: Int) {
 
-    private val matrixData:DoubleArray
+    private var matrixData:DoubleArray
 
     init {
         require(rowMajArray.size == m*n) { "SMError: length(rowMajArray) should be equal to m*n" }
@@ -16,6 +16,7 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
 
     actual fun numRows(): Int = m
     actual fun numCols(): Int = n
+    actual fun numel() = this.matrixData.size
     actual override fun toString(): String = this.description
 
     // ************************************************************************* SincMatrixAsTypes
@@ -36,6 +37,22 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private val
 
     actual operator fun set(index: Int, value: Double) {
         this.matrixData[index - 1] = value
+    }
+
+    actual fun removeAt(index: Int) {
+        val includedIndices = (0 until this.matrixData.size).toMutableList()
+        includedIndices.removeAt(index - 1)
+        this.matrixData = this.matrixData.sliceArray(includedIndices)
+        m = 1
+        n = this.matrixData.size
+    }
+
+    actual fun removeAt(indices: IntArray) {
+        val includedIndices = (0 until this.matrixData.size).toMutableList()
+        includedIndices.removeAll(indices.map { it-1 })
+        this.matrixData = this.matrixData.sliceArray(includedIndices)
+        m = 1
+        n = this.matrixData.size
     }
 
     // ************************************************************************* SincMatrixArithmetic

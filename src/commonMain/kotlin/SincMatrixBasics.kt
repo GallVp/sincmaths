@@ -20,14 +20,16 @@ val SincMatrix.description: String
 
 fun SincMatrix.disp() = this.description
 
-fun SincMatrix.length(): Int =
-    this.size().maxOrNull() ?: 0
+fun SincMatrix.length(): Int {
+    return if(numel() == 0) {
+        0
+    } else {
+        this.size().maxOrNull() ?: 0
+    }
+}
 
 fun SincMatrix.size(): List<Int> =
     listOf(this.numRows(), this.numCols())
-
-fun SincMatrix.numel(): Int =
-    this.numRows() * this.numCols()
 
 fun SincMatrix.isrow(): Boolean {
     val matSize = this.size()

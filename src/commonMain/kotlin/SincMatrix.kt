@@ -4,6 +4,7 @@ expect class SincMatrix(rowMajArray: DoubleArray, m: Int, n: Int) {
 
     fun numRows(): Int
     fun numCols(): Int
+    fun numel():Int
     override fun toString(): String
 
     // ************************************************************************* SincMatrixAsTypes
@@ -22,6 +23,16 @@ expect class SincMatrix(rowMajArray: DoubleArray, m: Int, n: Int) {
      * Indexing starts at 1, like Octave/MATLAB.
      */
     operator fun set(index: Int, value: Double)
+
+    /**
+     * Indexing starts at 1, like Octave/MATLAB. This function makes the underlying matrix a row vector.
+     */
+    fun removeAt(index: Int)
+
+    /**
+     * Indexing starts at 1, like Octave/MATLAB. This function makes the underlying matrix a row vector.
+     */
+    fun removeAt(indices: IntArray)
 
     // ************************************************************************* SincMatrixArithmetic
 

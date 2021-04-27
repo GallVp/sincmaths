@@ -129,7 +129,7 @@ fun SincMatrix.getRow(mlRow: Int): SincMatrix =
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
-private fun SincMatrix.indexBuilder(mlRows: IntArray, mlCols: IntArray): IntArray {
+internal fun SincMatrix.indexBuilder(mlRows: IntArray, mlCols: IntArray): IntArray {
 
     val vectIndices: ArrayList<Int> = ArrayList()
     vectIndices.ensureCapacity(mlRows.size * mlCols.size)
@@ -143,7 +143,7 @@ private fun SincMatrix.indexBuilder(mlRows: IntArray, mlCols: IntArray): IntArra
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
-private fun SincMatrix.indexBuilder(mlRows: IntRange, mlCols: IntRange): IntArray {
+internal fun SincMatrix.indexBuilder(mlRows: IntRange, mlCols: IntRange): IntArray {
 
     val vectIndices: ArrayList<Int> = ArrayList()
     vectIndices.ensureCapacity(mlRows.count() * mlCols.count())

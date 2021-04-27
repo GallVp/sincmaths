@@ -8,6 +8,17 @@ import kotlin.test.assertFailsWith
 
 class SincMatrixBasicTests {
 
+    private fun testMatrixInput() {
+        val A = matrixFrom("[1, 2, 3; 4, 5, 6]")
+        val B = matrixFrom("[1, 2, 3, 4]")
+        val C = matrixFrom("[5;6;7;8;9;10]")
+        val D = matrixFrom("1:10")
+        val E = matrixFrom("-1.5:-1:-7.9")
+        val resultOctave = 1.502765035409749
+        val result = (A.sum().min() + B.max() + C.median() + D.std() + E.mean()).scalar / 10.0
+        SincMathsTests.assert(abs(resultOctave - result) < SincMathsTests.testTol)
+    }
+
     private fun testMatrixIndexing() {
         // Supported Octave scripts: 1:5,4:7 and 1:5,4 and 1:5,: and 1,4:7 and :,4:7 and : and
         // 1:end,end:end-1 and 1:5 and 1:end-1 and end:end-1
@@ -96,9 +107,11 @@ class SincMatrixBasicTests {
         //  valueA = -677.0
         //  A(selectorA) = valueA
         //  sum(mean(A')) / 100.0
+        var X = A.copyOf()
+        X.setWithIndices(selectorA, valueA)
         SincMathsTests.assert(
             abs(
-                A.set2(selectorA, valueA).mean().sum().scalar / 100.0 - 2.923636363636364
+                X.mean().sum().scalar / 100.0 - 2.923636363636364
             ) < SincMathsTests.testTol
         )
         // Octave code
@@ -107,9 +120,11 @@ class SincMatrixBasicTests {
         //  valuesB = [-3, -30, -60.9, -90, -110.0001]
         //  A(selectorB) = valuesB
         //  mean(max(A'))
+        X = A.copyOf()
+        X.setWithIndices(selectorB, valuesB)
         SincMathsTests.assert(
             abs(
-                A.set2(indices = selectorB, values = valuesB).max().mean().scalar - 104.5
+                X.max().mean().scalar - 104.5
             ) < SincMathsTests.testTol
         )
         // Octave code
@@ -117,9 +132,11 @@ class SincMatrixBasicTests {
         //  selectorC = [3, 30, 60, 90, 110]
         //  A(selectorC) = []
         //  std(A) / 10.0
+        X = A.copyOf()
+        X.setWithIndices(selectorC, valuesC)
         SincMathsTests.assert(
             abs(
-                A.set2(indices = selectorC, values = valuesC).std().scalar / 10.0 - 3.151891402621514
+                X.std().scalar / 10.0 - 3.151891402621514
             ) < SincMathsTests.testTol
         )
         // Octave code
@@ -127,9 +144,11 @@ class SincMatrixBasicTests {
         //  selectorD = A < 55
         //  A(selectorD) = []
         //  std(A) / 10.0
+        X = A.copyOf()
+        X.setWithLV(selectorD, valuesD)
         SincMathsTests.assert(
             abs(
-                A.setWithLV(logicalVect = selectorD, values = valuesD).std().scalar / 10.0 - 1.630950643030009
+                X.std().scalar / 10.0 - 1.630950643030009
             ) < SincMathsTests.testTol
         )
         // Octave code
@@ -137,22 +156,30 @@ class SincMatrixBasicTests {
         //  selectorE = A > 23
         //  A(selectorE) = 22.101
         //  sum(mean(A')) / 100.0
+        X = A.copyOf()
+        X.setWithLV(selectorE, valuesE)
         SincMathsTests.assert(
             abs(
-                A.setWithLV(logicalVect = selectorE, value = valuesE).mean().sum().scalar / 100.0 - 1.998897272727273
+                X.mean().sum().scalar / 100.0 - 1.998897272727273
             ) < SincMathsTests.testTol
         )
     }
 
-    private fun testMatrixInput() {
-        val A = matrixFrom("[1, 2, 3; 4, 5, 6]")
-        val B = matrixFrom("[1, 2, 3, 4]")
-        val C = matrixFrom("[5;6;7;8;9;10]")
-        val D = matrixFrom("1:10")
-        val E = matrixFrom("-1.5:-1:-7.9")
-        val resultOctave = 1.502765035409749
-        val result = (A.sum().min() + B.max() + C.median() + D.std() + E.mean()).scalar / 10.0
-        SincMathsTests.assert(abs(resultOctave - result) < SincMathsTests.testTol)
+    private fun testMatrixRowColMutations() {
+        val A = matrixOf(11, 10, 1..110)
+        for (row in A.rowIndices) {
+            A.setRow(row, 1.0)
+        }
+        SincMathsTests.assert(
+            abs(A.elSum() - A.numel().toDouble()) < SincMathsTests.testTol
+        )
+
+        for (col in A.colIndices) {
+            A.setCol(col, 0.0)
+        }
+        SincMathsTests.assert(
+            abs(A.elSum() - 0.0) < SincMathsTests.testTol
+        )
     }
 
     private fun circShiftTest() {
@@ -175,6 +202,7 @@ class SincMatrixBasicTests {
         testMatrixIndexing()
         testMatrixIndexingEdges()
         testMatrixMutations()
+        testMatrixRowColMutations()
         circShiftTest()
     }
 }
