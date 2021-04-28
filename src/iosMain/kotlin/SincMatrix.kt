@@ -55,6 +55,15 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private var
     // ************************************************************************* SincMatrixArithmetic
 
     actual operator fun times(rhs: SincMatrix): SincMatrix {
+
+        if(this.isscalar()) {
+            return rhs * this.scalar
+        }
+
+        if(rhs.isscalar()) {
+            return this * rhs.scalar
+        }
+
         val lhsM = this.size().first()
         val lhsN = this.size().last()
         val rhsM = rhs.size().first()
@@ -71,6 +80,15 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private var
         multiplyVectorToScalar(this.matrixData, rhs).asSincMatrix(this.numRows(), this.numCols())
 
     actual operator fun plus(rhs: SincMatrix): SincMatrix {
+
+        if(this.isscalar()) {
+            return rhs + this.scalar
+        }
+
+        if(rhs.isscalar()) {
+            return this + rhs.scalar
+        }
+
         require(this.size() == rhs.size()) { "SMError: Dimension mismatch. In A + B, size(A) == size(B)" }
         return addVectors(this.asRowMajorArray(), rhs.asRowMajorArray()).asSincMatrix(this.numRows(), this.numCols())
     }
@@ -79,12 +97,34 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private var
         addScalarToVector(this.matrixData, rhs).asSincMatrix(this.numRows(), this.numCols())
 
     actual infix fun elMul(rhs: SincMatrix): SincMatrix {
+
+        if(this.isscalar()) {
+            return rhs * this.scalar
+        }
+
+        if(rhs.isscalar()) {
+            return this * rhs.scalar
+        }
+
         require(this.size() == rhs.size()) { "SMError: Dimension mismatch. In A elMul B, size(A) == size(B)" }
 
         return multiplyElementsOfVectors(this.matrixData, rhs.matrixData).asSincMatrix(this.numRows(), this.numCols())
     }
 
     actual infix fun elDiv(rhs: SincMatrix): SincMatrix {
+
+        if(this.isscalar() && rhs.isscalar()) {
+            return this / rhs.scalar
+        }
+
+        if (this.isscalar()) {
+            return (ones(rhs.numRows(), rhs.numCols()) * this.scalar).elDiv(rhs)
+        }
+
+        if (rhs.isscalar()) {
+            return this * (1 / rhs.scalar)
+        }
+
         require(this.size() == rhs.size()) { "SMError: Dimension mismatch. In A elDiv B, size(A) == size(B)" }
 
         return divideElementsOfVectors(this.matrixData, rhs.matrixData).asSincMatrix(this.numRows(), this.numCols())

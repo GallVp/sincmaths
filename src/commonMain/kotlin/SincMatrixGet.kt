@@ -107,6 +107,11 @@ operator fun SincMatrix.get(index: Int): Double = this.asRowMajorArray()[index -
 
 /**
  * Indexing starts at 1, like Octave/MATLAB.
+ */
+operator fun SincMatrix.get(mlRow: Int, mlCol:Int): Double = this[getIndex(mlRow, mlCol)]
+
+/**
+ * Indexing starts at 1, like Octave/MATLAB.
  * @return A column vector.
  */
 operator fun SincMatrix.get(indices: IntRange): SincMatrix {
@@ -225,14 +230,19 @@ internal fun SincMatrix.Companion.createIndexRange(mlScript: String): IntArray {
 }
 
 val SincMatrix.first: Double
-    get() {
-        return this[1]
-    }
+    get() = this[1]
 
 /**
  * Returns a value if the matrix is scalar otherwise throws an error.
  */
 val SincMatrix.scalar: Double
-    get() {
-        return this.asScalar()
-    }
+    get() = this.asScalar()
+
+/**
+ * Returns a value if the matrix is scalar otherwise throws an error.
+ */
+val SincMatrix.boolean: Boolean
+    get() = this.asBoolean()
+
+val SincMatrix.absoluteValue: SincMatrix
+    get() = this.abs()

@@ -3,7 +3,7 @@ package sincmaths.test
 import sincmaths.SincMatrix
 import sincmaths.asSincMatrix
 import sincmaths.sincmatrix.*
-import kotlin.math.abs
+import kotlin.math.absoluteValue
 import kotlin.test.assertFailsWith
 
 class SincMatrixBasicTests {
@@ -15,8 +15,8 @@ class SincMatrixBasicTests {
         val D = matrixFrom("1:10")
         val E = matrixFrom("-1.5:-1:-7.9")
         val resultOctave = 1.502765035409749
-        val result = (A.sum().min() + B.max() + C.median() + D.std() + E.mean()).scalar / 10.0
-        SincMathsTests.assert(abs(resultOctave - result) < SincMathsTests.testTol)
+        val result = (A.sum().min() + B.max() + C.median() + D.std() + E.mean()) / 10.0
+        SincMathsTests.assert((resultOctave - result).absoluteValue lt SincMathsTests.testTol)
     }
 
     private fun testMatrixIndexing() {
@@ -44,20 +44,20 @@ class SincMatrixBasicTests {
         // SincMatrix is row-major
         val M: SincMatrix = (1..110).asSincMatrix(11, 10)
 
-        val A = M["1:5,4:7"].sum().sum().scalar
-        val B = M["1:5,4"].sum().scalar
-        val C = M["1:5,:"].sum().sum().scalar
-        val D = M["1,4:7"].sum().scalar
-        val E = M[":,4:7"].sum().sum().scalar
-        val F = M[":"].sum().scalar
-        val G = M["1:end,end:-1:end-1"].sum().sum().scalar
-        val H = M["1:5"].sum().scalar
-        val I = M["1:end-1"].sum().scalar
-        val J = M["end:-1:end-1"].sum().scalar
+        val A = M["1:5,4:7"].sum().sum()
+        val B = M["1:5,4"].sum()
+        val C = M["1:5,:"].sum().sum()
+        val D = M["1,4:7"].sum()
+        val E = M[":,4:7"].sum().sum()
+        val F = M[":"].sum()
+        val G = M["1:end,end:-1:end-1"].sum().sum()
+        val H = M["1:5"].sum()
+        val I = M["1:end-1"].sum()
+        val J = M["end:-1:end-1"].sum()
         // val K = M["1:end,end:end-1"].sum().sum().scalar; Skipped due to native times operation
-        val L = M["end:end-1"].sum().scalar
+        val L = M["end:end-1"].sum()
         val result = A + B + C + D + E + F + G + H + I + J + L
-        SincMathsTests.assert(abs(resultOctave - result) < SincMathsTests.testTol)
+        SincMathsTests.assert((resultOctave - result).absoluteValue lt SincMathsTests.testTol)
     }
 
     private fun testMatrixIndexingEdges() {
@@ -110,9 +110,7 @@ class SincMatrixBasicTests {
         var X = A.copyOf()
         X.setWithIndices(selectorA, valueA)
         SincMathsTests.assert(
-            abs(
-                X.mean().sum().scalar / 100.0 - 2.923636363636364
-            ) < SincMathsTests.testTol
+            (X.mean().sum() / 100.0 - 2.923636363636364).absoluteValue lt SincMathsTests.testTol
         )
         // Octave code
         //  A = reshape(1:110, 10, 11);
@@ -123,9 +121,7 @@ class SincMatrixBasicTests {
         X = A.copyOf()
         X.setWithIndices(selectorB, valuesB)
         SincMathsTests.assert(
-            abs(
-                X.max().mean().scalar - 104.5
-            ) < SincMathsTests.testTol
+            (X.max().mean() - 104.5).absoluteValue lt SincMathsTests.testTol
         )
         // Octave code
         //  A = reshape(1:110, 10, 11);
@@ -135,9 +131,7 @@ class SincMatrixBasicTests {
         X = A.copyOf()
         X.setWithIndices(selectorC, valuesC)
         SincMathsTests.assert(
-            abs(
-                X.std().scalar / 10.0 - 3.151891402621514
-            ) < SincMathsTests.testTol
+            (X.std() / 10.0 - 3.151891402621514).absoluteValue lt SincMathsTests.testTol
         )
         // Octave code
         //  A = reshape(1:110, 10, 11);
@@ -147,9 +141,7 @@ class SincMatrixBasicTests {
         X = A.copyOf()
         X.setWithLV(selectorD, valuesD)
         SincMathsTests.assert(
-            abs(
-                X.std().scalar / 10.0 - 1.630950643030009
-            ) < SincMathsTests.testTol
+            (X.std() / 10.0 - 1.630950643030009).abs() lt SincMathsTests.testTol
         )
         // Octave code
         //  A = reshape(1:110, 10, 11);
@@ -159,9 +151,7 @@ class SincMatrixBasicTests {
         X = A.copyOf()
         X.setWithLV(selectorE, valuesE)
         SincMathsTests.assert(
-            abs(
-                X.mean().sum().scalar / 100.0 - 1.998897272727273
-            ) < SincMathsTests.testTol
+            (X.mean().sum() / 100.0 - 1.998897272727273).absoluteValue lt SincMathsTests.testTol
         )
     }
 
@@ -171,30 +161,60 @@ class SincMatrixBasicTests {
             A.setRow(row, 1.0)
         }
         SincMathsTests.assert(
-            abs(A.elSum() - A.numel().toDouble()) < SincMathsTests.testTol
+            (A.elSum() - A.numel().toDouble()).absoluteValue < SincMathsTests.testTol
         )
 
         for (col in A.colIndices) {
             A.setCol(col, 0.0)
         }
         SincMathsTests.assert(
-            abs(A.elSum() - 0.0) < SincMathsTests.testTol
+            (A.elSum() - 0.0).absoluteValue < SincMathsTests.testTol
         )
     }
 
     private fun circShiftTest() {
         val A = matrixFrom("1:10")
 
-        SincMathsTests.assert(A.sum().scalar == A.circshift(3).sum().scalar)
-        SincMathsTests.assert(A.sum().scalar == A.circshift(-3).sum().scalar)
-        SincMathsTests.assert(A.sum().scalar == A.circshift(-10).sum().scalar)
-        SincMathsTests.assert(A.circshift(-11).sum().scalar == A.circshift(-1).sum().scalar)
-        SincMathsTests.assert(A.circshift(73).sum().scalar == A.circshift(-73).sum().scalar)
+        SincMathsTests.assert(A.sum() et A.circshift(3).sum())
+        SincMathsTests.assert(A.sum() et A.circshift(-3).sum())
+        SincMathsTests.assert(A.sum() et A.circshift(-10).sum())
+        SincMathsTests.assert(A.circshift(-11).sum() et A.circshift(-1).sum())
+        SincMathsTests.assert(A.circshift(73).sum() et A.circshift(-73).sum())
 
         SincMathsTests.assert(A.circshift(2).net(A.circshift(-2)).all())
         SincMathsTests.assert(A.circshift(10).et(A.circshift(-10)).all())
         SincMathsTests.assert(A.circshift(2).et(matrixFrom("[9,10,1,2,3,4,5,6,7,8]")).all())
         SincMathsTests.assert(A.circshift(-12).et(matrixFrom("[3,4,5,6,7,8,9,10,1,2]")).all())
+    }
+
+    private fun catTest() {
+        // Octave code: Octave is column major/SincMatrix is row major
+        // format long
+        // A = reshape(1:20, 10, 2)'
+        // B = reshape(25:48, 12, 2)'
+        // C = reshape(0:83, 12, 7)'
+        // sum(sum(cat(2, A, B))) / 1000 = 1.086000000000000
+        // sum(sum(cat(1, B, C))) / 1000 = 4.362000000000000
+        //
+        // size(cat(2, A, B)) = [2, 22]
+        // size(cat(1, B, C)) = [9, 12]
+        //
+        // cat(1, B, C)(9, 9) = 80
+        val A = matrixOf(2, 10, 1..20)
+        val B = matrixOf(2, 12, 25..48)
+        val C = matrixOf(7, 12, 0 until 84)
+
+        SincMathsTests.assert(
+            (A.cat(B, 2).sum().sum() / 1000.0 - 1.086000000000000).absoluteValue lt SincMathsTests.testTol
+        )
+        SincMathsTests.assert(
+            (B.cat(C, 1).sum().sum() / 1000.0 - 4.362000000000000).absoluteValue lt SincMathsTests.testTol
+        )
+
+        SincMathsTests.assert(A.cat(B, 2).size() == listOf(2, 22))
+        SincMathsTests.assert(B.cat(C, 1).size() == listOf(9, 12))
+
+        SincMathsTests.assert((B.cat(C, 1)[9, 9] - 80.0).absoluteValue < SincMathsTests.testTol)
     }
 
     fun performAll() {
@@ -204,5 +224,6 @@ class SincMatrixBasicTests {
         testMatrixMutations()
         testMatrixRowColMutations()
         circShiftTest()
+        catTest()
     }
 }

@@ -1,5 +1,7 @@
 package sincmaths.test
 
+import sincmaths.SincMatrix
+import sincmaths.sincmatrix.boolean
 import kotlin.test.Test
 
 class SincMathsTests {
@@ -16,6 +18,12 @@ class SincMathsTests {
     companion object {
         fun assert(condition: Boolean) {
             if (!condition) {
+                throw Exception()
+            }
+        }
+
+        fun assert(condition: SincMatrix) {
+            if (!condition.boolean) {
                 throw Exception()
             }
         }

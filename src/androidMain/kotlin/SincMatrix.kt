@@ -7,10 +7,10 @@ import kotlin.math.floor
 
 actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private var m: Int, private var n: Int) {
 
-    private var matrixData:DoubleArray
+    private var matrixData: DoubleArray
 
     init {
-        require(rowMajArray.size == m*n) { "SMError: length(rowMajArray) should be equal to m*n" }
+        require(rowMajArray.size == m * n) { "SMError: length(rowMajArray) should be equal to m*n" }
         matrixData = rowMajArray
     }
 
@@ -49,7 +49,7 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private var
 
     actual fun removeAt(indices: IntArray) {
         val includedIndices = (0 until this.matrixData.size).toMutableList()
-        includedIndices.removeAll(indices.map { it-1 })
+        includedIndices.removeAll(indices.map { it - 1 })
         this.matrixData = this.matrixData.sliceArray(includedIndices)
         m = 1
         n = this.matrixData.size
@@ -59,6 +59,14 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private var
 
     actual operator fun times(rhs: SincMatrix): SincMatrix {
 
+        if (this.isscalar()) {
+            return rhs * this.scalar
+        }
+
+        if (rhs.isscalar()) {
+            return this * rhs.scalar
+        }
+
         val lhsN = this.size().last()
         val rhsM = rhs.size().first()
         require(lhsN == rhsM) { "SMError: Dimension mismatch. In A*B, ncols(A) == nrows(B)" }
@@ -67,15 +75,50 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private var
     }
 
     actual operator fun times(rhs: Double): SincMatrix = this.asSimpleMatrix().scale(rhs).asSincMatrix()
-    actual operator fun plus(rhs: SincMatrix): SincMatrix =
-        this.asSimpleMatrix().plus(rhs.asSimpleMatrix()).asSincMatrix()
+    actual operator fun plus(rhs: SincMatrix): SincMatrix {
+
+        if (this.isscalar()) {
+            return rhs + this.scalar
+        }
+
+        if (rhs.isscalar()) {
+            return this + rhs.scalar
+        }
+
+        return this.asSimpleMatrix().plus(rhs.asSimpleMatrix()).asSincMatrix()
+    }
+
 
     actual operator fun plus(rhs: Double): SincMatrix = this.asSimpleMatrix().plus(rhs).asSincMatrix()
-    actual infix fun elMul(rhs: SincMatrix): SincMatrix =
-        this.asSimpleMatrix().elementMult(rhs.asSimpleMatrix()).asSincMatrix()
+    actual infix fun elMul(rhs: SincMatrix): SincMatrix {
 
-    actual infix fun elDiv(rhs: SincMatrix): SincMatrix =
-        this.asSimpleMatrix().elementDiv(rhs.asSimpleMatrix()).asSincMatrix()
+        if (this.isscalar()) {
+            return rhs * this.scalar
+        }
+
+        if (rhs.isscalar()) {
+            return this * rhs.scalar
+        }
+
+        return this.asSimpleMatrix().elementMult(rhs.asSimpleMatrix()).asSincMatrix()
+    }
+
+    actual infix fun elDiv(rhs: SincMatrix): SincMatrix {
+
+        if(this.isscalar() && rhs.isscalar()) {
+            return this / rhs.scalar
+        }
+
+        if (this.isscalar()) {
+            return (ones(rhs.numRows(), rhs.numCols()) * this.scalar).elDiv(rhs)
+        }
+
+        if (rhs.isscalar()) {
+            return this * (1 / rhs.scalar)
+        }
+
+        return this.asSimpleMatrix().elementDiv(rhs.asSimpleMatrix()).asSincMatrix()
+    }
 
     actual fun elSum(): Double = this.asSimpleMatrix().elementSum()
     actual infix fun elPow(power: Double): SincMatrix = this.asSimpleMatrix().elementPower(power).asSincMatrix()

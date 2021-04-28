@@ -119,3 +119,13 @@ fun SincMatrix.circshift(n:Int):SincMatrix {
         rotatedData.asSincMatrix(this.numRows(), this.numCols())
     }
 }
+
+fun SincMatrix.cat(B:SincMatrix, dim:Int = 1):SincMatrix {
+    return if(dim == 1) {
+        require(this.numCols() == B.numCols()) {"SMError: For dim = 1, numCols(A) = numCols(B) is violated."}
+        (this.asRowMajorArray() + B.asRowMajorArray()).asSincMatrix(this.numRows() + B.numRows(), this.numCols())
+    } else {
+        require(this.numRows() == B.numRows()) {"SMError: For dim = 2, numRows(A) = numRows(B) is violated."}
+        (this.t.asRowMajorArray() + B.t.asRowMajorArray()).asSincMatrix(this.numCols() + B.numCols(), this.numRows()).t
+    }
+}

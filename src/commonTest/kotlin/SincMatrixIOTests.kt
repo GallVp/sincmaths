@@ -4,7 +4,6 @@ import sincmaths.SincMatrix
 import sincmaths.coefficients.SGCoeffs
 import sincmaths.sincmatrix.*
 import sincmaths.test.SincMathsTests.Companion.convTestTol
-import kotlin.math.abs
 
 class SincMatrixIOTests {
 
@@ -27,9 +26,8 @@ class SincMatrixIOTests {
             .cumsum()
             .asRowVector()
             .flip()
-            .rms()
-            .scalar / 10000.0
-        SincMathsTests.assert(abs(resultMATLAB - result) < convTestTol)
+            .rms() / 10000.0
+        SincMathsTests.assert((resultMATLAB - result).absoluteValue lt convTestTol)
     }
 
     fun performAll() {

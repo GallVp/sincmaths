@@ -16,6 +16,12 @@ fun SincMatrix.asScalar(): Double {
     return this[1]
 }
 
+fun SincMatrix.asBoolean(): Boolean {
+    require(this.isscalar()) { "SMError: Matrix is not a scalar and conversion is invalid" }
+
+    return this[1] != 0.0
+}
+
 /**
  * Create a row vector by indexing elements row by row
  */
