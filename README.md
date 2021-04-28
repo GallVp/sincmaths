@@ -26,3 +26,4 @@ This library provides a 2D matrix which stores data in row-major format as oppos
 + Arithmetic and bool functions with scalar matrices now don't throw exceptions.
 + Added arithmetic and bool functions on Double for matrices as rhs.
 + Cleaned up tests to use newer patterns.
++ Added `map`, `mapColumns` and `mapRows`. As a result a number of functions now also run on matrices.

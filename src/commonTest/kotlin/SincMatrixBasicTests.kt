@@ -205,16 +205,16 @@ class SincMatrixBasicTests {
         val C = matrixOf(7, 12, 0 until 84)
 
         SincMathsTests.assert(
-            (A.cat(B, 2).sum().sum() / 1000.0 - 1.086000000000000).absoluteValue lt SincMathsTests.testTol
+            (A.cat(2, B).sum().sum() / 1000.0 - 1.086000000000000).absoluteValue lt SincMathsTests.testTol
         )
         SincMathsTests.assert(
-            (B.cat(C, 1).sum().sum() / 1000.0 - 4.362000000000000).absoluteValue lt SincMathsTests.testTol
+            (B.cat(1, C).sum().sum() / 1000.0 - 4.362000000000000).absoluteValue lt SincMathsTests.testTol
         )
 
-        SincMathsTests.assert(A.cat(B, 2).size() == listOf(2, 22))
-        SincMathsTests.assert(B.cat(C, 1).size() == listOf(9, 12))
+        SincMathsTests.assert(A.cat(2, B).size() == listOf(2, 22))
+        SincMathsTests.assert(B.cat(1, C).size() == listOf(9, 12))
 
-        SincMathsTests.assert((B.cat(C, 1)[9, 9] - 80.0).absoluteValue < SincMathsTests.testTol)
+        SincMathsTests.assert((B.cat(1, C)[9, 9] - 80.0).absoluteValue < SincMathsTests.testTol)
     }
 
     fun performAll() {

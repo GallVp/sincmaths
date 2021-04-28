@@ -21,7 +21,7 @@ val SincMatrix.description: String
 fun SincMatrix.disp() = this.description
 
 fun SincMatrix.length(): Int {
-    return if(numel() == 0) {
+    return if (numel() == 0) {
         0
     } else {
         this.size().maxOrNull() ?: 0
@@ -84,7 +84,7 @@ val SincMatrix.indicesRange: IntRange
 
 fun SincMatrix.copyOf(): SincMatrix = this.asRowMajorArray().copyOf().asSincMatrix(this.numRows(), this.numCols())
 
-fun SincMatrix.circshift(n:Int):SincMatrix {
+fun SincMatrix.circshift(n: Int): SincMatrix {
 
     require(this.isvector()) {
         "SMError: This function works only for vectors"
@@ -92,15 +92,15 @@ fun SincMatrix.circshift(n:Int):SincMatrix {
 
     return if (n == 0) {
         this
-    } else if(n>0) {
+    } else if (n > 0) {
 
         val normalisedN = n % this.length()
 
         val matrixData = this.asRowMajorArray()
-        val mainSegmentIndices = 0 until this.length()-normalisedN
+        val mainSegmentIndices = 0 until this.length() - normalisedN
         val mainSegment = matrixData.slice(mainSegmentIndices)
 
-        val rotatedSegmentIndices = this.length()-normalisedN until this.length()
+        val rotatedSegmentIndices = this.length() - normalisedN until this.length()
         val rotatedSegment = matrixData.slice(rotatedSegmentIndices)
 
         val rotatedData = rotatedSegment + mainSegment
@@ -120,12 +120,22 @@ fun SincMatrix.circshift(n:Int):SincMatrix {
     }
 }
 
-fun SincMatrix.cat(B:SincMatrix, dim:Int = 1):SincMatrix {
-    return if(dim == 1) {
-        require(this.numCols() == B.numCols()) {"SMError: For dim = 1, numCols(A) = numCols(B) is violated."}
-        (this.asRowMajorArray() + B.asRowMajorArray()).asSincMatrix(this.numRows() + B.numRows(), this.numCols())
+fun SincMatrix.cat(dim: Int = 1, vararg matrices: SincMatrix): SincMatrix {
+    return if (dim == 1) {
+        matrices.map {
+            require(this.numCols() == it.numCols()) { "SMError: For dim = 1, numCols(A) = numCols(B) is violated." }
+        }
+
+        (this.asRowMajorArray() + matrices.flatMap {
+            it.asRowMajorArray().toList()
+        }).asSincMatrix(this.numRows() + matrices.sumOf { it.numRows() }, this.numCols())
     } else {
-        require(this.numRows() == B.numRows()) {"SMError: For dim = 2, numRows(A) = numRows(B) is violated."}
-        (this.t.asRowMajorArray() + B.t.asRowMajorArray()).asSincMatrix(this.numCols() + B.numCols(), this.numRows()).t
+        matrices.map {
+            require(this.numRows() == it.numRows()) { "SMError: For dim = 2, numRows(A) = numRows(B) is violated." }
+        }
+
+        (this.t.asRowMajorArray() + matrices.flatMap {
+            it.t.asRowMajorArray().toList()
+        }).asSincMatrix(this.numCols() + matrices.sumOf { it.numCols() }, this.numRows()).t
     }
 }

@@ -164,28 +164,6 @@ internal fun SincMatrix.getIndex(mlRow: Int, mlCol: Int): Int {
     return mlCol + numElementsBehind
 }
 
-internal fun SincMatrix.getMatrixCols(): List<SincMatrix> {
-    val columns: ArrayList<SincMatrix> = ArrayList()
-    for (i in 1..this.numCols()) {
-        val matCol = this.getCol(mlCol = i)
-        columns.add(matCol)
-    }
-    return columns
-}
-
-internal fun SincMatrix.Companion.createMatFromColumns(columns: List<SincMatrix>): SincMatrix {
-    val matData: ArrayList<Double> = ArrayList()
-    matData.ensureCapacity(columns.size * columns[0].numel())
-    for (element in columns) {
-        matData.addAll(element.asRowMajorArray().toCollection(ArrayList()))
-    }
-    return SincMatrix(
-        rowMajArray = matData.toDoubleArray(),
-        m = columns.size,
-        n = columns[0].numel()
-    ).transpose()
-}
-
 internal fun SincMatrix.Companion.createIndexRange(mlScript: String): IntArray {
     val literals = mlScript.split(":")
     if (literals.size == 1) {

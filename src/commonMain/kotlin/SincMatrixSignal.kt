@@ -5,6 +5,11 @@ import sincmaths.MovWinShape
 import sincmaths.SincMatrix
 import sincmaths.asSincMatrix
 import sincmaths.sincmatrix.workers.*
+import sincmaths.sincmatrix.workers.convWorker
+import sincmaths.sincmatrix.workers.diffCWTFTWorker
+import sincmaths.sincmatrix.workers.filterWorker
+import sincmaths.sincmatrix.workers.filtfiltWorker
+import sincmaths.sincmatrix.workers.sgolayWorker
 import kotlin.math.roundToInt
 
 fun SincMatrix.conv(B: SincMatrix, shape: ConvolutionShape = ConvolutionShape.full): SincMatrix {
@@ -125,17 +130,24 @@ fun SincMatrix.movmean(wlen: Int, endpoints: MovWinShape = MovWinShape.shrink): 
 /**
  * Only second order filters are supported. Thus, length(B) == length(A) == 3 is assumed.
  */
-fun SincMatrix.filter(B: DoubleArray, A: DoubleArray): SincMatrix {
-    require(this.isvector()) { "SMError: This function works only for vectors" }
+fun SincMatrix.filter(B: DoubleArray, A: DoubleArray): SincMatrix = if(this.isvector()) {
     require((B.size == 3) && (A.size == 3)) {
         "SMError: Only 2nd order coefficients are allowed. Thus, length(B) == length(A) == 3"
     }
 
-    return SincMatrix(
+    SincMatrix(
         rowMajArray = filterWorker(B, A, this.asRowMajorArray(), doubleArrayOf(0.0, 0.0)),
         m = this.numRows(),
         n = this.numCols()
     )
+} else {
+    this.mapColumns {
+        SincMatrix(
+            rowMajArray = filterWorker(B, A, it.asRowMajorArray(), doubleArrayOf(0.0, 0.0)),
+            m = it.numRows(),
+            n = it.numCols()
+        )
+    }
 }
 
 /**
@@ -149,9 +161,9 @@ fun SincMatrix.filtfilt(B: DoubleArray, A: DoubleArray): SincMatrix {
     return if (this.isvector()) {
         SincMatrix(filtfiltWorker(B, A, this.asRowMajorArray()), numRows(), numCols())
     } else {
-        SincMatrix.createMatFromColumns(this.getMatrixCols().map {
-            SincMatrix(filtfiltWorker(B, A, it.asRowMajorArray()), numRows(), 1)
-        })
+        this.mapColumns {
+            filtfiltWorker(B, A, it.asRowMajorArray()).asSincMatrix(false)
+        }
     }
 }
 
@@ -159,14 +171,20 @@ fun SincMatrix.filtfilt(B: DoubleArray, A: DoubleArray): SincMatrix {
  * This function is like Octave's sgolayfilt, except that instead of order and filter length
  * Savitzky-Golay a pre-computed projection matrix ([B]) is supplied.
  */
-fun SincMatrix.sgolayfilter(B: SincMatrix): SincMatrix {
+fun SincMatrix.sgolayfilter(B: SincMatrix, dim: Int = 1): SincMatrix {
 
     return if (this.isvector()) {
         sgolayWorker(this, B)
     } else {
-        SincMatrix.createMatFromColumns(this.getMatrixCols().map {
-            sgolayWorker(it, B)
-        })
+        if (dim == 1) {
+            this.mapColumns {
+                sgolayWorker(it, B)
+            }
+        } else {
+            this.mapRows {
+                sgolayWorker(it, B)
+            }
+        }
     }
 }
 
@@ -204,21 +222,37 @@ fun SincMatrix.findpeaks(): SincMatrix {
     }
 }
 
-fun SincMatrix.cumsum(): SincMatrix {
-    require(this.isvector()) { "SMError: This function works only for vectors" }
-
+fun SincMatrix.cumsum(dim: Int = 1): SincMatrix = if (this.isvector()) {
     val inputVector = this.asRowMajorArray()
     val resultVector = inputVector.copyOf()
     for (i in 1 until resultVector.size) {
         resultVector[i] = resultVector[i] + resultVector[i - 1]
     }
-    return SincMatrix(rowMajArray = resultVector, m = this.numRows(), n = this.numCols())
+    SincMatrix(resultVector, this.numRows(), this.numCols())
+} else {
+    if (dim == 1) {
+        this.mapColumns {
+            it.cumsum()
+        }
+    } else {
+        this.mapRows {
+            it.cumsum()
+        }
+    }
 }
 
-fun SincMatrix.flip(): SincMatrix {
-    require(this.isvector()) { "SMError: This function works only for vectors" }
-
-    return SincMatrix(this.asRowMajorArray().reversedArray(), this.numRows(), this.numCols())
+fun SincMatrix.flip(dim: Int = 1): SincMatrix = if (this.isvector()) {
+    SincMatrix(this.asRowMajorArray().reversedArray(), this.numRows(), this.numCols())
+} else {
+    if (dim == 1) {
+        this.mapColumns {
+            it.flip()
+        }
+    } else {
+        this.mapRows {
+            it.flip()
+        }
+    }
 }
 
 /**
@@ -226,13 +260,21 @@ fun SincMatrix.flip(): SincMatrix {
  * @param scale Wavelet scale parameter
  * @param dt Sampling time
  */
-fun SincMatrix.diffWithWavelet(scale: Double, dt: Double): SincMatrix {
-    require(this.isvector()) { "SMError: This function works only for vectors" }
-
+fun SincMatrix.diffWithWavelet(scale: Double, dt: Double, dim: Int = 1): SincMatrix = if (this.isvector()) {
     val signal = this.asRowMajorArray()
-    return SincMatrix(
+    SincMatrix(
         rowMajArray = diffCWTFTWorker(signal, signal.size, scale, dt),
         m = this.numRows(),
         n = this.numCols()
     )
+} else {
+    if (dim == 1) {
+        this.mapColumns {
+            it.diffWithWavelet(scale, dt)
+        }
+    } else {
+        this.mapRows {
+            it.diffWithWavelet(scale, dt)
+        }
+    }
 }
