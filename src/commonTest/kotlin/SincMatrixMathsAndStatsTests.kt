@@ -155,7 +155,7 @@ class SincMatrixMathsAndStats {
         SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
-    private fun testMatrixMedian() {
+    private fun testVectorMedian() {
         val exampleA = doubleArrayOf(1.0, 3.0, 3.0, 6.0, 7.0, 8.0, 9.0).asSincMatrix()
         SincMathsTests.assert((exampleA.median() - 6.0).absoluteValue lt testTol)
         val exampleB = doubleArrayOf(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 8.0, 9.0).asSincMatrix()
@@ -185,6 +185,22 @@ class SincMatrixMathsAndStats {
         ).asSincMatrix()
         val computed = A.median() - B.median()
         SincMathsTests.assert((computed - resultOctave).absoluteValue lt testTol)
+    }
+
+    private fun testMatrixMedian() {
+        // Octave code
+        //  format long
+        //  A = reshape(1:120, 12, 10)'
+        //  median(median(A, 2)) / 10 = 6.050000000000000
+        //  sum(median(A, 1)) * sum(median(A, 2)) / 100000 = 4.392300000000000
+
+        val A = matrixOf(10, 12, 1..120)
+
+        SincMathsTests.assert((A.median(2).median() / 10.0 - 6.050000000000000).absoluteValue lt testTol)
+        SincMathsTests.assert((A.median(1).sum() * A.median(2).sum() / 100000.0 - 4.392300000000000).absoluteValue lt testTol)
+
+        SincMathsTests.assert(A.median(1).size() == listOf(1, 12))
+        SincMathsTests.assert(A.median(2).size() == listOf(10, 1))
     }
 
     private fun testMatrixRMS() {
@@ -409,6 +425,7 @@ class SincMatrixMathsAndStats {
         testMatrixMean()
         testMatrixMeanII()
         testMatrixMeanIII()
+        testVectorMedian()
         testMatrixMedian()
         testMatrixRMS()
         testMatrixMax()
