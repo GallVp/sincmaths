@@ -1,5 +1,9 @@
 package sincmaths
 
+import sincmaths.sincmatrix.isvector
+import sincmaths.sincmatrix.size
+import sincmaths.sincmatrix.t
+
 fun Double.asSincMatrix(): SincMatrix {
     return SincMatrix(doubleArrayOf(this), 1, 1)
 }
@@ -49,7 +53,33 @@ fun List<Int>.asSincMatrix(m: Int, n: Int, intType: Any? = null): SincMatrix {
 }
 
 fun DoubleArray.asSincMatrix(size: List<Int>): SincMatrix {
-    require(size.count() == 2) { "SMError: Size should have two elements" }
+    require(size.count() == 2) { "SMError: Size should have two elements." }
 
     return this.asSincMatrix(size[0], size[1])
+}
+
+fun List<SincMatrix>.joinVectors(areRow:Boolean = true):SincMatrix  {
+
+    if(this.isEmpty()) {
+        return SincMatrix(doubleArrayOf(), 0, 0)
+    }
+
+    val sz = this.first().size()
+
+    this.map {
+        require(it.isvector()) {"SMError: Only vectors can be joined." }
+        require(it.size() == sz) {"SMError: Size across vectors must be invariant." }
+    }
+
+    val vecLen = this.first().numel()
+
+    return if(areRow) {
+        this.flatMap {
+            it.asRowMajorArray().toList()
+        }.asSincMatrix(this.size, vecLen)
+    } else {
+        this.flatMap {
+            it.asRowMajorArray().toList()
+        }.asSincMatrix(this.size, vecLen).t
+    }
 }

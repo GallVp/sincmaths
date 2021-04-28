@@ -27,20 +27,26 @@ fun SincMatrix.mean(dim: Int = 1): SincMatrix {
     }
 }
 
-fun SincMatrix.std(): SincMatrix {
-    require(this.isvector()) { "SMError: This function works only for vectors" }
-
-    return (((this - this.mean().asScalar()).elPow(2.0)) / (this.numel() - 1).toDouble()).sum().sqrt()
+fun SincMatrix.std(dim: Int = 1) : SincMatrix = if(this.isvector()) {
+    (((this - this.mean().asScalar()).elPow(2.0)) / (this.numel() - 1).toDouble()).sum().sqrt()
+} else {
+    if (dim == 1) {
+        this.mapColumnsToDouble {
+                it.std().scalar
+        }
+    } else {
+        this.mapRowsToDouble {
+            it.std().scalar
+        }
+    }
 }
 
 
-fun SincMatrix.median(): SincMatrix {
-
-    require(this.isvector()) { "SMError: This function works only for vectors" }
+fun SincMatrix.median(dim: Int = 1): SincMatrix = if(this.isvector()) {
     require(this.numel() > 0) { "SMError: Number of elements should be greater than zero" }
 
     val sortedVector = this.asRowMajorArray().sortedArray()
-    return if (sortedVector.size % 2 < 1) {
+    if (sortedVector.size % 2 < 1) {
         //even
         doubleArrayOf((sortedVector[sortedVector.size / 2 - 1] + sortedVector[sortedVector.size / 2]) / 2.0).asSincMatrix(
             m = 1,
@@ -49,6 +55,16 @@ fun SincMatrix.median(): SincMatrix {
     } else {
         //odd
         doubleArrayOf(sortedVector[(sortedVector.size - 1) / 2]).asSincMatrix(m = 1, n = 1)
+    }
+} else {
+    if (dim == 1) {
+        this.mapColumnsToDouble {
+            it.median().scalar
+        }
+    } else {
+        this.mapRowsToDouble {
+            it.median().scalar
+        }
     }
 }
 

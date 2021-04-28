@@ -32,3 +32,43 @@ fun SincMatrix.mapRows(transform: (rowVector: SincMatrix) -> SincMatrix) = this.
     }
     tVal.asRowMajorArray().toList()
 }.flatten().asSincMatrix(this.numRows(), this.numCols())
+
+fun SincMatrix.mapColumnsToDouble(transform: (colVector: SincMatrix) -> Double) : SincMatrix = this.columns.map {
+    transform(it)
+}.asSincMatrix()
+
+fun SincMatrix.mapRowsToDouble(transform: (rowVector: SincMatrix) -> Double) = this.rows.map {
+    transform(it)
+}.asSincMatrix(false)
+
+fun SincMatrix.mapColumns(resultLen:Int, transform: (colVector: SincMatrix) -> SincMatrix) = this.columns.map {
+    val tVal = transform(it)
+    require((resultLen == tVal.numRows()) && tVal.iscolumn()) {
+        "SMError: Transform should result in a column vector of length equal to $resultLen."
+    }
+    tVal.asRowMajorArray().toList()
+}.flatten().asSincMatrix(this.numCols(), resultLen).t
+
+fun SincMatrix.mapRows(resultLen:Int, transform: (rowVector: SincMatrix) -> SincMatrix) = this.rows.map {
+    val tVal = transform(it)
+    require((resultLen == tVal.numCols()) && tVal.isrow()) {
+        "SMError: Transform should result in a row vector of length equal to $resultLen."
+    }
+    tVal.asRowMajorArray().toList()
+}.flatten().asSincMatrix(this.numRows(), resultLen)
+
+fun SincMatrix.mapColumnsToList(transform: (colVector: SincMatrix) -> SincMatrix) : List<SincMatrix> = this.columns.map {
+    val tVal = transform(it)
+    require(tVal.iscolumn()) {
+        "SMError: SMError: Transform should result in a column vector."
+    }
+    tVal
+}
+
+fun SincMatrix.mapRowsToList(transform: (rowVector: SincMatrix) -> SincMatrix) : List<SincMatrix> = this.rows.map {
+    val tVal = transform(it)
+    require(tVal.isrow()) {
+        "SMError: SMError: Transform should result in a row vector."
+    }
+    tVal
+}
