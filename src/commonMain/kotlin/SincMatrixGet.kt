@@ -128,6 +128,11 @@ fun SincMatrix.getRows(mlRows: IntArray): SincMatrix = this.get(mlRows = mlRows,
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
+fun SincMatrix.getRows(mlRows: IntRange): SincMatrix = this.get(mlRows = mlRows, mlCols = this.colIndicesRange)
+
+/**
+ * Indexing starts at 1, like Octave/MATLAB.
+ */
 fun SincMatrix.getRow(mlRow: Int): SincMatrix =
     this.getRows(mlRows = intArrayOf(mlRow))
 

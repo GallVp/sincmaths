@@ -32,3 +32,4 @@ This library provides a 2D matrix which stores data in row-major format as oppos
 + Added `reshape` function and `testMatrixDiff` test.
 + Renamed `get` to `getWithLV`.
 + Added `repmat` and its corresponding test.
++ Added `getRows` with IntRange.
