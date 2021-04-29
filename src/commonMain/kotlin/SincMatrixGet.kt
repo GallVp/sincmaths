@@ -6,7 +6,7 @@ import sincmaths.sincmatrix.workers.parseToInt
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
-operator fun SincMatrix.get(logicalVect: SincMatrix): SincMatrix {
+fun SincMatrix.getWithLV(logicalVect: SincMatrix): SincMatrix {
     require(this.numel() == logicalVect.numel()) {
         "SMError: In indexing by a logical vector, numel(self) == numel(logicalVect)"
     }
