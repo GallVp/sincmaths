@@ -217,6 +217,46 @@ class SincMatrixBasicTests {
         SincMathsTests.assert((B.cat(1, C)[9, 9] - 80.0).absoluteValue < SincMathsTests.testTol)
     }
 
+    private fun testMatrixRep() {
+        // Octave code
+        // format long
+        // size(repmat([1;0], 20, 1)) = [40, 1]
+        // sum(repmat([1;0], 20, 1)) = 20
+        // repmat([1;0], 0, 0) = []
+        // repmat([1 0], 1, 3) = [1 0 1 0 1 0]
+        // size(repmat([1 0 0;0 1 0], 10, 7)) = [20 21]
+        // sum(repmat([1 0 0;0 1 0], 10, 7))(1:3) = [10 10 0]
+        // sum(repmat([1 0 0;0 1 0], 10, 7), 2)(1:3) = [7;7;7]
+
+        SincMathsTests.assert(
+            colVectorOf(1, 0).repmat(20, 1).size() == listOf(40, 1)
+        )
+
+        SincMathsTests.assert(
+            (colVectorOf(1, 0).repmat(20, 1).sum() - 20.0).absoluteValue lt SincMathsTests.testTol
+        )
+
+        SincMathsTests.assert(
+            colVectorOf(1, 0).repmat(0, 0).isempty()
+        )
+
+        SincMathsTests.assert(
+            (rowVectorOf(1, 0).repmat(1, 3) et rowVectorOf(1, 0, 1, 0, 1, 0)).all()
+        )
+
+        SincMathsTests.assert(
+            matrixFrom("[1, 0, 0;0, 1, 0]").repmat(10, 7).size() == listOf(20, 21)
+        )
+
+        SincMathsTests.assert(
+            (matrixFrom("[1, 0, 0;0, 1, 0]").repmat(10, 7).sum()[1..3] et colVectorOf(10, 10, 0)).all()
+        )
+
+        SincMathsTests.assert(
+            (matrixFrom("[1, 0, 0;0, 1, 0]").repmat(10, 7).sum(2)[1..3] et rowVectorOf(7).repmat(3, 1)).all()
+        )
+    }
+
     fun performAll() {
         testMatrixInput()
         testMatrixIndexing()
@@ -225,5 +265,6 @@ class SincMatrixBasicTests {
         testMatrixRowColMutations()
         circShiftTest()
         catTest()
+        testMatrixRep()
     }
 }

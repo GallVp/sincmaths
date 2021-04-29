@@ -145,3 +145,26 @@ fun SincMatrix.cat(dim: Int = 1, vararg matrices: SincMatrix): SincMatrix {
  * Thus, a reshape such as reshape(A, 4, 3) on SincMatrix is equal to reshape(A', 3, 4)' on MATLAB/Octave.
  */
 fun SincMatrix.reshape(m: Int, n: Int): SincMatrix = this.asRowMajorArray().asSincMatrix(m, n)
+
+fun SincMatrix.repmat(m: Int, n: Int) : SincMatrix {
+
+    if(m == 0 || n == 0) {
+        return SincMatrix(doubleArrayOf(), 0, 0)
+    }
+
+    val rowRepeatedMat = if(m == 1) {
+        this
+    } else {
+        (1..m).map {
+            this.asRowMajorArray().copyOf()
+        }.flatMap {
+            it.toList()
+        }.asSincMatrix(this.numRows()*m, this.numCols())
+    }
+
+    return if(n == 1) {
+        rowRepeatedMat
+    } else {
+        rowRepeatedMat.cat(2, *Array(n-1){rowRepeatedMat.copyOf()})
+    }
+}
