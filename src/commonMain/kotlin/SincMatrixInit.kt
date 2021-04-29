@@ -130,3 +130,5 @@ fun matrixFrom(script:String) = SincMatrix.from(script)
 
 fun emptySincMatrix() = SincMatrix(doubleArrayOf(), 0, 0)
 
+fun emptySincMatrices(size:Int) = Array(size) { emptySincMatrix() }
+

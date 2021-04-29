@@ -33,4 +33,4 @@ This library provides a 2D matrix which stores data in row-major format as oppos
 + Renamed `get` to `getWithLV`.
 + Added `repmat` and its corresponding test.
 + Added `getRows` with IntRange.
-+ Added `emptySincMatrix`.
++ Added `emptySincMatrix` and `emptySincMatrices`.
