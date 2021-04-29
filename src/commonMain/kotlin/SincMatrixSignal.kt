@@ -105,11 +105,11 @@ fun SincMatrix.movsum(wlen: Int, endpoints: MovWinShape = MovWinShape.shrink, di
         if (dim == 1) {
             this.mapColumnsToList {
                 it.movsum(wlen, endpoints)
-            }.joinVectors(false)
+            }.makeMatrixFrom(false)
         } else {
             this.mapRowsToList {
                 it.movsum(wlen, endpoints)
-            }.joinVectors()
+            }.makeMatrixFrom()
         }
     }
 
@@ -134,11 +134,11 @@ fun SincMatrix.movmean(wlen: Int, endpoints: MovWinShape = MovWinShape.shrink, d
     if (dim == 1) {
         this.mapColumnsToList {
             it.movmean(wlen, endpoints)
-        }.joinVectors(false)
+        }.makeMatrixFrom(false)
     } else {
         this.mapRowsToList {
             it.movmean(wlen, endpoints)
-        }.joinVectors()
+        }.makeMatrixFrom()
     }
 }
 

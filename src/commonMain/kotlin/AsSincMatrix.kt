@@ -58,7 +58,7 @@ fun DoubleArray.asSincMatrix(size: List<Int>): SincMatrix {
     return this.asSincMatrix(size[0], size[1])
 }
 
-fun List<SincMatrix>.joinVectors(areRow:Boolean = true):SincMatrix  {
+fun List<SincMatrix>.makeMatrixFrom(rowVectors:Boolean = true):SincMatrix  {
 
     if(this.isEmpty()) {
         return SincMatrix(doubleArrayOf(), 0, 0)
@@ -73,7 +73,7 @@ fun List<SincMatrix>.joinVectors(areRow:Boolean = true):SincMatrix  {
 
     val vecLen = this.first().numel()
 
-    return if(areRow) {
+    return if(rowVectors) {
         this.flatMap {
             it.asRowMajorArray().toList()
         }.asSincMatrix(this.size, vecLen)
