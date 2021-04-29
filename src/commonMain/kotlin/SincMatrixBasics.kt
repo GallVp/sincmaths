@@ -139,3 +139,9 @@ fun SincMatrix.cat(dim: Int = 1, vararg matrices: SincMatrix): SincMatrix {
         }).asSincMatrix(this.numCols() + matrices.sumOf { it.numCols() }, this.numRows()).t
     }
 }
+
+/**
+ * As SincMatrix is row-major, reshape picks data from rows first and also fills rows first.
+ * Thus, a reshape such as reshape(A, 4, 3) on SincMatrix is equal to reshape(A', 3, 4)' on MATLAB/Octave.
+ */
+fun SincMatrix.reshape(m: Int, n: Int): SincMatrix = this.asRowMajorArray().asSincMatrix(m, n)

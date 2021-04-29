@@ -7,6 +7,7 @@ import sincmaths.coefficients.SGCoeffs
 import sincmaths.sincmatrix.*
 import sincmaths.test.SincMathsTests.Companion.convTestTol
 import sincmaths.test.SincMathsTests.Companion.convTestTolAndroid
+import sincmaths.test.SincMathsTests.Companion.multSumTestTol
 import sincmaths.test.SincMathsTests.Companion.testTol
 
 class SincMatrixSignalProcTests {
@@ -39,7 +40,7 @@ class SincMatrixSignalProcTests {
         SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
-    private fun testMatrixDiff() {
+    private fun testVectorDiff() {
         // Octave code
         //  format long
         //  rand("seed", 25)
@@ -53,6 +54,25 @@ class SincMatrixSignalProcTests {
             )
         val result = A.diff() * A.t.diff()
         SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+    }
+
+    private fun testMatrixDiff() {
+        // Octave code
+        //  format long
+        //  x = reshape(0.1:0.1:11, 10, 11)';
+        //  y = sin(x);
+        //  median(std(diff(10 * y, 1, 1), 0, 1)) = 6.962631100525408
+        //  median(std(diff(100 * y, 1, 2), 0, 2)) = 1.810626622956778
+        val x = matrixFrom("0.1:0.1:11").reshape(11, 10)
+        val y = x.sin()
+
+        SincMathsTests.assert(
+            ((10.0 * y).diff(1).std(1).median() - 6.962631100525408).absoluteValue lt multSumTestTol
+        )
+
+        SincMathsTests.assert(
+            ((100.0 * y).diff(2).std(2).median() - 1.810626622956778).absoluteValue lt multSumTestTol
+        )
     }
 
     private fun testMatrixFilter() {
@@ -275,6 +295,7 @@ class SincMatrixSignalProcTests {
 
     fun performAll() {
         testVectorConv()
+        testVectorDiff()
         testMatrixDiff()
         testMatrixFilter()
         testMatrixFiltfilt()

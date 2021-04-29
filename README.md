@@ -29,3 +29,4 @@ This library provides a 2D matrix which stores data in row-major format as oppos
 + Added `map`, `mapColumns` and `mapRows`. As a result a number of functions now also run on matrices.
 + Added more functional extensions.
 + Added `testMatrixMedian` unit test.
++ Added `reshape` function and `testMatrixDiff` test.
