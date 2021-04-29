@@ -75,7 +75,7 @@ class SincMatrixSignalProcTests {
         )
     }
 
-    private fun testMatrixFilter() {
+    private fun testVectorFilter() {
         // Octave code
         //  format long
         //  rand("seed", 101)
@@ -96,6 +96,29 @@ class SincMatrixSignalProcTests {
             A = A
         ) * testVector.transpose().filter(B = B, A = A)
         SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+    }
+
+    private fun testMatrixFilter() {
+        // Octave code
+        //  format long
+        //  x = reshape(0.1:0.1:11, 10, 11)';
+        //  y = cos(x);
+        //  B = [1 2 3];
+        //  A = [4 5 6];
+        //  median(std(filter(B, A, 10*y, [], 1), 0, 1)) = 6.422826367520498
+        //  median(std(filter(B, A, 10*y, [], 2), 0, 2)) = 3.542838989457845
+        val x = matrixFrom("0.1:0.1:11").reshape(11, 10)
+        val y = x.cos()
+        val B = doubleArrayOf(1.0, 2.0, 3.0)
+        val A = doubleArrayOf(4.0, 5.0, 6.0)
+
+        SincMathsTests.assert(
+            ((10.0 * y).filter(B, A,1).std(1).median() - 6.422826367520498).absoluteValue lt testTol
+        )
+
+        SincMathsTests.assert(
+            ((10.0 * y).filter(B, A,2).std(2).median() - 3.542838989457845).absoluteValue lt multSumTestTol
+        )
     }
 
     private fun testMatrixFiltfilt() {
@@ -175,7 +198,7 @@ class SincMatrixSignalProcTests {
         SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
-    private fun testMovMean() {
+    private fun testVectorMovMean() {
         // Octave code
         //  format long
         //  rand("seed", 101)
@@ -196,6 +219,25 @@ class SincMatrixSignalProcTests {
         ) * testVector.transpose()
             .movmean(3, MovWinShape.discard))
         SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+    }
+
+    private fun testMatrixMovMean() {
+        // Octave code
+        //  format long
+        //  x = reshape(0.1:0.1:11, 10, 11)';
+        //  y = cos(x);
+        //  median(std(movmean(10*y, 7, 1), 0, 1)) = 1.459065564134439
+        //  median(std(movmean(10*y, 7, 2), 0, 2)) = 1.442356744207888
+        val x = matrixFrom("0.1:0.1:11").reshape(11, 10)
+        val y = x.cos()
+
+        SincMathsTests.assert(
+            ((10.0 * y).movmean(7, MovWinShape.shrink, 1).std(1).median() - 1.459065564134439).absoluteValue lt testTol
+        )
+
+        SincMathsTests.assert(
+            ((10.0 * y).movmean(7,MovWinShape.shrink, 2).std(2).median() - 1.442356744207888).absoluteValue lt testTol
+        )
     }
 
     private fun testMovSumEvenDiscard() {
@@ -256,7 +298,7 @@ class SincMatrixSignalProcTests {
     /**
      * Citation: [Matlab central](https://au.mathworks.com/matlabcentral/fileexchange/30540-autocorrelation-function-acf)
      */
-    private fun testAcf() {
+    private fun testVectorAcf() {
         // Octave code
         //  format long
         //  x = 1:100;
@@ -297,18 +339,20 @@ class SincMatrixSignalProcTests {
         testVectorConv()
         testVectorDiff()
         testMatrixDiff()
+        testVectorFilter()
         testMatrixFilter()
         testMatrixFiltfilt()
         testVectorSgolayFilter()
         testMatrixSgolayFilter()
         testMovSum()
-        testMovMean()
+        testVectorMovMean()
+        testMatrixMovMean()
         testMovSumOddShrink()
         testMovSumOddDiscard()
         testMovSumEvenDiscard()
         testMovSumEvenShrink()
         testMovMeanEvenShrink()
-        testAcf()
+        testVectorAcf()
         testFindPeaks()
         testDenoiseCwtft()
     }
