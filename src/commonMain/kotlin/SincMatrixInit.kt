@@ -128,3 +128,5 @@ fun matrixOf(m: Int, n: Int, values: IntRange): SincMatrix = values.asSincMatrix
  */
 fun matrixFrom(script:String) = SincMatrix.from(script)
 
+fun emptySincMatrix() = SincMatrix(doubleArrayOf(), 0, 0)
+
