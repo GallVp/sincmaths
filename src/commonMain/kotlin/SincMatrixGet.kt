@@ -49,6 +49,22 @@ operator fun SincMatrix.get(mlScript: String): SincMatrix = if (mlScript.contain
 }
 
 /**
+ * kotlin-way of doing get(mlScript: String).
+ */
+fun SincMatrix.get(selector: (endR:Int, endC:Int, allR:IntRange, allC:IntRange) -> Pair<IntRange, IntRange>):SincMatrix {
+    val indices = selector(this.numRows(), this.numCols(), this.rowIndicesRange, this.colIndicesRange)
+    return this[indices.first, indices.second]
+}
+
+/**
+ * kotlin-way of doing get(mlScript: String).
+ */
+fun SincMatrix.get(selector: (end:Int, all:IntRange) -> IntRange):SincMatrix {
+    val indices = selector(this.numel(), this.indicesRange)
+    return this[indices]
+}
+
+/**
  * Indexing starts at 1, like Octave/MATLAB.
  * @return A column vector.
  */

@@ -60,6 +60,52 @@ class SincMatrixBasicTests {
         SincMathsTests.assert((resultOctave - result).absoluteValue lt SincMathsTests.testTol)
     }
 
+    private fun testMatrixIndexingViaKotlin() {
+
+        val M: SincMatrix = (1..110).asSincMatrix(11, 10)
+
+        SincMathsTests.assert(
+            (M["1:5,4:7"] et M.get { _, _, _, _ ->
+                Pair(1..5, 4..7)
+            }).all()
+        )
+        SincMathsTests.assert(
+            (M["1:5,4"] et M.get { _, _, _, _ ->
+                Pair(1..5, 4..4)
+            }).all()
+        )
+        SincMathsTests.assert(
+            (M["1:5,:"] et M.get { _, _, _, allC ->
+                Pair(1..5, allC)
+            }).all()
+        )
+        SincMathsTests.assert(
+            (M["1,4:7"] et M.get { _, _, _, _ ->
+                Pair(1..1, 4..7)
+            }).all()
+        )
+        SincMathsTests.assert(
+            (M[":,4:7"] et M.get { _, _, allR, _ ->
+                Pair(allR, 4..7)
+            }).all()
+        )
+        SincMathsTests.assert(
+            (M[":"] et M.get { _, all ->
+                all
+            }).all()
+        )
+        SincMathsTests.assert(
+            (M["1:5"] et M.get { _, _ ->
+                1..5
+            }).all()
+        )
+        SincMathsTests.assert(
+            (M["1:end-1"] et M.get { end, _ ->
+                1 until end
+            }).all()
+        )
+    }
+
     private fun testMatrixIndexingEdges() {
         val M: SincMatrix = (1..110).asSincMatrix(m = 11, n = 10)
 
@@ -260,6 +306,7 @@ class SincMatrixBasicTests {
     fun performAll() {
         testMatrixInput()
         testMatrixIndexing()
+        testMatrixIndexingViaKotlin()
         testMatrixIndexingEdges()
         testMatrixMutations()
         testMatrixRowColMutations()
