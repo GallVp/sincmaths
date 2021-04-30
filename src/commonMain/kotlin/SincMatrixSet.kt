@@ -9,7 +9,9 @@ fun SincMatrix.setWithLV(logicalVector: SincMatrix, values: DoubleArray) {
     require(this.numel() == logicalVector.numel()) {
         "SMError: numel(logicalVect) == numel(this matrix) is violated"
     }
-    val indicesAsArray = logicalVector.find().asIntArray()
+    val indices = logicalVector.find()
+    if (indices.isempty()) {return}
+    val indicesAsArray = indices.asIntArray()
     if (values.isEmpty()) {
         this.removeAt(indicesAsArray)
     } else {
@@ -21,7 +23,9 @@ fun SincMatrix.setWithLV(logicalVector: SincMatrix, values: DoubleArray) {
  * Indexing with a logical vector containing 0's and 1's.
  */
 fun SincMatrix.setWithLV(logicalVector: SincMatrix, value: Double) {
-    val indicesAsArray = logicalVector.find().asIntArray()
+    val indices = logicalVector.find()
+    if (indices.isempty()) {return}
+    val indicesAsArray = indices.asIntArray()
     for (i in indicesAsArray.indices) {
         this[indicesAsArray[i]] = value
     }

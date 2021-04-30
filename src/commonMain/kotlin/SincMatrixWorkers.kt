@@ -135,3 +135,45 @@ internal fun filterWorker(
         outValue
     }.toDoubleArray()
 }
+
+internal fun medianWorker(sortedVector: DoubleArray): Double {
+    require(sortedVector.isNotEmpty()) { "SMError: For median, the number of elements should be greater than zero" }
+
+    return if (sortedVector.size % 2 < 1) {
+        //even
+        (sortedVector[sortedVector.size / 2 - 1] + sortedVector[sortedVector.size / 2]) / 2.0
+    } else {
+        //odd
+        sortedVector[(sortedVector.size - 1) / 2]
+    }
+}
+
+internal fun vectorPercentileWorker(sortedVector: SincMatrix, p: SincMatrix): SincMatrix {
+
+    val n = sortedVector.numel()
+
+    var r = (p / 100.0) * n.toDouble()
+    val k = (r + 0.5).floor()
+    val kp1 = k + 1.0
+    r -= k
+
+    k.setWithLV(k lt 1.0, 1.0)
+    kp1.indices.map {
+        kp1[it] = if(kp1[it] < n.toDouble()) {kp1[it]} else {n.toDouble()}
+    }
+
+    val y = (0.5 + r).elMul(sortedVector[kp1.asIntArray()]) + (0.5 - r).elMul(sortedVector[k.asIntArray()])
+
+    val exact = r et -0.5
+    if(exact.any()) {
+        y.setWithLV(exact, sortedVector.getWithLV(k.getWithLV(exact)))
+    }
+
+    val same = sortedVector[k.asIntArray()] et sortedVector[kp1.asIntArray()]
+    if(same.any()) {
+        val xValues = sortedVector[k.asIntArray()]
+        y.setWithLV(same, xValues.getWithLV(same))
+    }
+
+    return y
+}

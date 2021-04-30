@@ -203,6 +203,13 @@ class SincMatrixMathsAndStats {
         SincMathsTests.assert(A.median(2).size() == listOf(10, 1))
     }
 
+    private fun testVectorIQR() {
+        val exampleA = doubleArrayOf(1.0, 3.0, 6.0, 8.0, 9.0, 7.0, 3.0).asSincMatrix()
+        SincMathsTests.assert((exampleA.iqr() - 4.75).absoluteValue lt testTol)
+        val exampleB = doubleArrayOf(1.0, 3.0, 4.0, 5.0, 6.0, 9.0, 2.0, 8.0).asSincMatrix()
+        SincMathsTests.assert((exampleB.iqr() - 4.5).absoluteValue lt testTol)
+    }
+
     private fun testMatrixRMS() {
         // Octave code
         //  format long
@@ -427,6 +434,7 @@ class SincMatrixMathsAndStats {
         testMatrixMeanIII()
         testVectorMedian()
         testMatrixMedian()
+        testVectorIQR()
         testMatrixRMS()
         testMatrixMax()
         testMatrixSign()
