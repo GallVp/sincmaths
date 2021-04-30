@@ -166,7 +166,7 @@ internal fun vectorPercentileWorker(sortedVector: SincMatrix, p: SincMatrix): Si
 
     val exact = r et -0.5
     if(exact.any()) {
-        y.setWithLV(exact, sortedVector.getWithLV(k.getWithLV(exact)))
+        y.setWithLV(exact, sortedVector[k.getWithLV(exact).asIntArray()])
     }
 
     val same = sortedVector[k.asIntArray()] et sortedVector[kp1.asIntArray()]

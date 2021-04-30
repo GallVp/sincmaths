@@ -57,21 +57,21 @@ class SincMatrixSignalProcTests {
     }
 
     private fun testMatrixDiff() {
-        // Octave code
+        // MATLAB code
         //  format long
         //  x = reshape(0.1:0.1:11, 10, 11)';
         //  y = sin(x);
-        //  median(std(diff(10 * y, 1, 1), 0, 1)) = 6.962631100525408
-        //  median(std(diff(100 * y, 1, 2), 0, 2)) = 1.810626622956778
+        //  mean(iqr(diff(y, 1, 1), 1)) = 1.299495936567463
+        //  mean(iqr(diff(100 * y, 1, 2), 2)) = 2.889079408634358
         val x = matrixFrom("0.1:0.1:11").reshape(11, 10)
         val y = x.sin()
 
         SincMathsTests.assert(
-            ((10.0 * y).diff(1).std(1).median() - 6.962631100525408).absoluteValue lt multSumTestTol
+            (y.diff(1).iqr(1).mean() - 1.299495936567463).absoluteValue lt multSumTestTol
         )
 
         SincMathsTests.assert(
-            ((100.0 * y).diff(2).std(2).median() - 1.810626622956778).absoluteValue lt multSumTestTol
+            ((100.0 * y).diff(2).iqr(2).mean() - 2.889079408634358).absoluteValue lt convTestTol
         )
     }
 

@@ -36,3 +36,4 @@ This library provides a 2D matrix which stores data in row-major format as oppos
 + Added `emptySincMatrix` and `emptySincMatrices`.
 + Added `Array<SincMatrix>.asRowVector()`.
 + Added `iqr` compatible with MATLAB 2020b.
++ Added more tests for `iqr` and removed a bug.
