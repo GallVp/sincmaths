@@ -1,8 +1,6 @@
 package sincmaths
 
-import sincmaths.sincmatrix.isvector
-import sincmaths.sincmatrix.size
-import sincmaths.sincmatrix.t
+import sincmaths.sincmatrix.*
 
 fun Double.asSincMatrix(): SincMatrix {
     return SincMatrix(doubleArrayOf(this), 1, 1)
@@ -81,5 +79,19 @@ fun List<SincMatrix>.makeMatrixFrom(rowVectors:Boolean = true):SincMatrix  {
         this.flatMap {
             it.asRowMajorArray().toList()
         }.asSincMatrix(this.size, vecLen).t
+    }
+}
+
+fun Array<SincMatrix>.asRowVector():SincMatrix = when {
+    this.isEmpty() -> {
+        emptySincMatrix()
+    }
+    this.size == 1 -> {
+        this[0].reshape(1, this[0].numel())
+    }
+    else -> {
+        this.flatMap {
+            it.asRowMajorArray().asList()
+        }.asSincMatrix()
     }
 }
