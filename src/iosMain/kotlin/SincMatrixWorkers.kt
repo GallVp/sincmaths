@@ -51,5 +51,5 @@ private fun getFilePath(filePath: String, bundleID: String?): String? {
         selectedBundle.load()
     }
 
-    return NSBundle.mainBundle.pathForResource(fileTokens.first(), fileTokens.last())
+    return selectedBundle.pathForResource(fileTokens.first(), fileTokens.last())
 }
