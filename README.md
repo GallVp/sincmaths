@@ -39,3 +39,4 @@ This library provides a 2D matrix which stores data in row-major format as oppos
 + Added more tests for `iqr` and removed a bug.
 + Added `get(selector:...` functions.
 + Updated kotlin to 1.5.0-RC.
++ Updated kotlin to 1.5.0.
