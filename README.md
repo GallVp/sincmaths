@@ -4,7 +4,7 @@ This library provides a 2D matrix which stores data in row-major format as oppos
 
 ## Change Log
 
-### Version 0.1 <01052021>
+### Version 0.1 <12052021>
 
 + Ported code from older SincMaths libraries in kotlin/jvm (v0.3) and swift (v0.3) to a single kotlin/jvm/native library.
 + Added new functions: `unaryMinus`, `and`, `or` and `not`.
@@ -40,3 +40,6 @@ This library provides a 2D matrix which stores data in row-major format as oppos
 + Added `get(selector:...` functions.
 + Updated kotlin to 1.5.0-RC.
 + Updated kotlin to 1.5.0.
++ Changed `isScalar` definition to m x n == 1.
++ Improved type conversion for empty SincMatrix.
++ Improved `getWithLV` for empty SincMatrix.

@@ -18,13 +18,13 @@ class SincMathsTests {
     companion object {
         fun assert(condition: Boolean) {
             if (!condition) {
-                throw Exception()
+                throw Exception("Test failure...")
             }
         }
 
         fun assert(condition: SincMatrix) {
             if (!condition.boolean) {
-                throw Exception()
+                throw Exception("Test failure...")
             }
         }
 

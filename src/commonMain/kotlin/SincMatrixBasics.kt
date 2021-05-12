@@ -47,7 +47,7 @@ fun SincMatrix.isvector(): Boolean {
 }
 
 fun SincMatrix.isscalar(): Boolean {
-    return this.isvector() && this.numel() <= 1
+    return (this.numRows() * this.numCols()) == 1
 }
 
 fun SincMatrix.isempty(): Boolean = this.numel() == 0

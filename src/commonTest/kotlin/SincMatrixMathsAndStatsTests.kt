@@ -413,6 +413,28 @@ class SincMatrixMathsAndStats {
         )
     }
 
+    private fun testEmptyVectorLogicOperators() {
+        val emptyVector = SincMatrix.zeros(0, 1)
+        SincMathsTests.assert((!emptyVector).all())
+        SincMathsTests.assert(!((!emptyVector).any()))
+
+        val testVector = matrixFrom("[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
+        SincMathsTests.assert(
+            testVector.greaterThan(5.0).find().asIntArray().isEmpty()
+        )
+
+        SincMathsTests.assert(
+            testVector.getWithLV(emptyVector).isempty()
+        )
+
+        val testVectorCopy = testVector.copyOf()
+        testVectorCopy.setWithLV(emptyVector, 2.0)
+
+        SincMathsTests.assert(
+            (testVectorCopy et testVector).all()
+        )
+    }
+
     private fun testMatrixFind() {
         // Octave code
         //  format long
@@ -440,6 +462,7 @@ class SincMatrixMathsAndStats {
         testMatrixSign()
         testMatrixComparisons()
         testMatrixAndOr()
+        testEmptyVectorLogicOperators()
         testMatrixFind()
     }
 

@@ -3,6 +3,11 @@ package sincmaths.sincmatrix
 import sincmaths.SincMatrix
 
 fun SincMatrix.asIntArray(): IntArray {
+
+    if(this.isempty()) {
+        return intArrayOf()
+    }
+
     require(this.isvector()) { "SMError: Matrix is not a vector and conversion is invalid" }
 
     return this.asRowMajorArray().map {
@@ -29,6 +34,11 @@ fun SincMatrix.asRowVector(): SincMatrix =
     SincMatrix(rowMajArray = this.asRowMajorArray(), m = 1, n = this.numel())
 
 fun SincMatrix.asBoolArray(): BooleanArray {
+
+    if(this.isempty()) {
+        return booleanArrayOf()
+    }
+
     require(this.isvector()) { "SMError: Matrix is not a vector and conversion is invalid" }
 
     return this.asRowMajorArray().map {
