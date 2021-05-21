@@ -6,12 +6,12 @@ plugins {
     id("org.jetbrains.dokka") version "1.4.30"
 }
 
-group = 'nz.ac.aut.sincmaths'
+group = 'com.github.gallvp'
 version = '0.1-SNAPSHOT'
 
 repositories {
     google()
-    jcenter()
+    mavenCentral()
 }
 
 import org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask

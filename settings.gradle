@@ -1,7 +1,7 @@
 pluginManagement {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         gradlePluginPortal()
     }
     resolutionStrategy {
@@ -12,5 +12,5 @@ pluginManagement {
         }
     }
 }
-rootProject.name = 'sincmaths-core'
+rootProject.name = 'sincmathsmp'
 
