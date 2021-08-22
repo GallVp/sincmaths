@@ -4,6 +4,14 @@ This library provides a 2D matrix which stores data in row-major format as oppos
 
 ## Change Log
 
+### Version 0.2 <21082021>
+
++ Updated kotlin to 1.5.21
++ Updated dokka to 1.5.0
++ Updated NDK to 23.0.7599858
++ Updated espresso-core to 3.4.0
++ Updated ejml-simple to 0.41
+
 ### Version 0.1 <21052021>
 
 + Ported code from older SincMaths libraries in kotlin/jvm (v0.3) and swift (v0.3) to a single kotlin/jvm/native library.
