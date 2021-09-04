@@ -13,6 +13,7 @@ This library provides a 2D matrix which stores data in row-major format as oppos
 + Updated ejml-simple to 0.41
 + Updated kotlin to 1.5.30
 + Added `quantile` func and its unit test.
++ + Added `round` func.
 
 ### Version 0.1 <21052021>
 

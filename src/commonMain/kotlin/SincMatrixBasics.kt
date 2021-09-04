@@ -2,6 +2,7 @@ package sincmaths.sincmatrix
 
 import sincmaths.SincMatrix
 import sincmaths.asSincMatrix
+import kotlin.math.pow
 
 val SincMatrix.description: String
     get() {
@@ -167,4 +168,8 @@ fun SincMatrix.repmat(m: Int, n: Int) : SincMatrix {
     } else {
         rowRepeatedMat.cat(2, *Array(n-1){rowRepeatedMat.copyOf()})
     }
+}
+
+fun SincMatrix.round(n: Int):SincMatrix = map {
+    kotlin.math.round(it * 10.0.pow(n)) / 10.0.pow(n)
 }
