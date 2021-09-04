@@ -80,6 +80,25 @@ fun SincMatrix.iqr(dim: Int = 1): SincMatrix = if (this.isvector()) {
     }
 }
 
+fun SincMatrix.quantile(P:DoubleArray, dim: Int = 1): SincMatrix = if (this.isvector()) {
+    require(this.numel() > 0) { "SMError: Number of elements should be greater than zero" }
+    require(P.isNotEmpty()) { "SMError: P should not be empty" }
+
+    val sortedVector = this.asRowMajorArray().sortedArray().asSincMatrix(false)
+    val quantiles = vectorPercentileWorker(sortedVector, P.asSincMatrix(false) * 100.0)
+    quantiles.t
+} else {
+    if (dim == 1) {
+        this.mapColumns(P.size) {
+            it.quantile(P).t
+        }
+    } else {
+        this.mapRows(P.size) {
+            it.quantile(P)
+        }
+    }
+}
+
 fun SincMatrix.rms(dim: Int = 1): SincMatrix {
     return if (this.isvector()) {
         this.elPow(2.0).mean().sqrt()

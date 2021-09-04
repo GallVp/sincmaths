@@ -4,13 +4,15 @@ This library provides a 2D matrix which stores data in row-major format as oppos
 
 ## Change Log
 
-### Version 0.2 <21082021>
+### Version 0.2 <04092021>
 
 + Updated kotlin to 1.5.21
 + Updated dokka to 1.5.0
 + Updated NDK to 23.0.7599858
 + Updated espresso-core to 3.4.0
 + Updated ejml-simple to 0.41
++ Updated kotlin to 1.5.30
++ Added `quantile` func and its unit test.
 
 ### Version 0.1 <21052021>
 

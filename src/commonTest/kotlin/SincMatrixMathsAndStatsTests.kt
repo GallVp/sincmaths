@@ -3,6 +3,7 @@ package sincmaths.test
 import sincmaths.SincMatrix
 import sincmaths.asSincMatrix
 import sincmaths.sincmatrix.*
+import sincmaths.test.SincMathsTests.Companion.convTestTolAndroid
 import sincmaths.test.SincMathsTests.Companion.multSumTestTol
 import sincmaths.test.SincMathsTests.Companion.testTol
 
@@ -208,6 +209,32 @@ class SincMatrixMathsAndStats {
         SincMathsTests.assert((exampleA.iqr() - 4.75).absoluteValue lt testTol)
         val exampleB = doubleArrayOf(1.0, 3.0, 4.0, 5.0, 6.0, 9.0, 2.0, 8.0).asSincMatrix()
         SincMathsTests.assert((exampleB.iqr() - 4.5).absoluteValue lt testTol)
+    }
+
+    private fun testQuantile() {
+        // MATLAB code
+        //  format long
+        //  resultA = quantile((1:1001), [0.1 0.2 0.3 0.55]) ./ 100
+        //  resultB = quantile(reshape(1:1000, 2, 500)', [0.1 0.2]) ./ 100
+        //  resultC = sum(quantile(reshape(1:1000, 2, 500)', [0.1 0.9], 2) ./ 100)
+
+        val exampleA = (1..1001).asSincMatrix().quantile(doubleArrayOf(0.1, 0.2, 0.3, 0.55)) / 100.0
+        val resultA = rowVectorOf(1.006, 2.007, 3.008, 5.5105)
+        SincMathsTests.assert(exampleA.size() == resultA.size())
+        SincMathsTests.assert(((exampleA - resultA) lt testTol).all())
+
+        val exampleB = (1..1000).asSincMatrix().reshape(500, 2).quantile(doubleArrayOf(0.1, 0.2)) / 100.0
+        val resultB = matrixOf(2, 2, 1.0, 1.01, 2.0, 2.01)
+
+        SincMathsTests.assert(exampleB.size() == resultB.size())
+        SincMathsTests.assert(((exampleB - resultB) lt testTol).all())
+
+        val exampleC = ((1..1000).asSincMatrix().reshape(500, 2).quantile(doubleArrayOf(0.1, 0.9), 2) / 100.0).sum()
+        val resultC = matrixOf(1, 2, 2500, 2505)
+
+        SincMathsTests.assert(exampleC.size() == resultC.size())
+        print(exampleC)
+        SincMathsTests.assert(((exampleC - resultC) lt convTestTolAndroid).all())
     }
 
     private fun testMatrixRMS() {
@@ -457,6 +484,7 @@ class SincMatrixMathsAndStats {
         testVectorMedian()
         testMatrixMedian()
         testVectorIQR()
+        testQuantile()
         testMatrixRMS()
         testMatrixMax()
         testMatrixSign()
