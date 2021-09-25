@@ -1,9 +1,10 @@
 plugins {
-    id 'org.jetbrains.kotlin.multiplatform' version '1.5.30'
+    id 'org.jetbrains.kotlin.multiplatform' version '1.5.31'
     id 'com.android.library'
     id 'kotlin-android-extensions'
     id 'maven-publish'
     id("org.jetbrains.dokka") version "1.5.0"
+    id "org.jetbrains.kotlin.native.cocoapods" version "1.5.0"
 }
 
 group = 'com.github.gallvp'
@@ -37,6 +38,15 @@ kotlin {
                 baseName = 'SincMaths'
             }
         }
+    }
+
+    cocoapods {
+        summary = "SincMaths Library"
+        homepage = "https://github.com/GallVp/SincMathsMP"
+        authors = "Usman Rashid"
+        ios.deploymentTarget = "10.0"
+
+        frameworkName = "SincMaths"
     }
 
     tasks.register("debugFatFramework", FatFrameworkTask) {
