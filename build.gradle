@@ -44,7 +44,7 @@ kotlin {
         summary = "SincMaths Library"
         homepage = "https://github.com/GallVp/SincMathsMP"
         authors = "Usman Rashid"
-        ios.deploymentTarget = "10.0"
+        ios.deploymentTarget = "13.0"
 
         frameworkName = "SincMaths"
     }
