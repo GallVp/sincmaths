@@ -1,8 +1,4 @@
-package sincmaths.sincmatrix
-
-import sincmaths.SincMatrix
-import sincmaths.sincmatrix.workers.dateToTimeStampWorker
-import sincmaths.sincmatrix.workers.fileReadWorker
+package sincmaths
 
 /**
  * For example usage see SincMathsTests/SincMatrixIO.

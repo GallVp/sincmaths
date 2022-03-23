@@ -3,7 +3,7 @@
 
 extern "C"
 JNIEXPORT jdouble JNICALL
-Java_sincmaths_sincmatrix_workers_LocalWorkersKt_parseToDouble(JNIEnv *env, jclass clazz, jstring expr) {
+Java_sincmaths_LocalWorkersKt_parseToDouble(JNIEnv *env, jclass clazz, jstring expr) {
 
     const char *nativeString = env->GetStringUTFChars(expr, 0);
     double ans = te_interp(nativeString, 0);

@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'sincmathsmp'
-    spec.version                  = '0.2-SNAPSHOT'
+    spec.version                  = '0.2'
     spec.homepage                 = 'https://github.com/GallVp/SincMathsMP'
     spec.source                   = { :git => "Not Published", :tag => "Cocoapods/#{spec.name}/#{spec.version}" }
     spec.authors                  = 'Usman Rashid'
@@ -35,10 +35,7 @@ Pod::Spec.new do |spec|
                 "$REPO_ROOT/gradlew" -p "$REPO_ROOT" $KOTLIN_PROJECT_PATH:syncFramework \
                     -Pkotlin.native.cocoapods.platform=$PLATFORM_NAME \
                     -Pkotlin.native.cocoapods.archs="$ARCHS" \
-                    -Pkotlin.native.cocoapods.configuration=$CONFIGURATION \
-                    -Pkotlin.native.cocoapods.cflags="$OTHER_CFLAGS" \
-                    -Pkotlin.native.cocoapods.paths.headers="$HEADER_SEARCH_PATHS" \
-                    -Pkotlin.native.cocoapods.paths.frameworks="$FRAMEWORK_SEARCH_PATHS"
+                    -Pkotlin.native.cocoapods.configuration=$CONFIGURATION
             SCRIPT
         }
     ]

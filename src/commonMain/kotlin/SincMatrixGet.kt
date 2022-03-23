@@ -1,7 +1,4 @@
-package sincmaths.sincmatrix
-
-import sincmaths.SincMatrix
-import sincmaths.sincmatrix.workers.parseToInt
+package sincmaths
 
 /**
  * Indexing starts at 1, like Octave/MATLAB.

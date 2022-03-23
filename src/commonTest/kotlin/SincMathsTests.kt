@@ -1,7 +1,7 @@
 package sincmaths.test
 
 import sincmaths.SincMatrix
-import sincmaths.sincmatrix.boolean
+import sincmaths.boolean
 import kotlin.test.Test
 
 class SincMathsTests {

@@ -1,4 +1,4 @@
-package sincmaths.sincmatrix.workers
+package sincmaths
 
 import kotlinx.cinterop.*
 import sincmaths.sincmatrix.helpers.createCopyArray

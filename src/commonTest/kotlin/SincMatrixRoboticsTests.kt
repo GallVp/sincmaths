@@ -1,9 +1,6 @@
 package sincmaths.test
 
-import sincmaths.AngleSequence
-import sincmaths.SincMatrix
-import sincmaths.asSincMatrix
-import sincmaths.sincmatrix.*
+import sincmaths.*
 import sincmaths.test.SincMathsTests.Companion.testTol
 import kotlin.math.PI
 

@@ -1,4 +1,4 @@
-package sincmaths.coefficients
+package sincmaths
 
 object SGCoeffs {
     const val sgo3x5: String = """

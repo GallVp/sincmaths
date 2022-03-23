@@ -1,8 +1,6 @@
 package sincmaths.test
 
-import sincmaths.SincMatrix
-import sincmaths.asSincMatrix
-import sincmaths.sincmatrix.*
+import sincmaths.*
 import sincmaths.test.SincMathsTests.Companion.convTestTolAndroid
 import sincmaths.test.SincMathsTests.Companion.multSumTestTol
 import sincmaths.test.SincMathsTests.Companion.testTol
@@ -233,7 +231,6 @@ class SincMatrixMathsAndStats {
         val resultC = matrixOf(1, 2, 2500, 2505)
 
         SincMathsTests.assert(exampleC.size() == resultC.size())
-        print(exampleC)
         SincMathsTests.assert(((exampleC - resultC) lt convTestTolAndroid).all())
     }
 

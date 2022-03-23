@@ -1,8 +1,5 @@
-package sincmaths.sincmatrix
+package sincmaths
 
-import sincmaths.AngleSequence
-import sincmaths.SincMatrix
-import sincmaths.asSincMatrix
 import kotlin.math.sqrt
 
 fun SincMatrix.quat2rotm(): SincMatrix = SincMatrix.quat2rotm(quat = this.asArray()).asSincMatrix(m = 3, n = 3)

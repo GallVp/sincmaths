@@ -5,7 +5,7 @@
 
 extern "C"
 JNIEXPORT jdoubleArray JNICALL
-Java_sincmaths_sincmatrix_workers_LocalWorkersKt_diffCWTFT(JNIEnv *env, jclass clazz, jdoubleArray signal_vector,
+Java_sincmaths_LocalWorkersKt_diffCWTFT(JNIEnv *env, jclass clazz, jdoubleArray signal_vector,
                                                                jint signal_length, jdouble scale,
                                                                jdouble dt) {
     jdouble *input_signal = env->GetDoubleArrayElements(signal_vector, 0);
@@ -21,7 +21,7 @@ Java_sincmaths_sincmatrix_workers_LocalWorkersKt_diffCWTFT(JNIEnv *env, jclass c
 }
 extern "C"
 JNIEXPORT jdoubleArray JNICALL
-Java_sincmaths_sincmatrix_workers_LocalWorkersKt_convWithWavelib(JNIEnv *env, jclass clazz, jdoubleArray signal_vector,
+Java_sincmaths_LocalWorkersKt_convWithWavelib(JNIEnv *env, jclass clazz, jdoubleArray signal_vector,
                                           jint signal_length, jdoubleArray kernel_vector,
                                           jint kernel_length) {
     jdouble *input_signal = env->GetDoubleArrayElements(signal_vector, 0);

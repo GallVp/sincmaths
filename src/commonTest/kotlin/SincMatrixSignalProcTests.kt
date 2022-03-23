@@ -1,10 +1,6 @@
 package sincmaths.test
 
-import sincmaths.ConvolutionShape
-import sincmaths.MovWinShape
-import sincmaths.SincMatrix
-import sincmaths.coefficients.SGCoeffs
-import sincmaths.sincmatrix.*
+import sincmaths.*
 import sincmaths.test.SincMathsTests.Companion.convTestTol
 import sincmaths.test.SincMathsTests.Companion.convTestTolAndroid
 import sincmaths.test.SincMathsTests.Companion.multSumTestTol

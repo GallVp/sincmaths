@@ -1,8 +1,7 @@
-package sincmaths.primitives
+package sincmaths
 
 import kotlinx.cinterop.*
 import platform.Accelerate.*
-import sincmaths.sincmatrix.helpers.createCopyArray
 
 internal fun createRampVector(startFrom: Double, increment: Double, totalCount: Int): DoubleArray {
     memScoped {

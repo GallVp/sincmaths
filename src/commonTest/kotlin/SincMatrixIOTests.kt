@@ -1,8 +1,6 @@
 package sincmaths.test
 
-import sincmaths.SincMatrix
-import sincmaths.coefficients.SGCoeffs
-import sincmaths.sincmatrix.*
+import sincmaths.*
 import sincmaths.test.SincMathsTests.Companion.convTestTol
 
 class SincMatrixIOTests {

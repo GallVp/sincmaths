@@ -1,8 +1,4 @@
-package sincmaths.sincmatrix.workers
-
-import sincmaths.ConvolutionShape
-import sincmaths.SincMatrix
-import sincmaths.sincmatrix.*
+package sincmaths
 
 internal expect fun diffCWTFTWorker(
     signalVector: DoubleArray,

@@ -1,6 +1,5 @@
-package sincmaths.sincmatrix
+package sincmaths
 
-import sincmaths.SincMatrix
 
 fun SincMatrix.asIntArray(): IntArray {
 

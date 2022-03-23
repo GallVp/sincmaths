@@ -2,7 +2,8 @@ package sincmaths.test
 
 import sincmaths.SincMatrix
 import sincmaths.asSincMatrix
-import sincmaths.sincmatrix.*
+import sincmaths.*
+import sincmaths.matrixFrom
 import kotlin.math.absoluteValue
 import kotlin.test.assertFailsWith
 

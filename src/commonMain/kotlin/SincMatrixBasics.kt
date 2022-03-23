@@ -1,7 +1,5 @@
-package sincmaths.sincmatrix
+package sincmaths
 
-import sincmaths.SincMatrix
-import sincmaths.asSincMatrix
 import kotlin.math.pow
 
 val SincMatrix.description: String

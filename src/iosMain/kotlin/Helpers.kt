@@ -1,4 +1,4 @@
-package sincmaths.sincmatrix.helpers
+package sincmaths
 
 import kotlinx.cinterop.CArrayPointer
 import kotlinx.cinterop.DoubleVar

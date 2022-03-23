@@ -1,7 +1,4 @@
-package sincmaths.sincmatrix
-
-import sincmaths.SincMatrix
-import sincmaths.asSincMatrix
+package sincmaths
 
 fun SincMatrix.map(transform: (value: Double) -> Double) = this.asRowMajorArray().map {
     transform(it)

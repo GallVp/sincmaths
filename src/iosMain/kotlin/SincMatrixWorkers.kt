@@ -1,7 +1,6 @@
-package sincmaths.sincmatrix.workers
+package sincmaths
 
 import platform.Foundation.*
-import sincmaths.primitives.convolveVectors
 
 internal actual fun convWorker(A: DoubleArray, B: DoubleArray) = convolveVectors(A, B)
 

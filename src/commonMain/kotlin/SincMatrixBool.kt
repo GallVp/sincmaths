@@ -1,6 +1,4 @@
-package sincmaths.sincmatrix
-
-import sincmaths.SincMatrix
+package sincmaths
 
 fun SincMatrix.equalsTo(rhs: Double): SincMatrix {
     val signedResult = (this - rhs).sign().abs()

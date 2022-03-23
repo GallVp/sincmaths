@@ -1,8 +1,5 @@
 package sincmaths
 
-import sincmaths.sincmatrix.*
-import sincmaths.primitives.*
-
 actual class SincMatrix actual constructor(rowMajArray: DoubleArray, private var m: Int, private var n: Int) {
 
     private var matrixData:DoubleArray

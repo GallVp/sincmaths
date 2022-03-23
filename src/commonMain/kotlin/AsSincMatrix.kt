@@ -1,7 +1,5 @@
 package sincmaths
 
-import sincmaths.sincmatrix.*
-
 fun Double.asSincMatrix(): SincMatrix {
     return SincMatrix(doubleArrayOf(this), 1, 1)
 }

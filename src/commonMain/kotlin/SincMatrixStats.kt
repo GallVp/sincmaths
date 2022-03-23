@@ -1,9 +1,4 @@
-package sincmaths.sincmatrix
-
-import sincmaths.SincMatrix
-import sincmaths.asSincMatrix
-import sincmaths.sincmatrix.workers.medianWorker
-import sincmaths.sincmatrix.workers.vectorPercentileWorker
+package sincmaths
 
 fun SincMatrix.sum(dim: Int = 1): SincMatrix {
     return if (this.isvector()) {

@@ -1,7 +1,5 @@
-package sincmaths.sincmatrix
+package sincmaths
 
-import sincmaths.SincMatrix
-import sincmaths.asSincMatrix
 
 fun SincMatrix.sign(): SincMatrix {
     // Octave code: floor(t./(abs(t)+1)) - floor(-t./(abs(-t)+1))

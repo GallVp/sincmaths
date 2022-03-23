@@ -1,6 +1,5 @@
-package sincmaths.sincmatrix
+package sincmaths
 
-import sincmaths.SincMatrix
 
 /**
  * Indexing with a logical vector containing 0's and 1's.

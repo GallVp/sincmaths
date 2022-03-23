@@ -1,6 +1,5 @@
-package sincmaths.sincmatrix.workers
+package sincmaths
 
-import sincmaths.SincMatrix
 import java.text.SimpleDateFormat
 
 private external fun convWithWavelib(

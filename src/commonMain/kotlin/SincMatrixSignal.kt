@@ -1,7 +1,5 @@
-package sincmaths.sincmatrix
+package sincmaths
 
-import sincmaths.*
-import sincmaths.sincmatrix.workers.*
 import kotlin.math.roundToInt
 
 fun SincMatrix.conv(B: SincMatrix, shape: ConvolutionShape = ConvolutionShape.full): SincMatrix {
