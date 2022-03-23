@@ -1,6 +1,6 @@
 # SincMathsMP Library
 
-This library provides a 2D matrix which stores data in row-major format as opposed to column-major format used by Octave/MATLAB. The library aims to provide functions with names similar to Octave/MATLAB. See [docs](https://htmlpreview.github.io/?https://github.com/GallVp/SincMathsMP/blob/main/docs/index.html).
+This library provides a 2D matrix which stores data in row-major format as opposed to column-major format used by Octave/MATLAB. The library aims to provide functions with names similar to Octave/MATLAB. See [docs](https://github.com/GallVp/SincMathsMP/blob/main/docs/index.md).
 
 ## Change Log
 
