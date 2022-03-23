@@ -2,6 +2,10 @@ package sincmaths
 
 import kotlin.math.pow
 
+expect fun SincMatrix.numRows(): Int
+expect fun SincMatrix.numCols(): Int
+expect fun SincMatrix.numel(): Int
+
 val SincMatrix.description: String
     get() {
         val dispString = StringBuilder()
@@ -145,29 +149,29 @@ fun SincMatrix.cat(dim: Int = 1, vararg matrices: SincMatrix): SincMatrix {
  */
 fun SincMatrix.reshape(m: Int, n: Int): SincMatrix = this.asRowMajorArray().asSincMatrix(m, n)
 
-fun SincMatrix.repmat(m: Int, n: Int) : SincMatrix {
+fun SincMatrix.repmat(m: Int, n: Int): SincMatrix {
 
-    if(m == 0 || n == 0) {
+    if (m == 0 || n == 0) {
         return SincMatrix(doubleArrayOf(), 0, 0)
     }
 
-    val rowRepeatedMat = if(m == 1) {
+    val rowRepeatedMat = if (m == 1) {
         this
     } else {
         (1..m).map {
             this.asRowMajorArray().copyOf()
         }.flatMap {
             it.toList()
-        }.asSincMatrix(this.numRows()*m, this.numCols())
+        }.asSincMatrix(this.numRows() * m, this.numCols())
     }
 
-    return if(n == 1) {
+    return if (n == 1) {
         rowRepeatedMat
     } else {
-        rowRepeatedMat.cat(2, *Array(n-1){rowRepeatedMat.copyOf()})
+        rowRepeatedMat.cat(2, *Array(n - 1) { rowRepeatedMat.copyOf() })
     }
 }
 
-fun SincMatrix.round(n: Int):SincMatrix = map {
+fun SincMatrix.round(n: Int): SincMatrix = map {
     kotlin.math.round(it * 10.0.pow(n)) / 10.0.pow(n)
 }

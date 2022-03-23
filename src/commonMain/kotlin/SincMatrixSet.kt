@@ -1,5 +1,25 @@
 package sincmaths
 
+/**
+ * Indexing starts at 1, like Octave/MATLAB.
+ */
+expect operator fun SincMatrix.set(mlRow: Int, mlCol: Int, value: Double)
+
+/**
+ * Indexing starts at 1, like Octave/MATLAB.
+ */
+expect operator fun SincMatrix.set(index: Int, value: Double)
+
+/**
+ * Indexing starts at 1, like Octave/MATLAB. This function makes the underlying matrix a row vector.
+ */
+expect fun SincMatrix.removeAt(index: Int)
+
+/**
+ * Indexing starts at 1, like Octave/MATLAB. This function makes the underlying matrix a row vector.
+ */
+expect fun SincMatrix.removeAt(indices: IntArray)
+
 
 /**
  * Indexing with a logical vector containing 0's and 1's.

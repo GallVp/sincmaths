@@ -1,5 +1,8 @@
 package sincmaths
 
+expect fun SincMatrix.min(dim: Int = 1): SincMatrix
+expect fun SincMatrix.max(dim: Int = 1): SincMatrix
+
 fun SincMatrix.sum(dim: Int = 1): SincMatrix {
     return if (this.isvector()) {
         SincMatrix(rowMajArray = doubleArrayOf(this.elSum()), m = 1, n = 1)

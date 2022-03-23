@@ -1,6 +1,10 @@
 package sincmaths
 
 
+expect fun SincMatrix.transpose(): SincMatrix
+expect fun SincMatrix.floor(): SincMatrix
+expect fun SincMatrix.abs(): SincMatrix
+
 fun SincMatrix.sign(): SincMatrix {
     // Octave code: floor(t./(abs(t)+1)) - floor(-t./(abs(-t)+1))
     val negSelf = this * -1.0

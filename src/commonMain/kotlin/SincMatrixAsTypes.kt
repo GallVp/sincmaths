@@ -1,6 +1,9 @@
 package sincmaths
 
 
+expect fun SincMatrix.asArray(): DoubleArray
+expect fun SincMatrix.asRowMajorArray(): DoubleArray
+
 fun SincMatrix.asIntArray(): IntArray {
 
     if(this.isempty()) {

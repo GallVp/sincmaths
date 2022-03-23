@@ -2,6 +2,8 @@ package sincmaths
 
 import kotlin.math.roundToInt
 
+expect fun SincMatrix.find(): SincMatrix
+
 fun SincMatrix.conv(B: SincMatrix, shape: ConvolutionShape = ConvolutionShape.full): SincMatrix {
 
     require(this.isvector() && B.isvector()) {
