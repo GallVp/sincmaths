@@ -3,6 +3,46 @@ package sincmaths
 expect fun SincMatrix.min(dim: Int = 1): SincMatrix
 expect fun SincMatrix.max(dim: Int = 1): SincMatrix
 
+fun SincMatrix.minI(dim: Int = 1): SincMatrix = if(this.isvector()) {
+    val minVal = this.min().scalar
+    val minValAt = this.equalsTo(minVal).find()
+    if(minValAt.isempty()) {
+        SincMatrix(doubleArrayOf(), 0, 0)
+    } else {
+        SincMatrix(doubleArrayOf(minValAt[1]), 1, 1)
+    }
+} else {
+    if (dim == 1) {
+        this.mapColumnsToDouble {
+            it.minI().scalar
+        }
+    } else {
+        this.mapRowsToDouble {
+            it.minI().scalar
+        }
+    }
+}
+
+fun SincMatrix.maxI(dim: Int = 1): SincMatrix = if(this.isvector()) {
+    val maxVal = this.max().scalar
+    val maxValAt = this.equalsTo(maxVal).find()
+    if(maxValAt.isempty()) {
+        SincMatrix(doubleArrayOf(), 0, 0)
+    } else {
+        SincMatrix(doubleArrayOf(maxValAt[1]), 1, 1)
+    }
+} else {
+    if (dim == 1) {
+        this.mapColumnsToDouble {
+            it.maxI().scalar
+        }
+    } else {
+        this.mapRowsToDouble {
+            it.maxI().scalar
+        }
+    }
+}
+
 fun SincMatrix.sum(dim: Int = 1): SincMatrix {
     return if (this.isvector()) {
         SincMatrix(rowMajArray = doubleArrayOf(this.elSum()), m = 1, n = 1)

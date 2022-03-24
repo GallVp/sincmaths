@@ -470,6 +470,59 @@ class SincMatrixMathsAndStats {
         SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
+    private fun testVectorMinIMaxI() {
+        val i1 = rowVectorOf(2, 2, 2).maxI()
+        val i2 = rowVectorOf(2, 3, 2).maxI()
+        val i3 = rowVectorOf(2, 2, 1).minI()
+        val i4 = rowVectorOf(2.0, 1.0, 2.0, 0.5).minI()
+        val result = i1*i2*i3*i4
+
+        SincMathsTests.assert((result - 24.0).absoluteValue lt testTol)
+    }
+
+    private fun testMatrixMinIMaxI() {
+        // MATLAB code
+        //  format long
+        //  A = sgolay(3, 41);
+        //  [~, i1] = max(A, [], 1);
+        //  [~, i2] = max(A, [], 2);
+        //  [~, i3] = min(A, [], 1);
+        //  [~, i4] = min(A, [], 2);
+        //  i1*i2*i3*i4
+
+        val matlabResult = 721255227.0
+
+        val A = SincMatrix.from(SGCoeffs.sgo3x41)
+        val i1 = A.maxI(1)
+        val i2 = A.maxI(2)
+        val i3 = A.minI(1)
+        val i4 = A.minI(2)
+        val result = i1*i2*i3*i4
+
+        SincMathsTests.assert((result - matlabResult).absoluteValue lt testTol)
+    }
+
+    private fun testMatrixMinIMaxIB() {
+        // MATLAB code
+        //  format long
+        //  A = sgolay(3, 41);
+        //  [~, i1] = max(A, [], 2);
+        //  [~, i2] = max(A, [], 1);
+        //  [~, i3] = min(A, [], 2);
+        //  [~, i4] = min(A, [], 1);
+        //  cos(sum(sum(i1*i2*i3*i4)))
+
+        val matlabResult = 0.997478874339581
+
+        val A = SincMatrix.from(SGCoeffs.sgo3x41)
+        val i1 = A.maxI(2)
+        val i2 = A.maxI(1)
+        val i3 = A.minI(2)
+        val i4 = A.minI(1)
+        val result = (i1*i2*i3*i4).sum().sum().cos()
+        SincMathsTests.assert((result - matlabResult).absoluteValue lt testTol)
+    }
+
     fun performAll() {
         testVectorMatrixMultiply()
         testVectorMatrixMultiplyII()
@@ -489,6 +542,9 @@ class SincMatrixMathsAndStats {
         testMatrixAndOr()
         testEmptyVectorLogicOperators()
         testMatrixFind()
+        testVectorMinIMaxI()
+        testMatrixMinIMaxI()
+        testMatrixMinIMaxIB()
     }
 
 }

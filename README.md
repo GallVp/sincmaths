@@ -4,6 +4,10 @@ This library provides a 2D matrix which stores data in row-major format as oppos
 
 ## Change Log
 
+### Version 0.2.1 <24032022>
+
++ Added `minI` and `maxI` funcs.
+
 ### Version 0.2 <23032022>
 
 + Updated kotlin to 1.6.10

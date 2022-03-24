@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'sincmathsmp'
-    spec.version                  = '0.2'
+    spec.version                  = '0.2.1'
     spec.homepage                 = 'https://github.com/GallVp/SincMathsMP'
     spec.source                   = { :git => "Not Published", :tag => "Cocoapods/#{spec.name}/#{spec.version}" }
     spec.authors                  = 'Usman Rashid'

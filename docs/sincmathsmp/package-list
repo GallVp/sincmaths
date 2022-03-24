@@ -119,9 +119,11 @@ $dokka.location:sincmaths//matrixOf/#kotlin.Int#kotlin.Int#kotlin.DoubleArray/Po
 $dokka.location:sincmaths//matrixOf/#kotlin.Int#kotlin.Int#kotlin.IntArray/PointingToDeclaration/sincmathsmp/sincmaths/matrix-of.md
 $dokka.location:sincmaths//matrixOf/#kotlin.Int#kotlin.Int#kotlin.ranges.IntRange/PointingToDeclaration/sincmathsmp/sincmaths/matrix-of.md
 $dokka.location:sincmaths//max/sincmaths.SincMatrix#kotlin.Int/PointingToDeclaration/sincmathsmp/sincmaths/max.md
+$dokka.location:sincmaths//maxI/sincmaths.SincMatrix#kotlin.Int/PointingToDeclaration/sincmathsmp/sincmaths/max-i.md
 $dokka.location:sincmaths//mean/sincmaths.SincMatrix#kotlin.Int/PointingToDeclaration/sincmathsmp/sincmaths/mean.md
 $dokka.location:sincmaths//median/sincmaths.SincMatrix#kotlin.Int/PointingToDeclaration/sincmathsmp/sincmaths/median.md
 $dokka.location:sincmaths//min/sincmaths.SincMatrix#kotlin.Int/PointingToDeclaration/sincmathsmp/sincmaths/min.md
+$dokka.location:sincmaths//minI/sincmaths.SincMatrix#kotlin.Int/PointingToDeclaration/sincmathsmp/sincmaths/min-i.md
 $dokka.location:sincmaths//minus/kotlin.Double#sincmaths.SincMatrix/PointingToDeclaration/sincmathsmp/sincmaths/minus.md
 $dokka.location:sincmaths//minus/sincmaths.SincMatrix#kotlin.Double/PointingToDeclaration/sincmathsmp/sincmaths/minus.md
 $dokka.location:sincmaths//minus/sincmaths.SincMatrix#sincmaths.SincMatrix/PointingToDeclaration/sincmathsmp/sincmaths/minus.md
