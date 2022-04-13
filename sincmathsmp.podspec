@@ -1,25 +1,21 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'sincmathsmp'
-    spec.version                  = '0.2.1'
+    spec.version                  = '0.2.2'
     spec.homepage                 = 'https://github.com/GallVp/SincMathsMP'
-    spec.source                   = { :git => "Not Published", :tag => "Cocoapods/#{spec.name}/#{spec.version}" }
+    spec.source                   = { :http=> ''}
     spec.authors                  = 'Usman Rashid'
     spec.license                  = ''
     spec.summary                  = 'SincMaths Library'
-
-    spec.vendored_frameworks      = "build/cocoapods/framework/SincMaths.framework"
-    spec.libraries                = "c++"
-    spec.module_name              = "#{spec.name}_umbrella"
-
+    spec.vendored_frameworks      = 'build/cocoapods/framework/SincMaths.framework'
+    spec.libraries                = 'c++'
     spec.ios.deployment_target = '13.0'
-
                 
-
+                
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':',
-        'PRODUCT_MODULE_NAME' => 'sincmathsmp',
+        'PRODUCT_MODULE_NAME' => 'SincMaths',
     }
-
+                
     spec.script_phases = [
         {
             :name => 'Build sincmathsmp',
@@ -35,8 +31,9 @@ Pod::Spec.new do |spec|
                 "$REPO_ROOT/gradlew" -p "$REPO_ROOT" $KOTLIN_PROJECT_PATH:syncFramework \
                     -Pkotlin.native.cocoapods.platform=$PLATFORM_NAME \
                     -Pkotlin.native.cocoapods.archs="$ARCHS" \
-                    -Pkotlin.native.cocoapods.configuration=$CONFIGURATION
+                    -Pkotlin.native.cocoapods.configuration="$CONFIGURATION"
             SCRIPT
         }
     ]
+                
 end

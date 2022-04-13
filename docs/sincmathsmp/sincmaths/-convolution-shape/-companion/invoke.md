@@ -3,4 +3,4 @@
 # invoke
 
 [common]\
-operator fun [invoke](invoke.md)(rawValue: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)): [ConvolutionShape](../index.md)?
+operator fun [invoke](invoke.md)(rawValue: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)): &lt;ERROR CLASS&gt;

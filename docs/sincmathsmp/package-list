@@ -72,7 +72,7 @@ $dokka.location:sincmaths//flip/sincmaths.SincMatrix#kotlin.Int/PointingToDeclar
 $dokka.location:sincmaths//floor/sincmaths.SincMatrix#/PointingToDeclaration/sincmathsmp/sincmaths/floor.md
 $dokka.location:sincmaths//from/sincmaths.SincMatrix.Companion#kotlin.String/PointingToDeclaration/sincmathsmp/sincmaths/from.md
 $dokka.location:sincmaths//get/sincmaths.SincMatrix#kotlin.Function2[kotlin.Int,kotlin.ranges.IntRange,kotlin.ranges.IntRange]/PointingToDeclaration/sincmathsmp/sincmaths/get.md
-$dokka.location:sincmaths//get/sincmaths.SincMatrix#kotlin.Function4[kotlin.Int,kotlin.Int,kotlin.ranges.IntRange,kotlin.ranges.IntRange,kotlin.Pair[kotlin.ranges.IntRange,kotlin.ranges.IntRange]]/PointingToDeclaration/sincmathsmp/sincmaths/get.md
+$dokka.location:sincmaths//get/sincmaths.SincMatrix#kotlin.Function4[kotlin.Int,kotlin.Int,kotlin.ranges.IntRange,kotlin.ranges.IntRange,Pair<IntRange, IntRange>[kotlin.ranges.IntRange,kotlin.ranges.IntRange]]/PointingToDeclaration/sincmathsmp/sincmaths/get.md
 $dokka.location:sincmaths//get/sincmaths.SincMatrix#kotlin.Int#kotlin.Int/PointingToDeclaration/sincmathsmp/sincmaths/get.md
 $dokka.location:sincmaths//get/sincmaths.SincMatrix#kotlin.Int/PointingToDeclaration/sincmathsmp/sincmaths/get.md
 $dokka.location:sincmaths//get/sincmaths.SincMatrix#kotlin.IntArray#kotlin.IntArray/PointingToDeclaration/sincmathsmp/sincmaths/get.md
