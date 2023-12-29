@@ -20,24 +20,45 @@ val matrixF = matrixOf(2, 10, 1..20)
 val matrixG = colVectorOf(1.0, 0.5, 2.9, 10.1, 15.4)
 ```
 
+### Indexing
+
+```kotlin
+val matrixM: SincMatrix = (1..110).asSincMatrix(11, 10)
+
+val matrixA = matrixM["1:5,4:7"]
+val matrixB = matrixM["1:end,end:-1:end-1"]
+
+val matrixC = matrixM[3, 3]
+val matrixD = matrixM[1]
+
+val matrixE = matrixM[1..4]
+
+val matrixF = matrixM.get { endR, endC, allR, allC ->
+    Pair(allR, 4..7)
+} // same as matrixM[":,4:7"]
+```
+
 ### Implementation of `acf`
 
 Reference: https://au.mathworks.com/matlabcentral/fileexchange/30540-autocorrelation-function-acf
 
 ```kotlin
-require(this.isVector) { "This function works only for vectors" }
-require(numLags < this.numel) {
-    "No. of lags should be smaller than the length of the vector"
-}
+fun SincMatrix.acf(numLags: Int): SincMatrix {
 
-val zeroMeanVector = this - this.mean().scalar
-val convSum = zeroMeanVector.conv(B = zeroMeanVector.flip())
-val scale = 1.0 / zeroMeanVector.dot(zeroMeanVector).scalar
-val scaledConvSum = convSum * scale
-val numElements = ((this.numel + 1)..(this.numel + numLags)).toList().toIntArray()
-return if (this.isRow) {
-    scaledConvSum.getCols(mlCols = numElements)
-} else {
-    scaledConvSum.getRows(mlRows = numElements)
+    require(this.isVector) { "This function works only for vectors" }
+    require(numLags < this.numel) {
+        "No. of lags should be smaller than the length of the vector"
+    }
+
+    val zeroMeanVector = this - this.mean().scalar
+    val convSum = zeroMeanVector.conv(B = zeroMeanVector.flip())
+    val scale = 1.0 / zeroMeanVector.dot(zeroMeanVector).scalar
+    val scaledConvSum = convSum * scale
+    val numElements = ((this.numel + 1)..(this.numel + numLags)).toList().toIntArray()
+    return if (this.isRow) {
+        scaledConvSum.getCols(mlCols = numElements)
+    } else {
+        scaledConvSum.getRows(mlRows = numElements)
+    }
 }
 ```
