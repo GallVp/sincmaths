@@ -1,0 +1,4 @@
+package = wavelib
+headers = wt_helpers.h
+staticLibraries = libwavelib.a
+libraryPaths = /Users/usman/Documents/Projects/sincmaths/sincmathsmp/src/cpp/wavelib/build
