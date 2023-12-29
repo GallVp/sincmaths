@@ -60,11 +60,11 @@ fun List<SincMatrix>.makeMatrixFrom(rowVectors:Boolean = true): SincMatrix {
         return SincMatrix(doubleArrayOf(), 0, 0)
     }
 
-    val sz = this.first().size()
+    val sz = this.first().size
 
     this.map {
         require(it.isVector) {"Only vectors can be joined." }
-        require(it.size() == sz) {"Size across vectors must be invariant." }
+        require(it.size == sz) {"Size across vectors must be invariant." }
     }
 
     val vecLen = this.first().numel

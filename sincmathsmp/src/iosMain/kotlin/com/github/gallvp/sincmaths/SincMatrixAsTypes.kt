@@ -2,7 +2,7 @@ package com.github.gallvp.sincmaths
 
 actual fun SincMatrix.asArray(): DoubleArray {
 
-    if(this.isempty()) {
+    if(this.isEmpty()) {
         return doubleArrayOf()
     }
 

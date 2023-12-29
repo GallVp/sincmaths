@@ -18,13 +18,13 @@ internal expect fun fileReadWorker(filePath: String, bundleID: String?): String?
 
 internal fun sgolayWorker(vectorIn: SincMatrix, B: SincMatrix): SincMatrix {
     var vector = vectorIn.copyOf()
-    val vectorIsRow = vector.isrow()
-    val filterLength = B.size().first()
+    val vectorIsRow = vector.isRow
+    val filterLength = B.size.first()
     if (vectorIsRow) {
         vector = vector.transpose()
     }
     var startsAt = (filterLength - 1) / 2 + 2
-    var endsAt = B.size().first()
+    var endsAt = B.size.first()
     val initialSegment = B.getRows(
         mlRows = (startsAt..endsAt).reversed().toList().toIntArray()
     ) * vector.getRows(mlRows = (1..filterLength).reversed().toList().toIntArray())
@@ -41,7 +41,7 @@ internal fun sgolayWorker(vectorIn: SincMatrix, B: SincMatrix): SincMatrix {
     val computedVector =
         initialSegment.asRowMajorArray() + middleSegment.asRowMajorArray() + finalSegment.asRowMajorArray()
     var returnVector =
-        SincMatrix(rowMajArray = computedVector, m = vector.numRows(), n = vector.numCols())
+        SincMatrix(rowMajArray = computedVector, m = vector.numRows, n = vector.numCols)
     if (vectorIsRow) {
         returnVector = returnVector.transpose()
     }

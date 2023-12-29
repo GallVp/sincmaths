@@ -4,7 +4,7 @@ import org.ejml.simple.SimpleMatrix
 
 actual fun SincMatrix.asArray(): DoubleArray {
 
-    if(this.isempty()) {
+    if(this.isEmpty()) {
         return doubleArrayOf()
     }
 
@@ -13,5 +13,5 @@ actual fun SincMatrix.asArray(): DoubleArray {
 }
 
 actual fun SincMatrix.asRowMajorArray() = this.matrixData
-internal fun SincMatrix.asSimpleMatrix() = SimpleMatrix(this.numRows(), this.numCols(), true,
+internal fun SincMatrix.asSimpleMatrix() = SimpleMatrix(this.numRows, this.numCols, true,
     *this.matrixData)

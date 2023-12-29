@@ -1,16 +1,16 @@
 package com.github.gallvp.sincmaths
 
 actual fun SincMatrix.transpose(): SincMatrix =
-    transposeOfRowMajorMatrix(this.matrixData, this.numRows(), this.numCols()).asSincMatrix(
-        this.numCols(),
-        this.numRows()
+    transposeOfRowMajorMatrix(this.matrixData, this.numRows, this.numCols).asSincMatrix(
+        this.numCols,
+        this.numRows
     )
 
 actual fun SincMatrix.floor(): SincMatrix =
-    floorOfElementsOfVector(this.matrixData).asSincMatrix(this.numRows(), this.numCols())
+    floorOfElementsOfVector(this.matrixData).asSincMatrix(this.numRows, this.numCols)
 
 actual fun SincMatrix.abs(): SincMatrix =
-    absOfElementsOfVector(this.matrixData).asSincMatrix(this.numRows(), this.numCols())
+    absOfElementsOfVector(this.matrixData).asSincMatrix(this.numRows, this.numCols)
 
 actual fun SincMatrix.find(): SincMatrix {
     val actualIndices = findNonZeroIndices(this.matrixData, false)
@@ -18,7 +18,7 @@ actual fun SincMatrix.find(): SincMatrix {
     if (actualCount < 1) {
         return SincMatrix(doubleArrayOf(), 0, 0)
     }
-    return if (this.isrow()) {
+    return if (this.isRow) {
         SincMatrix(rowMajArray = actualIndices, m = 1, n = actualCount)
     } else {
         SincMatrix(rowMajArray = actualIndices, m = actualCount, n = 1)

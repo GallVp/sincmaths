@@ -9,15 +9,15 @@ fun Double.equalsTo(rhs: SincMatrix) = rhs et this
 
 fun SincMatrix.equalsTo(rhs: SincMatrix): SincMatrix {
 
-    if(this.isscalar()) {
+    if(this.isScalar) {
         return rhs et this.scalar
     }
 
-    if(rhs.isscalar()) {
+    if(rhs.isScalar) {
         return this et rhs.scalar
     }
 
-    require(this.size() == rhs.size()) {
+    require(this.size == rhs.size) {
         "size(A) should be equal to size(B)"
     }
 
@@ -30,15 +30,15 @@ fun Double.notEqualsTo(rhs: SincMatrix) = rhs net this
 
 fun SincMatrix.notEqualsTo(rhs: SincMatrix): SincMatrix {
 
-    if(this.isscalar()) {
+    if(this.isScalar) {
         return rhs net this.scalar
     }
 
-    if(rhs.isscalar()) {
+    if(rhs.isScalar) {
         return this net rhs.scalar
     }
 
-    require(this.size() == rhs.size()) {
+    require(this.size == rhs.size) {
         "size(A) should be equal to size(B)"
     }
 

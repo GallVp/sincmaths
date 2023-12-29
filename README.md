@@ -35,7 +35,7 @@ val convSum = zeroMeanVector.conv(B = zeroMeanVector.flip())
 val scale = 1.0 / zeroMeanVector.dot(zeroMeanVector).scalar
 val scaledConvSum = convSum * scale
 val numElements = ((this.numel + 1)..(this.numel + numLags)).toList().toIntArray()
-return if (this.isrow()) {
+return if (this.isRow) {
     scaledConvSum.getCols(mlCols = numElements)
 } else {
     scaledConvSum.getRows(mlRows = numElements)

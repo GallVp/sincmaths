@@ -260,8 +260,8 @@ class SincMatrixBasicTests {
                 .sum() / 1000.0 - 4.362000000000000).absoluteValue lt SincMathsTests.testTol
         )
 
-        SincMathsTests.assert(A.cat(2, B).size() == listOf(2, 22))
-        SincMathsTests.assert(B.cat(1, C).size() == listOf(9, 12))
+        SincMathsTests.assert(A.cat(2, B).size == listOf(2, 22))
+        SincMathsTests.assert(B.cat(1, C).size == listOf(9, 12))
 
         SincMathsTests.assert(
             (B.cat(
@@ -283,7 +283,7 @@ class SincMatrixBasicTests {
         // sum(repmat([1 0 0;0 1 0], 10, 7), 2)(1:3) = [7;7;7]
 
         SincMathsTests.assert(
-            colVectorOf(1, 0).repmat(20, 1).size() == listOf(40, 1)
+            colVectorOf(1, 0).repmat(20, 1).size == listOf(40, 1)
         )
 
         SincMathsTests.assert(
@@ -291,7 +291,7 @@ class SincMatrixBasicTests {
         )
 
         SincMathsTests.assert(
-            colVectorOf(1, 0).repmat(0, 0).isempty()
+            colVectorOf(1, 0).repmat(0, 0).isEmpty()
         )
 
         SincMathsTests.assert(
@@ -299,7 +299,7 @@ class SincMatrixBasicTests {
         )
 
         SincMathsTests.assert(
-            matrixFrom("[1, 0, 0;0, 1, 0]").repmat(10, 7).size() == listOf(20, 21)
+            matrixFrom("[1, 0, 0;0, 1, 0]").repmat(10, 7).size == listOf(20, 21)
         )
 
         SincMathsTests.assert(

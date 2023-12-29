@@ -29,7 +29,7 @@ fun SincMatrix.setWithLV(logicalVector: SincMatrix, values: DoubleArray) {
         "numel(logicalVect) == numel(this matrix) is violated"
     }
     val indices = logicalVector.find()
-    if (indices.isempty()) {return}
+    if (indices.isEmpty()) {return}
     val indicesAsArray = indices.asIntArray()
     if (values.isEmpty()) {
         this.removeAt(indicesAsArray)
@@ -43,7 +43,7 @@ fun SincMatrix.setWithLV(logicalVector: SincMatrix, values: DoubleArray) {
  */
 fun SincMatrix.setWithLV(logicalVector: SincMatrix, value: Double) {
     val indices = logicalVector.find()
-    if (indices.isempty()) {return}
+    if (indices.isEmpty()) {return}
     val indicesAsArray = indices.asIntArray()
     for (i in indicesAsArray.indices) {
         this[indicesAsArray[i]] = value
@@ -139,12 +139,12 @@ fun SincMatrix.setCol(mlCol:Int, values: SincMatrix) {
  * Indexing starts at 1, like Octave/MATLAB.
  */
 fun SincMatrix.setRow(mlRow:Int, value: Double) {
-    this.setRow(mlRow, DoubleArray(this.numCols()){value})
+    this.setRow(mlRow, DoubleArray(this.numCols){value})
 }
 
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
 fun SincMatrix.setCol(mlCol:Int, value: Double) {
-    this.setCol(mlCol, DoubleArray(this.numRows()){value})
+    this.setCol(mlCol, DoubleArray(this.numRows){value})
 }

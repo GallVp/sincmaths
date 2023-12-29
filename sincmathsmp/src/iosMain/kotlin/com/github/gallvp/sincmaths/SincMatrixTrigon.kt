@@ -1,7 +1,7 @@
 package com.github.gallvp.sincmaths
 
 actual fun SincMatrix.sin(): SincMatrix =
-    sinOfElementsOfVector(this.matrixData).asSincMatrix(this.numRows(), this.numCols())
+    sinOfElementsOfVector(this.matrixData).asSincMatrix(this.numRows, this.numCols)
 
 actual fun SincMatrix.cos(): SincMatrix =
-    cosOfElementsOfVector(this.matrixData).asSincMatrix(this.numRows(), this.numCols())
+    cosOfElementsOfVector(this.matrixData).asSincMatrix(this.numRows, this.numCols)

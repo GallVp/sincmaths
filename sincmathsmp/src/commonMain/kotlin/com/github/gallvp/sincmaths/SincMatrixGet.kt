@@ -5,7 +5,7 @@ package com.github.gallvp.sincmaths
  */
 fun SincMatrix.getWithLV(logicalVect: SincMatrix): SincMatrix {
 
-    if (this.isempty() || logicalVect.isempty()) {
+    if (this.isEmpty() || logicalVect.isEmpty()) {
         return emptySincMatrix()
     }
 
@@ -27,8 +27,8 @@ operator fun SincMatrix.get(mlScript: String): SincMatrix = if (mlScript.contain
 
     require(stringLiterals.count() == 2) { "With comma usage, mlScript must contain both row and column indices" }
 
-    val rowsScript = stringLiterals.first().replace("end", this.numRows().toString(), false)
-    val colsScript = stringLiterals.last().replace("end", this.numCols().toString(), false)
+    val rowsScript = stringLiterals.first().replace("end", this.numRows.toString(), false)
+    val colsScript = stringLiterals.last().replace("end", this.numCols.toString(), false)
     val mlRows = if (rowsScript == ":") {
         this.rowIndices
     } else {
@@ -54,7 +54,7 @@ operator fun SincMatrix.get(mlScript: String): SincMatrix = if (mlScript.contain
  * kotlin-way of doing get(mlScript: String).
  */
 fun SincMatrix.get(selector: (endR:Int, endC:Int, allR:IntRange, allC:IntRange) -> Pair<IntRange, IntRange>): SincMatrix {
-    val indices = selector(this.numRows(), this.numCols(), this.rowIndicesRange, this.colIndicesRange)
+    val indices = selector(this.numRows, this.numCols, this.rowIndicesRange, this.colIndicesRange)
     return this[indices.first, indices.second]
 }
 
@@ -162,7 +162,7 @@ internal fun SincMatrix.indexBuilder(mlRows: IntArray, mlCols: IntArray): IntArr
     val vectIndices: ArrayList<Int> = ArrayList()
     vectIndices.ensureCapacity(mlRows.size * mlCols.size)
     for (row in mlRows) {
-        val numElementsBehind: Int = (row - 1) * this.numCols()
+        val numElementsBehind: Int = (row - 1) * this.numCols
         vectIndices.addAll(mlCols.map { it + numElementsBehind })
     }
     return vectIndices.toIntArray()
@@ -176,14 +176,14 @@ internal fun SincMatrix.indexBuilder(mlRows: IntRange, mlCols: IntRange): IntArr
     val vectIndices: ArrayList<Int> = ArrayList()
     vectIndices.ensureCapacity(mlRows.count() * mlCols.count())
     for (row in mlRows) {
-        val numElementsBehind: Int = (row - 1) * this.numCols()
+        val numElementsBehind: Int = (row - 1) * this.numCols
         vectIndices.addAll(mlCols.map { it + numElementsBehind })
     }
     return vectIndices.toIntArray()
 }
 
 internal fun SincMatrix.getIndex(mlRow: Int, mlCol: Int): Int {
-    val numElementsBehind: Int = (mlRow - 1) * this.numCols()
+    val numElementsBehind: Int = (mlRow - 1) * this.numCols
     return mlCol + numElementsBehind
 }
 

@@ -28,7 +28,7 @@ fun SincMatrix.cross(ontoVector: SincMatrix): SincMatrix {
     val c2 = this[3] * ontoVector[1] - this[1] * ontoVector[3]
     val c3 = this[1] * ontoVector[2] - this[2] * ontoVector[1]
 
-    return if (this.iscolumn() && ontoVector.iscolumn()) {
+    return if (this.isColumn && ontoVector.isColumn) {
         doubleArrayOf(c1, c2, c3).asSincMatrix(m = 3, n = 1)
     } else {
         doubleArrayOf(c1, c2, c3).asSincMatrix(m = 1, n = 3)

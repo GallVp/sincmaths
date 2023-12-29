@@ -7,6 +7,13 @@
 + Updated ejml-simple to 0.43.1
 + Updated AGP to 8.2.0
 + `isVector` now replaced by `isVector`
++ `numRows()` and `numCols()` are now `numRows` and `numCols`
++ `length()` is now `length`
++ `size()` is now `size`
++ `isrow()` is now `isRow`
++ `iscolumn()` is now `isColumn`
++ `isempty()` is now `isEmpty()`
++ `isScalar` is now `isScalar`
 
 ## Version 0.2.2 <13042022>
 

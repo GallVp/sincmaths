@@ -6,7 +6,7 @@ expect fun SincMatrix.max(dim: Int = 1): SincMatrix
 fun SincMatrix.minI(dim: Int = 1): SincMatrix = if(this.isVector) {
     val minVal = this.min().scalar
     val minValAt = this.equalsTo(minVal).find()
-    if(minValAt.isempty()) {
+    if(minValAt.isEmpty()) {
         SincMatrix(doubleArrayOf(), 0, 0)
     } else {
         SincMatrix(doubleArrayOf(minValAt[1]), 1, 1)
@@ -26,7 +26,7 @@ fun SincMatrix.minI(dim: Int = 1): SincMatrix = if(this.isVector) {
 fun SincMatrix.maxI(dim: Int = 1): SincMatrix = if(this.isVector) {
     val maxVal = this.max().scalar
     val maxValAt = this.equalsTo(maxVal).find()
-    if(maxValAt.isempty()) {
+    if(maxValAt.isEmpty()) {
         SincMatrix(doubleArrayOf(), 0, 0)
     } else {
         SincMatrix(doubleArrayOf(maxValAt[1]), 1, 1)
@@ -48,9 +48,9 @@ fun SincMatrix.sum(dim: Int = 1): SincMatrix {
         SincMatrix(rowMajArray = doubleArrayOf(this.elSum()), m = 1, n = 1)
     } else {
         if (dim == 1) {
-            SincMatrix.ones(m = 1, n = this.numRows()) * this
+            SincMatrix.ones(m = 1, n = this.numRows) * this
         } else {
-            this * SincMatrix.ones(m = this.numCols(), n = 1)
+            this * SincMatrix.ones(m = this.numCols, n = 1)
         }
     }
 }
@@ -60,9 +60,9 @@ fun SincMatrix.mean(dim: Int = 1): SincMatrix {
         (this.elSum() / this.numel).asSincMatrix()
     } else {
         if (dim == 1) {
-            this.sum(1) / this.numRows().toDouble()
+            this.sum(1) / this.numRows.toDouble()
         } else {
-            this.sum(2) / this.numCols().toDouble()
+            this.sum(2) / this.numCols.toDouble()
         }
     }
 }

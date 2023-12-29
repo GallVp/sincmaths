@@ -9,14 +9,14 @@ actual fun SincMatrix.min(dim: Int): SincMatrix {
         )
     } else {
         return if (dim == 1) {
-            val result = SincMatrix.nans(m = 1, n = this.numCols())
-            for (i in 1..this.numCols()) {
+            val result = SincMatrix.nans(m = 1, n = this.numCols)
+            for (i in 1..this.numCols) {
                 result[i] = this.getCol(mlCol = i).matrixData.minOrNull()!!
             }
             result
         } else {
-            val result = SincMatrix.nans(m = this.numRows(), n = 1)
-            for (i in 1..this.numRows()) {
+            val result = SincMatrix.nans(m = this.numRows, n = 1)
+            for (i in 1..this.numRows) {
                 result[i] = this.getRow(mlRow = i).matrixData.minOrNull()!!
             }
             result
@@ -33,14 +33,14 @@ actual fun SincMatrix.max(dim: Int): SincMatrix {
         )
     } else {
         return if (dim == 1) {
-            val result = SincMatrix.nans(m = 1, n = this.numCols())
-            for (i in 1..this.numCols()) {
+            val result = SincMatrix.nans(m = 1, n = this.numCols)
+            for (i in 1..this.numCols) {
                 result[i] = this.getCol(mlCol = i).matrixData.maxOrNull()!!
             }
             result
         } else {
-            val result = SincMatrix.nans(m = this.numRows(), n = 1)
-            for (i in 1..this.numRows()) {
+            val result = SincMatrix.nans(m = this.numRows, n = 1)
+            for (i in 1..this.numRows) {
                 result[i] = this.getRow(mlRow = i).matrixData.maxOrNull()!!
             }
             result

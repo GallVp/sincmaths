@@ -6,7 +6,7 @@ expect fun SincMatrix.asRowMajorArray(): DoubleArray
 
 fun SincMatrix.asIntArray(): IntArray {
 
-    if(this.isempty()) {
+    if(this.isEmpty()) {
         return intArrayOf()
     }
 
@@ -18,13 +18,13 @@ fun SincMatrix.asIntArray(): IntArray {
 }
 
 fun SincMatrix.asScalar(): Double {
-    require(this.isscalar()) { "Matrix is not a scalar and conversion is invalid" }
+    require(this.isScalar) { "Matrix is not a scalar and conversion is invalid" }
 
     return this[1]
 }
 
 fun SincMatrix.asBoolean(): Boolean {
-    require(this.isscalar()) { "Matrix is not a scalar and conversion is invalid" }
+    require(this.isScalar) { "Matrix is not a scalar and conversion is invalid" }
 
     return this[1] != 0.0
 }
@@ -37,7 +37,7 @@ fun SincMatrix.asRowVector(): SincMatrix =
 
 fun SincMatrix.asBoolArray(): BooleanArray {
 
-    if(this.isempty()) {
+    if(this.isEmpty()) {
         return booleanArrayOf()
     }
 

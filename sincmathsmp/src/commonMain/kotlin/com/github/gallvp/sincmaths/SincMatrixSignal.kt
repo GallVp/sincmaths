@@ -12,7 +12,7 @@ fun SincMatrix.conv(B: SincMatrix, shape: ConvolutionShape = ConvolutionShape.fu
 
     var isColumnFlag = false
 
-    if (this.iscolumn()) {
+    if (this.isColumn) {
         isColumnFlag = true
     }
 
@@ -61,11 +61,11 @@ fun SincMatrix.diff(dim: Int = 1): SincMatrix = if (this.isVector) {
     this.conv(kernel, ConvolutionShape.valid)
 } else {
     if (dim == 1) {
-        this.mapColumns(this.numRows() - 1) {
+        this.mapColumns(this.numRows - 1) {
             it.diff()
         }
     } else {
-        this.mapRows(this.numCols() - 1) {
+        this.mapRows(this.numCols - 1) {
             it.diff()
         }
     }
@@ -94,7 +94,7 @@ fun SincMatrix.movsum(wlen: Int, endpoints: MovWinShape = MovWinShape.shrink, di
                     doubleArrayOf(
                         firstElement,
                         *movSumTwoToEnd
-                    ).asSincMatrix(computedSegment.numRows(), computedSegment.numCols())
+                    ).asSincMatrix(computedSegment.numRows, computedSegment.numCols)
                 } else {
                     //Odd
                     this.conv(B = convKernel, shape = ConvolutionShape.same)
@@ -123,7 +123,7 @@ fun SincMatrix.movmean(wlen: Int, endpoints: MovWinShape = MovWinShape.shrink, d
             val movSumResult = this.movsum(wlen = wlen, endpoints = MovWinShape.shrink)
             val numPoints =
                 SincMatrix.ones(1, this.numel).movsum(wlen = wlen, endpoints = MovWinShape.shrink)
-            if (movSumResult.isrow()) {
+            if (movSumResult.isRow) {
                 (movSumResult elDiv numPoints)
             } else {
                 (movSumResult elDiv numPoints.transpose())
@@ -152,24 +152,24 @@ fun SincMatrix.filter(B: DoubleArray, A: DoubleArray, dim: Int = 1): SincMatrix 
 
     SincMatrix(
         rowMajArray = filterWorker(B, A, this.asRowMajorArray(), doubleArrayOf(0.0, 0.0)),
-        m = this.numRows(),
-        n = this.numCols()
+        m = this.numRows,
+        n = this.numCols
     )
 } else {
     if(dim == 1) {
         this.mapColumns {
             SincMatrix(
                 rowMajArray = filterWorker(B, A, it.asRowMajorArray(), doubleArrayOf(0.0, 0.0)),
-                m = it.numRows(),
-                n = it.numCols()
+                m = it.numRows,
+                n = it.numCols
             )
         }
     } else {
         this.mapRows {
             SincMatrix(
                 rowMajArray = filterWorker(B, A, it.asRowMajorArray(), doubleArrayOf(0.0, 0.0)),
-                m = it.numRows(),
-                n = it.numCols()
+                m = it.numRows,
+                n = it.numCols
             )
         }
     }
@@ -184,7 +184,7 @@ fun SincMatrix.filtfilt(B: DoubleArray, A: DoubleArray): SincMatrix {
     }
 
     return if (this.isVector) {
-        SincMatrix(filtfiltWorker(B, A, this.asRowMajorArray()), numRows(), numCols())
+        SincMatrix(filtfiltWorker(B, A, this.asRowMajorArray()), numRows, numCols)
     } else {
         this.mapColumns {
             filtfiltWorker(B, A, it.asRowMajorArray()).asSincMatrix(false)
@@ -228,7 +228,7 @@ fun SincMatrix.acf(numLags: Int): SincMatrix {
     val scale = 1.0 / zeroMeanVector.dot(zeroMeanVector).scalar
     val scaledConvSum = convSum * scale
     val numElements = ((this.numel + 1)..(this.numel + numLags)).toList().toIntArray()
-    return if (this.isrow()) {
+    return if (this.isRow) {
         scaledConvSum.getCols(mlCols = numElements)
     } else {
         scaledConvSum.getRows(mlRows = numElements)
@@ -243,7 +243,7 @@ fun SincMatrix.findpeaks(): SincMatrix {
     val resultA = manipulatedMatrix.diff().sign().diff().lessThan(0.0)
     val result =
         resultA.getRows(mlRows = (2 until this.numel).toList().toIntArray()).find() + 1.0
-    return if (this.isrow()) {
+    return if (this.isRow) {
         result.transpose()
     } else {
         result
@@ -256,7 +256,7 @@ fun SincMatrix.cumsum(dim: Int = 1): SincMatrix = if (this.isVector) {
     for (i in 1 until resultVector.size) {
         resultVector[i] = resultVector[i] + resultVector[i - 1]
     }
-    SincMatrix(resultVector, this.numRows(), this.numCols())
+    SincMatrix(resultVector, this.numRows, this.numCols)
 } else {
     if (dim == 1) {
         this.mapColumns {
@@ -270,7 +270,7 @@ fun SincMatrix.cumsum(dim: Int = 1): SincMatrix = if (this.isVector) {
 }
 
 fun SincMatrix.flip(dim: Int = 1): SincMatrix = if (this.isVector) {
-    SincMatrix(this.asRowMajorArray().reversedArray(), this.numRows(), this.numCols())
+    SincMatrix(this.asRowMajorArray().reversedArray(), this.numRows, this.numCols)
 } else {
     if (dim == 1) {
         this.mapColumns {
@@ -292,8 +292,8 @@ fun SincMatrix.diffWithWavelet(scale: Double, dt: Double, dim: Int = 1): SincMat
     val signal = this.asRowMajorArray()
     SincMatrix(
         rowMajArray = diffCWTFTWorker(signal, signal.size, scale, dt),
-        m = this.numRows(),
-        n = this.numCols()
+        m = this.numRows,
+        n = this.numCols
     )
 } else {
     if (dim == 1) {

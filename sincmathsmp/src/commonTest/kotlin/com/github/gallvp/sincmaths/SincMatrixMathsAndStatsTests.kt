@@ -202,8 +202,8 @@ class SincMatrixMathsAndStats {
                 .sum() / 100000.0 - 4.392300000000000).absoluteValue lt testTol
         )
 
-        SincMathsTests.assert(A.median(1).size() == listOf(1, 12))
-        SincMathsTests.assert(A.median(2).size() == listOf(10, 1))
+        SincMathsTests.assert(A.median(1).size == listOf(1, 12))
+        SincMathsTests.assert(A.median(2).size == listOf(10, 1))
     }
 
     private fun testVectorIQR() {
@@ -222,19 +222,19 @@ class SincMatrixMathsAndStats {
 
         val exampleA = (1..1001).asSincMatrix().quantile(doubleArrayOf(0.1, 0.2, 0.3, 0.55)) / 100.0
         val resultA = rowVectorOf(1.006, 2.007, 3.008, 5.5105)
-        SincMathsTests.assert(exampleA.size() == resultA.size())
+        SincMathsTests.assert(exampleA.size == resultA.size)
         SincMathsTests.assert(((exampleA - resultA) lt testTol).all())
 
         val exampleB = (1..1000).asSincMatrix().reshape(500, 2).quantile(doubleArrayOf(0.1, 0.2)) / 100.0
         val resultB = matrixOf(2, 2, 1.0, 1.01, 2.0, 2.01)
 
-        SincMathsTests.assert(exampleB.size() == resultB.size())
+        SincMathsTests.assert(exampleB.size == resultB.size)
         SincMathsTests.assert(((exampleB - resultB) lt testTol).all())
 
         val exampleC = ((1..1000).asSincMatrix().reshape(500, 2).quantile(doubleArrayOf(0.1, 0.9), 2) / 100.0).sum()
         val resultC = matrixOf(1, 2, 2500, 2505)
 
-        SincMathsTests.assert(exampleC.size() == resultC.size())
+        SincMathsTests.assert(exampleC.size == resultC.size)
         SincMathsTests.assert(((exampleC - resultC) lt convTestTolAndroid).all())
     }
 
@@ -452,7 +452,7 @@ class SincMatrixMathsAndStats {
         )
 
         SincMathsTests.assert(
-            testVector.getWithLV(emptyVector).isempty()
+            testVector.getWithLV(emptyVector).isEmpty()
         )
 
         val testVectorCopy = testVector.copyOf()
