@@ -8,7 +8,7 @@ import platform.Foundation.NSUTF8StringEncoding
 import platform.Foundation.stringWithContentsOfFile
 import platform.Foundation.timeIntervalSince1970
 
-internal actual fun convWorker(A: DoubleArray, B: DoubleArray) = convolveVectors(A, B)
+internal actual fun convWorker(aArray: DoubleArray, bArray: DoubleArray) = convolveVectors(aArray, bArray)
 
 /**
  * Takes date and date format string to produce a time stamp in seconds which represents time since 1970

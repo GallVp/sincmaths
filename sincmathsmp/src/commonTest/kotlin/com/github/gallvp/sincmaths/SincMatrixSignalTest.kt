@@ -1,11 +1,11 @@
 package com.github.gallvp.sincmaths
 
-import com.github.gallvp.sincmaths.SincMathsTests.Companion.convTestTol
-import com.github.gallvp.sincmaths.SincMathsTests.Companion.convTestTolAndroid
-import com.github.gallvp.sincmaths.SincMathsTests.Companion.multSumTestTol
-import com.github.gallvp.sincmaths.SincMathsTests.Companion.testTol
+import com.github.gallvp.sincmaths.SincMathsTest.Companion.convTestTol
+import com.github.gallvp.sincmaths.SincMathsTest.Companion.convTestTolAndroid
+import com.github.gallvp.sincmaths.SincMathsTest.Companion.multSumTestTol
+import com.github.gallvp.sincmaths.SincMathsTest.Companion.testTol
 
-class SincMatrixSignalProcTests {
+class SincMatrixSignalTest {
 
     private fun testVectorConv() {
         // Octave code
@@ -21,18 +21,26 @@ class SincMatrixSignalProcTests {
         val resultOctave = 2.102544125534404
         val A = matrixFrom(script = "-10:10")
         val B = matrixFrom(script = "1:0.3:6")
-        val M = (A.conv(B = B, shape = ConvolutionShape.full) * A.transpose()
-            .conv(B = B.transpose(), shape = ConvolutionShape.full))
-        val N = (A.conv(B = B, shape = ConvolutionShape.same) * A.transpose()
-            .conv(B = B.transpose(), shape = ConvolutionShape.same))
-        val O = (A.conv(B = B, shape = ConvolutionShape.valid) * A.transpose()
-            .conv(B = B.transpose(), shape = ConvolutionShape.valid))
-        val P = (B.conv(B = A, shape = ConvolutionShape.full) * B.transpose()
-            .conv(B = A.transpose(), shape = ConvolutionShape.full))
-        val Q = (B.conv(B = A, shape = ConvolutionShape.same) * B.transpose()
-            .conv(B = A.transpose(), shape = ConvolutionShape.same))
+        val M = (A.conv(bVector = B, shape = ConvolutionShape.FULL) * A.transpose
+            .conv(bVector = B.transpose, shape = ConvolutionShape.FULL))
+        val N = (A.conv(bVector = B, shape = ConvolutionShape.SAME) * A.transpose.conv(
+            bVector = B.transpose,
+            shape = ConvolutionShape.SAME
+        ))
+        val O = (A.conv(bVector = B, shape = ConvolutionShape.VALID) * A.transpose.conv(
+            bVector = B.transpose,
+            shape = ConvolutionShape.VALID
+        ))
+        val P = (B.conv(bVector = A, shape = ConvolutionShape.FULL) * B.transpose.conv(
+            bVector = A.transpose,
+            shape = ConvolutionShape.FULL
+        ))
+        val Q = (B.conv(bVector = A, shape = ConvolutionShape.SAME) * B.transpose.conv(
+            bVector = A.transpose,
+            shape = ConvolutionShape.SAME
+        ))
         val result = (M + N + O + P + Q) elDiv (B.sum() elPow 3.5)
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
     private fun testVectorDiff() {
@@ -42,13 +50,11 @@ class SincMatrixSignalProcTests {
         //  A = rand(1, 5);
         //  diff(A)*diff(A')
         val resultOctave = 1.080192559976076
-        val A =
-            matrixFrom(
-                script = "[4.418510198593140e-02, 4.279963076114655e-01, 8.155888915061951e-01, " +
-                        "7.815348356962204e-02, 5.668686628341675e-01]"
-            )
+        val A = matrixFrom(
+            script = "[4.418510198593140e-02, 4.279963076114655e-01, 8.155888915061951e-01, " + "7.815348356962204e-02, 5.668686628341675e-01]"
+        )
         val result = A.diff() * A.t.diff()
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
     private fun testMatrixDiff() {
@@ -61,11 +67,11 @@ class SincMatrixSignalProcTests {
         val x = matrixFrom("0.1:0.1:11").reshape(11, 10)
         val y = x.sin()
 
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             (y.diff(1).iqr(1).mean() - 1.299495936567463).absoluteValue lt multSumTestTol
         )
 
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             ((100.0 * y).diff(2).iqr(2).mean() - 2.889079408634358).absoluteValue lt convTestTol
         )
     }
@@ -79,18 +85,15 @@ class SincMatrixSignalProcTests {
         //  A = [4 5 6];
         //  filter(B, A, testVector)*filter(B, A, testVector')
         val resultOctave = 2.429411901632733e-01
-        val testVector =
-            matrixFrom(
-                script = "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, " +
-                        "5.843927264213562e-01, 2.296017855405807e-01]"
-            )
+        val testVector = matrixFrom(
+            script = "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, " + "5.843927264213562e-01, 2.296017855405807e-01]"
+        )
         val B = doubleArrayOf(1.0, 2.0, 3.0)
         val A = doubleArrayOf(4.0, 5.0, 6.0)
         val result = testVector.filter(
-            B = B,
-            A = A
-        ) * testVector.transpose().filter(B = B, A = A)
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+            bVector = B, aVector = A
+        ) * testVector.transpose.filter(bVector = B, aVector = A)
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
     private fun testMatrixFilter() {
@@ -107,12 +110,12 @@ class SincMatrixSignalProcTests {
         val B = doubleArrayOf(1.0, 2.0, 3.0)
         val A = doubleArrayOf(4.0, 5.0, 6.0)
 
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             ((10.0 * y).filter(B, A, 1).std(1)
                 .median() - 6.422826367520498).absoluteValue lt testTol
         )
 
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             ((10.0 * y).filter(B, A, 2).std(2)
                 .median() - 3.542838989457845).absoluteValue lt multSumTestTol
         )
@@ -129,9 +132,11 @@ class SincMatrixSignalProcTests {
         val testMat = matrixFrom(script = SGCoeffs.sgo3x41)
         val B = doubleArrayOf(0.013359200027856, 0.026718400055713, 0.013359200027856)
         val A = doubleArrayOf(1.000000000000000, -1.647459981076977, 0.700896781188403)
-        val R = testMat.filtfilt(B = B, A = A) * (testMat.transpose().filtfilt(B = B, A = A))
+        val R = testMat.filtFilt(bVector = B, aVector = A) * (testMat.transpose.filtFilt(
+            bVector = B, aVector = A
+        ))
         val result = R.sum().sum() / 10.0
-        SincMathsTests.assert((resultMATLAB - result).absoluteValue lt convTestTol)
+        SincMathsTest.assert((resultMATLAB - result).absoluteValue lt convTestTol)
     }
 
     private fun testVectorSgolayFilter() {
@@ -142,15 +147,15 @@ class SincMatrixSignalProcTests {
         //  sgolayfilt(testVector', 3, 41) * sgolayfilt(testVector, 3, 41)
         val resultMATLAB = 6.740799259697040
         val filePath = "test_csv.csv"
-        val A = SincMatrix.csvread(
+        val A = SincMatrix.csvRead(
             filePath = filePath,
             separator = ",",
             headerInfo = listOf("t", "d", "d", "d", "d", "d", "d", "d", "d", "d")
         )
         val testVector = A.getCol(2)
         val B = matrixFrom(SGCoeffs.sgo3x41)
-        val result = testVector.t.sgolayfilter(B) * testVector.sgolayfilter(B)
-        SincMathsTests.assert((resultMATLAB - result).absoluteValue lt convTestTol)
+        val result = testVector.t.sgolayFilter(B) * testVector.sgolayFilter(B)
+        SincMathsTest.assert((resultMATLAB - result).absoluteValue lt convTestTol)
     }
 
     private fun testMatrixSgolayFilter() {
@@ -161,15 +166,15 @@ class SincMatrixSignalProcTests {
         //  sum(sum(sgolayfilt(testMatrix, 3, 7), 2)) / 1000.0
         val resultMATLAB = -2.426886809212823
         val filePath = "test_csv.csv"
-        val A = SincMatrix.csvread(
+        val A = SincMatrix.csvRead(
             filePath = filePath,
             separator = ",",
             headerInfo = listOf("t", "d", "d", "d", "d", "d", "d", "d", "d", "d")
         )
         val testMatrix = A[":,2:4"]
         val B = matrixFrom(SGCoeffs.sgo3x7)
-        val result = testMatrix.sgolayfilter(B).sum(2).sum() / 1000.0
-        SincMathsTests.assert((resultMATLAB - result).absoluteValue lt convTestTol)
+        val result = testMatrix.sgolayFilter(B).sum(2).sum() / 1000.0
+        SincMathsTest.assert((resultMATLAB - result).absoluteValue lt convTestTol)
     }
 
     private fun testMovSum() {
@@ -180,19 +185,13 @@ class SincMatrixSignalProcTests {
         //  (movsum(testVector, 3) * movsum(testVector', 3)) * (movsum(testVector, 3, "Endpoints", "discard")...
         //  * movsum(testVector', 3, "Endpoints", "discard")) / (sum(testVector .* 35.03))
         val resultOctave = 1.493351200742660
-        val testVector =
-            matrixFrom(
-                "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, " +
-                        "5.843927264213562e-01, 2.296017855405807e-01, 7.710580229759216e-01, 1.801824271678925e-01, " +
-                        "3.308660686016083e-01, 2.962400913238525e-01, 5.188712477684021e-02]"
-            )
-        val result = ((testVector.movsum(3) * testVector.transpose()
-            .movsum(3)) * (testVector.movsum(
-            3,
-            MovWinShape.discard
-        ) * testVector.transpose()
-            .movsum(3, MovWinShape.discard))) / (testVector elMul 35.03).elSum()
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+        val testVector = matrixFrom(
+            "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, " + "5.843927264213562e-01, 2.296017855405807e-01, 7.710580229759216e-01, 1.801824271678925e-01, " + "3.308660686016083e-01, 2.962400913238525e-01, 5.188712477684021e-02]"
+        )
+        val result = ((testVector.movSum(3) * testVector.transpose.movSum(3)) * (testVector.movSum(
+            3, MovWinShape.DISCARD
+        ) * testVector.transpose.movSum(3, MovWinShape.DISCARD))) / (testVector elMul 35.03).elSum()
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
     private fun testVectorMovMean() {
@@ -203,19 +202,14 @@ class SincMatrixSignalProcTests {
         //  (movmean(testVector, 3) * movmean(testVector', 3))...
         //  * (movmean(testVector, 3, "Endpoints", "discard") * movmean(testVector', 3, "Endpoints", "discard"))
         val resultOctave = 2.387150841604956
-        val testVector =
-            matrixFrom(
-                "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, " +
-                        "5.843927264213562e-01, 2.296017855405807e-01, 7.710580229759216e-01, 1.801824271678925e-01, " +
-                        "3.308660686016083e-01, 2.962400913238525e-01, 5.188712477684021e-02]"
-            )
-        val result = (testVector.movmean(3) * testVector.transpose()
-            .movmean(3)) * (testVector.movmean(
-            3,
-            MovWinShape.discard
-        ) * testVector.transpose()
-            .movmean(3, MovWinShape.discard))
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+        val testVector = matrixFrom(
+            "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, " + "5.843927264213562e-01, 2.296017855405807e-01, 7.710580229759216e-01, 1.801824271678925e-01, " + "3.308660686016083e-01, 2.962400913238525e-01, 5.188712477684021e-02]"
+        )
+        val result =
+            (testVector.movMean(3) * testVector.transpose.movMean(3)) * (testVector.movMean(
+                3, MovWinShape.DISCARD
+            ) * testVector.transpose.movMean(3, MovWinShape.DISCARD))
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
     private fun testMatrixMovMean() {
@@ -228,13 +222,13 @@ class SincMatrixSignalProcTests {
         val x = matrixFrom("0.1:0.1:11").reshape(11, 10)
         val y = x.cos()
 
-        SincMathsTests.assert(
-            ((10.0 * y).movmean(7, MovWinShape.shrink, 1).std(1)
+        SincMathsTest.assert(
+            ((10.0 * y).movMean(7, MovWinShape.SHRINK, 1).std(1)
                 .median() - 1.459065564134439).absoluteValue lt testTol
         )
 
-        SincMathsTests.assert(
-            ((10.0 * y).movmean(7, MovWinShape.shrink, 2).std(2)
+        SincMathsTest.assert(
+            ((10.0 * y).movMean(7, MovWinShape.SHRINK, 2).std(2)
                 .median() - 1.442356744207888).absoluteValue lt testTol
         )
     }
@@ -246,8 +240,9 @@ class SincMatrixSignalProcTests {
         //  sum(movsum(testVector, 42, "Endpoints", "discard")) / sum(testVector.*10)
         val resultMatlab = 3.924920127795551
         val testVector = matrixFrom("-97:0.31:97")
-        val result = testVector.movsum(42, MovWinShape.discard).sum() elDiv (testVector elMul 10.0).sum()
-        SincMathsTests.assert((resultMatlab - result).absoluteValue lt convTestTolAndroid)
+        val result =
+            testVector.movSum(42, MovWinShape.DISCARD).sum() elDiv (testVector elMul 10.0).sum()
+        SincMathsTest.assert((resultMatlab - result).absoluteValue lt convTestTolAndroid)
     }
 
     private fun testMovSumOddDiscard() {
@@ -257,8 +252,8 @@ class SincMatrixSignalProcTests {
         //  sum(movsum(testVector, 7)) / 100.0
         val resultOctave = -5.425000000000064
         val testVector = matrixFrom(script = "-97:0.31:97")
-        val result = testVector.movsum(wlen = 7, endpoints = MovWinShape.discard).sum() / 100.0
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt convTestTol)
+        val result = testVector.movSum(wLen = 7, endpoints = MovWinShape.DISCARD).sum() / 100.0
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt convTestTol)
     }
 
     private fun testMovSumOddShrink() {
@@ -268,8 +263,8 @@ class SincMatrixSignalProcTests {
         //  sum(movsum(testVector, 7)) / 100.0
         val resultOctave = -5.462500000000020
         val testVector = matrixFrom("-97:0.31:97")
-        val result = testVector.movsum(7, MovWinShape.shrink).sum() / 100.0
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt convTestTol)
+        val result = testVector.movSum(7, MovWinShape.SHRINK).sum() / 100.0
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt convTestTol)
     }
 
     private fun testMovSumEvenShrink() {
@@ -279,8 +274,8 @@ class SincMatrixSignalProcTests {
         //  sum(movsum(testVector, 42)) / 1000.0
         val resultOctave = -5.200649999999969
         val testVector = matrixFrom("-97:0.31:97")
-        val result = testVector.movsum(42, MovWinShape.shrink).sum() / 1000.0
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt convTestTol)
+        val result = testVector.movSum(42, MovWinShape.SHRINK).sum() / 1000.0
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt convTestTol)
     }
 
     private fun testMovMeanEvenShrink() {
@@ -290,8 +285,8 @@ class SincMatrixSignalProcTests {
         //  sum(movmean(testVector, 42)) / 100.0
         val resultOctave = -1.720249999999999
         val testVector = matrixFrom("-97:0.31:97")
-        val result = testVector.movmean(42, MovWinShape.shrink).sum() / 100.0
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt convTestTol)
+        val result = testVector.movMean(42, MovWinShape.SHRINK).sum() / 100.0
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt convTestTol)
     }
 
     /**
@@ -307,7 +302,7 @@ class SincMatrixSignalProcTests {
         val testVector = matrixFrom("1:100")
         val acfResult = testVector.acf(15)
         val result = acfResult * acfResult.t
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
     private fun testFindPeaks() {
@@ -320,18 +315,18 @@ class SincMatrixSignalProcTests {
         val resultOctave = 1394229519.0
         val x = matrixFrom("0:0.001:30")
         val y = x.sin() + 1.0
-        val locs = y.findpeaks()
+        val locs = y.findPeaks()
         val result = locs * locs.t
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
     private fun testDenoiseCwtft() {
         val filePath = "example_signal.csv"
-        val noisySignal = SincMatrix.csvread(filePath)
+        val noisySignal = SincMatrix.csvRead(filePath)
         val diffSignal = noisySignal.diffWithWavelet(16.0, 0.01)
         val resultMATLAB = 1.757498083459348
         val result = (diffSignal.t * diffSignal) / 10000.0
-        SincMathsTests.assert((resultMATLAB - result).absoluteValue lt testTol)
+        SincMathsTest.assert((resultMATLAB - result).absoluteValue lt testTol)
     }
 
     fun performAll() {

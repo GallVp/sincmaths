@@ -65,3 +65,11 @@ actual infix fun SincMatrix.elDiv(rhs: SincMatrix): SincMatrix {
 
 actual fun SincMatrix.elSum(): Double = this.asSimpleMatrix().elementSum()
 actual infix fun SincMatrix.elPow(power: Double): SincMatrix = this.asSimpleMatrix().elementPower(power).asSincMatrix()
+
+actual fun SincMatrix.floor(): SincMatrix =
+    SincMatrix(this.matrixData.map {
+        kotlin.math.floor(it)
+    }.toDoubleArray(), numRows, numCols)
+
+actual fun SincMatrix.abs(): SincMatrix =
+    SincMatrix(this.matrixData.map { kotlin.math.abs(it) }.toDoubleArray(), numRows, numCols)

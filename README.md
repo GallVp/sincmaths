@@ -51,7 +51,7 @@ fun SincMatrix.acf(numLags: Int): SincMatrix {
     }
 
     val zeroMeanVector = this - this.mean().scalar
-    val convSum = zeroMeanVector.conv(B = zeroMeanVector.flip())
+    val convSum = zeroMeanVector.conv(bVector = zeroMeanVector.flip())
     val scale = 1.0 / zeroMeanVector.dot(zeroMeanVector).scalar
     val scaledConvSum = convSum * scale
     val acfElements = this.numel + 1..this.numel + numLags

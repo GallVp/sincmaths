@@ -1,9 +1,9 @@
 package com.github.gallvp.sincmaths
 
-import com.github.gallvp.sincmaths.SincMathsTests.Companion.testTol
+import com.github.gallvp.sincmaths.SincMathsTest.Companion.testTol
 import kotlin.math.PI
 
-class SincMatrixRobotics {
+class SincMatrixRotMatTest {
     private fun testMatrixEul2Rotm() {
         // Check orthogonality. Result eye(3)
         // Check 360 degree rotation. Result eye(3)
@@ -15,8 +15,8 @@ class SincMatrixRobotics {
         )
         val resultA = (matA * matA.t)
         val eyeMat = doubleArrayOf(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0).asSincMatrix(m = 3, n = 3)
-        SincMathsTests.assert(((resultA - eyeMat) lt testTol).all())
-        SincMathsTests.assert(((matB - eyeMat) lt testTol).all())
+        SincMathsTest.assert(((resultA - eyeMat) lt testTol).all())
+        SincMathsTest.assert(((matB - eyeMat) lt testTol).all())
     }
 
     private fun testMatrixQuatConverter() {
@@ -25,7 +25,7 @@ class SincMatrixRobotics {
         )
         val testDiff = (testMat.rotm2quat().quat2rotm() - testMat).abs()
         val testResults = (testDiff lt testTol).all()
-        SincMathsTests.assert(testResults)
+        SincMathsTest.assert(testResults)
     }
 
     fun performAll() {

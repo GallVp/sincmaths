@@ -5,11 +5,11 @@
 
 extern "C"
 JNIEXPORT jdoubleArray JNICALL
-Java_com_github_gallvp_sincmaths_LocalWorkersKt_convWithWavelib(JNIEnv *env, jclass clazz,
-                                                                jdoubleArray signal_vector,
-                                                                jint signal_length,
-                                                                jdoubleArray kernel_vector,
-                                                                jint kernel_length) {
+Java_com_github_gallvp_sincmaths__1SincMatrixWorkersKt_convWithWavelib(JNIEnv *env, jclass clazz,
+                                                                       jdoubleArray signal_vector,
+                                                                       jint signal_length,
+                                                                       jdoubleArray kernel_vector,
+                                                                       jint kernel_length) {
 
     jdouble *input_signal = env->GetDoubleArrayElements(signal_vector, 0);
     jdouble *kernel_signal = env->GetDoubleArrayElements(kernel_vector, 0);
@@ -25,10 +25,10 @@ Java_com_github_gallvp_sincmaths_LocalWorkersKt_convWithWavelib(JNIEnv *env, jcl
 }
 extern "C"
 JNIEXPORT jdoubleArray JNICALL
-Java_com_github_gallvp_sincmaths_LocalWorkersKt_diffCWTFT(JNIEnv *env, jclass clazz,
-                                                          jdoubleArray signal_vector,
-                                                          jint signal_length, jdouble scale,
-                                                          jdouble dt) {
+Java_com_github_gallvp_sincmaths__1SincMatrixWorkersKt_diffCWTFT(JNIEnv *env, jclass clazz,
+                                                                 jdoubleArray signal_vector,
+                                                                 jint signal_length, jdouble scale,
+                                                                 jdouble dt) {
     jdouble *input_signal = env->GetDoubleArrayElements(signal_vector, 0);
     jdouble output_signal[signal_length];
 

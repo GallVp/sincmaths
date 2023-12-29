@@ -1,6 +1,5 @@
 package com.github.gallvp.sincmaths
 
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -27,8 +26,8 @@ private external fun diffCWTFT(
     dt: Double
 ): DoubleArray
 
-internal actual fun convWorker(A: DoubleArray, B: DoubleArray): DoubleArray =
-    convWithWavelib(A, A.count(), B, B.count())
+internal actual fun convWorker(aArray: DoubleArray, bArray: DoubleArray): DoubleArray =
+    convWithWavelib(aArray, aArray.count(), bArray, bArray.count())
 
 internal actual fun parseToInt(expression: String): Int? {
     val ans = parseToDouble(expression)

@@ -2,11 +2,9 @@ package com.github.gallvp.sincmaths
 
 import kotlin.math.roundToInt
 
-expect fun SincMatrix.find(): SincMatrix
+fun SincMatrix.conv(bVector: SincMatrix, shape: ConvolutionShape = ConvolutionShape.FULL): SincMatrix {
 
-fun SincMatrix.conv(B: SincMatrix, shape: ConvolutionShape = ConvolutionShape.full): SincMatrix {
-
-    require(this.isVector && B.isVector) {
+    require(this.isVector && bVector.isVector) {
         "This function works only for vectors"
     }
 
@@ -16,20 +14,20 @@ fun SincMatrix.conv(B: SincMatrix, shape: ConvolutionShape = ConvolutionShape.fu
         isColumnFlag = true
     }
 
-    val convResult = convWorker(this.asRowMajorArray(), B.asRowMajorArray())
-    val convSegmentSize = intArrayOf(this.numel + B.numel - 1, this.numel, B.numel).maxOrNull() ?: 0
+    val convResult = convWorker(this.asRowMajorArray(), bVector.asRowMajorArray())
+    val convSegmentSize = intArrayOf(this.numel + bVector.numel - 1, this.numel, bVector.numel).maxOrNull() ?: 0
     val convSegment = convResult.sliceArray(0 until convSegmentSize)
 
     when (shape) {
-        ConvolutionShape.full -> {
+        ConvolutionShape.FULL -> {
             val resultMat = SincMatrix(rowMajArray = convSegment, m = 1, n = convSegmentSize)
             return if (isColumnFlag) {
-                resultMat.transpose()
+                resultMat.transpose
             } else {
                 resultMat
             }
         }
-        ConvolutionShape.same -> {
+        ConvolutionShape.SAME -> {
             val startPoint =
                 ((convSegmentSize - this.numel).toDouble() / 2.0).roundToInt() + 1
             val resultMat = SincMatrix(
@@ -38,17 +36,17 @@ fun SincMatrix.conv(B: SincMatrix, shape: ConvolutionShape = ConvolutionShape.fu
                 n = convSegmentSize
             ).getCols((startPoint until startPoint + this.numel).toList().toIntArray())
             return if (isColumnFlag) {
-                resultMat.transpose()
+                resultMat.transpose
             } else {
                 resultMat
             }
         }
-        ConvolutionShape.valid -> {
+        ConvolutionShape.VALID -> {
 
-            val validArray = convSegment.drop(B.numel - 1).dropLast(B.numel - 1).toDoubleArray()
+            val validArray = convSegment.drop(bVector.numel - 1).dropLast(bVector.numel - 1).toDoubleArray()
             val resultMat = SincMatrix(rowMajArray = validArray, m = 1, n = validArray.size)
             return if (isColumnFlag) {
-                resultMat.transpose()
+                resultMat.transpose
             } else {
                 resultMat
             }
@@ -58,7 +56,7 @@ fun SincMatrix.conv(B: SincMatrix, shape: ConvolutionShape = ConvolutionShape.fu
 
 fun SincMatrix.diff(dim: Int = 1): SincMatrix = if (this.isVector) {
     val kernel = SincMatrix(doubleArrayOf(1.0, -1.0), 1, 2)
-    this.conv(kernel, ConvolutionShape.valid)
+    this.conv(kernel, ConvolutionShape.VALID)
 } else {
     if (dim == 1) {
         this.mapColumns(this.numRows - 1) {
@@ -71,23 +69,24 @@ fun SincMatrix.diff(dim: Int = 1): SincMatrix = if (this.isVector) {
     }
 }
 
-fun SincMatrix.movsum(wlen: Int, endpoints: MovWinShape = MovWinShape.shrink, dim: Int = 1): SincMatrix =
+fun SincMatrix.movSum(wLen: Int, endpoints: MovWinShape = MovWinShape.SHRINK, dim: Int = 1):
+        SincMatrix =
     if (this.isVector) {
         require(this.numel > 0) { "Number of elements should be greater than zero" }
-        require(wlen > 0) { "Length of moving window should be > 0" }
+        require(wLen > 0) { "Length of moving window should be > 0" }
 
-        val convKernel = SincMatrix.ones(m = 1, n = wlen)
+        val convKernel = SincMatrix.ones(m = 1, n = wLen)
         when (endpoints) {
-            MovWinShape.discard -> {
-                this.conv(B = convKernel, shape = ConvolutionShape.valid)
+            MovWinShape.DISCARD -> {
+                this.conv(bVector = convKernel, shape = ConvolutionShape.VALID)
             }
-            MovWinShape.shrink -> {
-                if (wlen % 2 < 1) { //Even
-                    val computedSegment = this.conv(B = convKernel, shape = ConvolutionShape.same)
+            MovWinShape.SHRINK -> {
+                if (wLen % 2 < 1) { //Even
+                    val computedSegment = this.conv(bVector = convKernel, shape = ConvolutionShape.SAME)
                     val computedArray = computedSegment.asRowMajorArray()
                     val movSumTwoToEnd = computedArray.sliceArray(0 until (computedArray.size - 1))
                     //Guaranteed: len(computedArray) >= 2
-                    val windowEndpoint = wlen / 2 - 1
+                    val windowEndpoint = wLen / 2 - 1
                     require(windowEndpoint < this.numel) { "Window length is incompatible with shape = shrink" }
                     val firstElement =
                         this[(1..(windowEndpoint + 1))].sum().asScalar()
@@ -97,47 +96,48 @@ fun SincMatrix.movsum(wlen: Int, endpoints: MovWinShape = MovWinShape.shrink, di
                     ).asSincMatrix(computedSegment.numRows, computedSegment.numCols)
                 } else {
                     //Odd
-                    this.conv(B = convKernel, shape = ConvolutionShape.same)
+                    this.conv(bVector = convKernel, shape = ConvolutionShape.SAME)
                 }
             }
         }
     } else {
         if (dim == 1) {
             this.mapColumnsToList {
-                it.movsum(wlen, endpoints)
+                it.movSum(wLen, endpoints)
             }.makeMatrixFrom(false)
         } else {
             this.mapRowsToList {
-                it.movsum(wlen, endpoints)
+                it.movSum(wLen, endpoints)
             }.makeMatrixFrom()
         }
     }
 
-fun SincMatrix.movmean(wlen: Int, endpoints: MovWinShape = MovWinShape.shrink, dim: Int = 1): SincMatrix = if(this.isVector) {
+fun SincMatrix.movMean(wLen: Int, endpoints: MovWinShape = MovWinShape.SHRINK, dim: Int = 1):
+        SincMatrix = if(this.isVector) {
     when (endpoints) {
-        MovWinShape.discard -> {
-            val convKernel = SincMatrix.ones(1, wlen) / wlen.toDouble()
-            this.conv(B = convKernel, shape = ConvolutionShape.valid)
+        MovWinShape.DISCARD -> {
+            val convKernel = SincMatrix.ones(1, wLen) / wLen.toDouble()
+            this.conv(bVector = convKernel, shape = ConvolutionShape.VALID)
         }
-        MovWinShape.shrink -> {
-            val movSumResult = this.movsum(wlen = wlen, endpoints = MovWinShape.shrink)
+        MovWinShape.SHRINK -> {
+            val movSumResult = this.movSum(wLen = wLen, endpoints = MovWinShape.SHRINK)
             val numPoints =
-                SincMatrix.ones(1, this.numel).movsum(wlen = wlen, endpoints = MovWinShape.shrink)
+                SincMatrix.ones(1, this.numel).movSum(wLen = wLen, endpoints = MovWinShape.SHRINK)
             if (movSumResult.isRow) {
                 (movSumResult elDiv numPoints)
             } else {
-                (movSumResult elDiv numPoints.transpose())
+                (movSumResult elDiv numPoints.transpose)
             }
         }
     }
 } else {
     if (dim == 1) {
         this.mapColumnsToList {
-            it.movmean(wlen, endpoints)
+            it.movMean(wLen, endpoints)
         }.makeMatrixFrom(false)
     } else {
         this.mapRowsToList {
-            it.movmean(wlen, endpoints)
+            it.movMean(wLen, endpoints)
         }.makeMatrixFrom()
     }
 }
@@ -145,13 +145,13 @@ fun SincMatrix.movmean(wlen: Int, endpoints: MovWinShape = MovWinShape.shrink, d
 /**
  * Only second order filters are supported. Thus, length(B) == length(A) == 3 is assumed.
  */
-fun SincMatrix.filter(B: DoubleArray, A: DoubleArray, dim: Int = 1): SincMatrix = if (this.isVector) {
-    require((B.size == 3) && (A.size == 3)) {
+fun SincMatrix.filter(bVector: DoubleArray, aVector: DoubleArray, dim: Int = 1): SincMatrix = if (this.isVector) {
+    require((bVector.size == 3) && (aVector.size == 3)) {
         "Only 2nd order coefficients are allowed. Thus, length(B) == length(A) == 3"
     }
 
     SincMatrix(
-        rowMajArray = filterWorker(B, A, this.asRowMajorArray(), doubleArrayOf(0.0, 0.0)),
+        rowMajArray = filterWorker(bVector, aVector, this.asRowMajorArray(), doubleArrayOf(0.0, 0.0)),
         m = this.numRows,
         n = this.numCols
     )
@@ -159,7 +159,7 @@ fun SincMatrix.filter(B: DoubleArray, A: DoubleArray, dim: Int = 1): SincMatrix 
     if(dim == 1) {
         this.mapColumns {
             SincMatrix(
-                rowMajArray = filterWorker(B, A, it.asRowMajorArray(), doubleArrayOf(0.0, 0.0)),
+                rowMajArray = filterWorker(bVector, aVector, it.asRowMajorArray(), doubleArrayOf(0.0, 0.0)),
                 m = it.numRows,
                 n = it.numCols
             )
@@ -167,7 +167,7 @@ fun SincMatrix.filter(B: DoubleArray, A: DoubleArray, dim: Int = 1): SincMatrix 
     } else {
         this.mapRows {
             SincMatrix(
-                rowMajArray = filterWorker(B, A, it.asRowMajorArray(), doubleArrayOf(0.0, 0.0)),
+                rowMajArray = filterWorker(bVector, aVector, it.asRowMajorArray(), doubleArrayOf(0.0, 0.0)),
                 m = it.numRows,
                 n = it.numCols
             )
@@ -178,36 +178,36 @@ fun SincMatrix.filter(B: DoubleArray, A: DoubleArray, dim: Int = 1): SincMatrix 
 /**
  * Only second order filters are supported. Thus, length(B) == length(A) == 3 is assumed.
  */
-fun SincMatrix.filtfilt(B: DoubleArray, A: DoubleArray): SincMatrix {
-    require((B.size == 3) && (A.size == 3)) {
+fun SincMatrix.filtFilt(bVector: DoubleArray, aVector: DoubleArray): SincMatrix {
+    require((bVector.size == 3) && (aVector.size == 3)) {
         "Only 2nd order coefficients are allowed. Thus, length(B) == length(A) == 3"
     }
 
     return if (this.isVector) {
-        SincMatrix(filtfiltWorker(B, A, this.asRowMajorArray()), numRows, numCols)
+        SincMatrix(filtfiltWorker(bVector, aVector, this.asRowMajorArray()), numRows, numCols)
     } else {
         this.mapColumns {
-            filtfiltWorker(B, A, it.asRowMajorArray()).asSincMatrix(false)
+            filtfiltWorker(bVector, aVector, it.asRowMajorArray()).asSincMatrix(false)
         }
     }
 }
 
 /**
  * This function is like Octave's sgolayfilt, except that instead of order and filter length
- * Savitzky-Golay a pre-computed projection matrix ([B]) is supplied.
+ * Savitzky-Golay a pre-computed projection matrix ([bMatrix]) is supplied.
  */
-fun SincMatrix.sgolayfilter(B: SincMatrix, dim: Int = 1): SincMatrix {
+fun SincMatrix.sgolayFilter(bMatrix: SincMatrix, dim: Int = 1): SincMatrix {
 
     return if (this.isVector) {
-        sgolayWorker(this, B)
+        sgolayWorker(this, bMatrix)
     } else {
         if (dim == 1) {
             this.mapColumns {
-                sgolayWorker(it, B)
+                sgolayWorker(it, bMatrix)
             }
         } else {
             this.mapRows {
-                sgolayWorker(it, B)
+                sgolayWorker(it, bMatrix)
             }
         }
     }
@@ -224,7 +224,7 @@ fun SincMatrix.acf(numLags: Int): SincMatrix {
     }
 
     val zeroMeanVector = this - this.mean().scalar
-    val convSum = zeroMeanVector.conv(B = zeroMeanVector.flip())
+    val convSum = zeroMeanVector.conv(bVector = zeroMeanVector.flip())
     val scale = 1.0 / zeroMeanVector.dot(zeroMeanVector).scalar
     val scaledConvSum = convSum * scale
     val acfElements = this.numel + 1..this.numel + numLags
@@ -235,7 +235,7 @@ fun SincMatrix.acf(numLags: Int): SincMatrix {
     }
 }
 
-fun SincMatrix.findpeaks(): SincMatrix {
+fun SincMatrix.findPeaks(): SincMatrix {
     require(this.isVector) { "This function works only for vectors" }
     val manipulatedData = doubleArrayOf(Double.NaN) + this.asRowMajorArray() + Double.NaN
     val manipulatedMatrix =
@@ -244,13 +244,13 @@ fun SincMatrix.findpeaks(): SincMatrix {
     val result =
         resultA.getRows(mlRows = (2 until this.numel).toList().toIntArray()).find() + 1.0
     return if (this.isRow) {
-        result.transpose()
+        result.transpose
     } else {
         result
     }
 }
 
-fun SincMatrix.cumsum(dim: Int = 1): SincMatrix = if (this.isVector) {
+fun SincMatrix.cumSum(dim: Int = 1): SincMatrix = if (this.isVector) {
     val inputVector = this.asRowMajorArray()
     val resultVector = inputVector.copyOf()
     for (i in 1 until resultVector.size) {
@@ -260,11 +260,11 @@ fun SincMatrix.cumsum(dim: Int = 1): SincMatrix = if (this.isVector) {
 } else {
     if (dim == 1) {
         this.mapColumns {
-            it.cumsum()
+            it.cumSum()
         }
     } else {
         this.mapRows {
-            it.cumsum()
+            it.cumSum()
         }
     }
 }

@@ -11,10 +11,15 @@ actual class SincMatrix actual constructor(rowMajArray: DoubleArray, internal va
 
     actual override fun toString(): String = this.description
 
-    actual companion object
+    actual companion object {
+        init {
+            System.loadLibrary("wavelib")
+            System.loadLibrary("tinyexpr")
+        }
+    }
 }
 
-actual val SincMatrix.numRows
+actual val SincMatrix.numRows: Int
     get() = m
 actual val SincMatrix.numCols: Int
     get() = n
@@ -22,20 +27,24 @@ actual val SincMatrix.numel
     get() = this.matrixData.size
 
 actual val SincMatrix.transpose: SincMatrix
-    get() = transposeOfRowMajorMatrix(this.matrixData, this.numRows, this.numCols).asSincMatrix(
-        this.numCols,
-        this.numRows
-    )
+    get() = this.asSimpleMatrix().transpose().asSincMatrix()
+
 actual fun SincMatrix.find(): SincMatrix {
-    val actualIndices = findNonZeroIndices(this.matrixData, false)
+    val array = this.matrixData
+    val actualIndices = array.indices.filter { array[it] != 0.0 }
     val actualCount = actualIndices.size
-    if (actualCount < 1) {
-        return SincMatrix(doubleArrayOf(), 0, 0)
-    }
+
     return if (this.isRow) {
-        SincMatrix(rowMajArray = actualIndices, m = 1, n = actualCount)
+        SincMatrix(
+            rowMajArray = actualIndices.map { it.toDouble() + 1.0 }.toDoubleArray(),
+            m = 1,
+            n = actualCount
+        )
     } else {
-        SincMatrix(rowMajArray = actualIndices, m = actualCount, n = 1)
+        SincMatrix(
+            rowMajArray = actualIndices.map { it.toDouble() + 1.0 }.toDoubleArray(),
+            m = actualCount,
+            n = 1
+        )
     }
 }
-

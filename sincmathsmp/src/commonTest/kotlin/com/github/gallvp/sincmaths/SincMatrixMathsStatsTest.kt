@@ -1,11 +1,11 @@
 package com.github.gallvp.sincmaths
 
-import com.github.gallvp.sincmaths.SincMathsTests.Companion.convTestTolAndroid
-import com.github.gallvp.sincmaths.SincMathsTests.Companion.multSumTestTol
-import com.github.gallvp.sincmaths.SincMathsTests.Companion.testTol
+import com.github.gallvp.sincmaths.SincMathsTest.Companion.convTestTolAndroid
+import com.github.gallvp.sincmaths.SincMathsTest.Companion.multSumTestTol
+import com.github.gallvp.sincmaths.SincMathsTest.Companion.testTol
 
 
-class SincMatrixMathsAndStats {
+class SincMatrixMathsStatsTest {
 
     private val testCaseIIMatrices: Pair<SincMatrix, SincMatrix>
         get() {
@@ -57,7 +57,7 @@ class SincMatrixMathsAndStats {
             )
         val B = matrixFrom("[1, 2, 3, 4, 5]")
         val result = ((B * (A.t * B)) * A.t) elDiv B.sum()
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
     private fun testVectorMatrixMultiplyII() {
@@ -69,7 +69,7 @@ class SincMatrixMathsAndStats {
         val A = testCaseIIMatrices.first
         val B = testCaseIIMatrices.second
         val result = (A * (A.t * B) * B.t) elDiv (B elPow 2.0).sum()
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
     private fun testMatrixSum() {
@@ -88,9 +88,9 @@ class SincMatrixMathsAndStats {
                         "9.351466298103333e-01, 1.077670305967331e-01]"
             )
         val B = matrixFrom("[1, 2, 3, 4, 5]")
-        val M = A.transpose() * B
+        val M = A.transpose * B
         val result = ((M.sum() * M.sum(2)) * A.sum()) / 100.0
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
     private fun testMatrixSumII() {
@@ -103,7 +103,7 @@ class SincMatrixMathsAndStats {
         val B = testCaseIIMatrices.second
         val M = A.t * B
         val result = (A * M.sum(2) * M.sum() * B.t) elDiv (B elPow 4.0).sum()
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt multSumTestTol)
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt multSumTestTol)
     }
 
     private fun testMatrixMean() {
@@ -121,9 +121,9 @@ class SincMatrixMathsAndStats {
                         "9.351466298103333e-01, 1.077670305967331e-01]"
             )
         val B = matrixFrom("[1, 2, 3, 4, 5]")
-        val M = A.transpose() * B
+        val M = A.transpose * B
         val result = ((M.mean() * M.mean(2)) * A.mean())
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
     private fun testMatrixMeanII() {
@@ -135,9 +135,9 @@ class SincMatrixMathsAndStats {
 
         val A = testCaseIIMatrices.first
         val B = testCaseIIMatrices.second
-        val M = A.transpose() * B
+        val M = A.transpose * B
         val result = M.mean(1).mean() elDiv M.mean(2).mean()
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
     private fun testMatrixMeanIII() {
@@ -148,16 +148,16 @@ class SincMatrixMathsAndStats {
         val resultOctave = 1.0
         val A = testCaseIIIMatrices.first
         val B = testCaseIIIMatrices.second
-        val M = A.transpose() * B
+        val M = A.transpose * B
         val result = M.mean(1).mean() elDiv M.mean(2).mean()
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
     private fun testVectorMedian() {
         val exampleA = doubleArrayOf(1.0, 3.0, 3.0, 6.0, 7.0, 8.0, 9.0).asSincMatrix()
-        SincMathsTests.assert((exampleA.median() - 6.0).absoluteValue lt testTol)
+        SincMathsTest.assert((exampleA.median() - 6.0).absoluteValue lt testTol)
         val exampleB = doubleArrayOf(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 8.0, 9.0).asSincMatrix()
-        SincMathsTests.assert((exampleB.median() - 4.5).absoluteValue lt testTol)
+        SincMathsTest.assert((exampleB.median() - 4.5).absoluteValue lt testTol)
 
         // Octave code
         //  format long
@@ -182,7 +182,7 @@ class SincMatrixMathsAndStats {
             8.918364644050598e-01
         ).asSincMatrix()
         val computed = A.median() - B.median()
-        SincMathsTests.assert((computed - resultOctave).absoluteValue lt testTol)
+        SincMathsTest.assert((computed - resultOctave).absoluteValue lt testTol)
     }
 
     private fun testMatrixMedian() {
@@ -194,23 +194,23 @@ class SincMatrixMathsAndStats {
 
         val A = matrixOf(10, 12, 1..120)
 
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             (A.median(2).median() / 10.0 - 6.050000000000000).absoluteValue lt testTol
         )
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             (A.median(1).sum() * A.median(2)
                 .sum() / 100000.0 - 4.392300000000000).absoluteValue lt testTol
         )
 
-        SincMathsTests.assert(A.median(1).size == listOf(1, 12))
-        SincMathsTests.assert(A.median(2).size == listOf(10, 1))
+        SincMathsTest.assert(A.median(1).size == listOf(1, 12))
+        SincMathsTest.assert(A.median(2).size == listOf(10, 1))
     }
 
     private fun testVectorIQR() {
         val exampleA = doubleArrayOf(1.0, 3.0, 6.0, 8.0, 9.0, 7.0, 3.0).asSincMatrix()
-        SincMathsTests.assert((exampleA.iqr() - 4.75).absoluteValue lt testTol)
+        SincMathsTest.assert((exampleA.iqr() - 4.75).absoluteValue lt testTol)
         val exampleB = doubleArrayOf(1.0, 3.0, 4.0, 5.0, 6.0, 9.0, 2.0, 8.0).asSincMatrix()
-        SincMathsTests.assert((exampleB.iqr() - 4.5).absoluteValue lt testTol)
+        SincMathsTest.assert((exampleB.iqr() - 4.5).absoluteValue lt testTol)
     }
 
     private fun testQuantile() {
@@ -222,20 +222,20 @@ class SincMatrixMathsAndStats {
 
         val exampleA = (1..1001).asSincMatrix().quantile(doubleArrayOf(0.1, 0.2, 0.3, 0.55)) / 100.0
         val resultA = rowVectorOf(1.006, 2.007, 3.008, 5.5105)
-        SincMathsTests.assert(exampleA.size == resultA.size)
-        SincMathsTests.assert(((exampleA - resultA) lt testTol).all())
+        SincMathsTest.assert(exampleA.size == resultA.size)
+        SincMathsTest.assert(((exampleA - resultA) lt testTol).all())
 
         val exampleB = (1..1000).asSincMatrix().reshape(500, 2).quantile(doubleArrayOf(0.1, 0.2)) / 100.0
         val resultB = matrixOf(2, 2, 1.0, 1.01, 2.0, 2.01)
 
-        SincMathsTests.assert(exampleB.size == resultB.size)
-        SincMathsTests.assert(((exampleB - resultB) lt testTol).all())
+        SincMathsTest.assert(exampleB.size == resultB.size)
+        SincMathsTest.assert(((exampleB - resultB) lt testTol).all())
 
         val exampleC = ((1..1000).asSincMatrix().reshape(500, 2).quantile(doubleArrayOf(0.1, 0.9), 2) / 100.0).sum()
         val resultC = matrixOf(1, 2, 2500, 2505)
 
-        SincMathsTests.assert(exampleC.size == resultC.size)
-        SincMathsTests.assert(((exampleC - resultC) lt convTestTolAndroid).all())
+        SincMathsTest.assert(exampleC.size == resultC.size)
+        SincMathsTest.assert(((exampleC - resultC) lt convTestTolAndroid).all())
     }
 
     private fun testMatrixRMS() {
@@ -253,9 +253,9 @@ class SincMatrixMathsAndStats {
                         "9.351466298103333e-01, 1.077670305967331e-01]"
             )
         val B = matrixFrom("[1, 2, 3, 4, 5]")
-        val M = A.transpose() * B
+        val M = A.transpose * B
         val result = (M.rms() * M.rms(2)) * A.rms()
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt multSumTestTol)
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt multSumTestTol)
     }
 
     private fun testMatrixMax() {
@@ -275,7 +275,7 @@ class SincMatrixMathsAndStats {
         val B = matrixFrom("[1, 2, 3, 4, 5]")
         val M = A.t * B
         val result = ((M.max() * M.max(2)) * A.max()) / 10.0
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
     private fun testMatrixSign() {
@@ -285,14 +285,14 @@ class SincMatrixMathsAndStats {
         //  sign(testVector) * sign(testVector')
         val resultOctave = 7.0
         val testVector = matrixFrom("[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
-        val result = testVector.sign() * testVector.transpose().sign()
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+        val result = testVector.sign() * testVector.transpose.sign()
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
     private fun testMatrixComparisons() {
         // Compared against octave
         val testVector = matrixFrom("[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             (((testVector lt 0.3) - doubleArrayOf(
                 0.0,
                 1.0,
@@ -306,7 +306,7 @@ class SincMatrixMathsAndStats {
                 0.0
             ).asSincMatrix()) net 1.0).all()
         )
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             (((testVector gt 5.0) - doubleArrayOf(
                 0.0,
                 0.0,
@@ -320,7 +320,7 @@ class SincMatrixMathsAndStats {
                 0.0
             ).asSincMatrix()) et 0.0).all()
         )
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             (((testVector gt 0.2) - doubleArrayOf(
                 1.0,
                 0.0,
@@ -334,7 +334,7 @@ class SincMatrixMathsAndStats {
                 1.0
             ).asSincMatrix()) net 1.0).all()
         )
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             (((testVector et 0.2) - doubleArrayOf(
                 0.0,
                 0.0,
@@ -348,7 +348,7 @@ class SincMatrixMathsAndStats {
                 0.0
             ).asSincMatrix()) net -1.0).all()
         )
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             (((testVector et 0.0) - doubleArrayOf(
                 0.0,
                 0.0,
@@ -362,7 +362,7 @@ class SincMatrixMathsAndStats {
                 0.0
             ).asSincMatrix()) et 0.0).all()
         )
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             (((testVector et -0.12) - doubleArrayOf(
                 0.0,
                 0.0,
@@ -377,7 +377,7 @@ class SincMatrixMathsAndStats {
             ).asSincMatrix()) net 0.1).all()
         )
 
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             (((testVector net -0.12) - listOf(
                 1,
                 1,
@@ -391,7 +391,7 @@ class SincMatrixMathsAndStats {
                 1
             ).asSincMatrix()) et 0.0).all()
         )
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             (((testVector net 0.0) - listOf(
                 1,
                 1,
@@ -405,7 +405,7 @@ class SincMatrixMathsAndStats {
                 1
             ).asSincMatrix()) et 0.0).all()
         )
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             (((testVector net 5.0) - listOf(
                 1,
                 1,
@@ -420,21 +420,21 @@ class SincMatrixMathsAndStats {
             ).asSincMatrix()) et 0.0).all()
         )
 
-        SincMathsTests.assert(testVector.gt(0.0).any())
-        SincMathsTests.assert(testVector.gt(5.0).not().all())
+        SincMathsTest.assert(testVector.gt(0.0).any())
+        SincMathsTest.assert(testVector.gt(5.0).not().all())
     }
 
     private fun testMatrixAndOr() {
         val vectorA = rowVectorOf(0, 1, 0, 0, 0, 1, 1, 1, 1)
         val vectorB = rowVectorOf(0, 1, 0, 1, 1, 1, -1, -1, 1)
 
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             vectorA.and(vectorB).et(
                 rowVectorOf(0, 1, 0, 0, 0, 1, 1, 1, 1)
             ).all()
         )
 
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             vectorA.or(vectorB).et(
                 rowVectorOf(0, 1, 0, 1, 1, 1, 1, 1, 1)
             ).all()
@@ -443,22 +443,22 @@ class SincMatrixMathsAndStats {
 
     private fun testEmptyVectorLogicOperators() {
         val emptyVector = SincMatrix.zeros(0, 1)
-        SincMathsTests.assert((!emptyVector).all())
-        SincMathsTests.assert(!((!emptyVector).any()))
+        SincMathsTest.assert((!emptyVector).all())
+        SincMathsTest.assert(!((!emptyVector).any()))
 
         val testVector = matrixFrom("[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             testVector.greaterThan(5.0).find().asIntArray().isEmpty()
         )
 
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             testVector.getWithLV(emptyVector).isEmpty()
         )
 
         val testVectorCopy = testVector.copyOf()
         testVectorCopy.setWithLV(emptyVector, 2.0)
 
-        SincMathsTests.assert(
+        SincMathsTest.assert(
             (testVectorCopy et testVector).all()
         )
     }
@@ -470,8 +470,8 @@ class SincMatrixMathsAndStats {
         //  find(testVector) * find(testVector')
         val resultOctave = 219.0
         val testVector = matrixFrom("[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
-        val result = testVector.find() * testVector.transpose().find()
-        SincMathsTests.assert((resultOctave - result).absoluteValue lt testTol)
+        val result = testVector.find() * testVector.transpose.find()
+        SincMathsTest.assert((resultOctave - result).absoluteValue lt testTol)
     }
 
     private fun testVectorMinIMaxI() {
@@ -481,7 +481,7 @@ class SincMatrixMathsAndStats {
         val i4 = rowVectorOf(2.0, 1.0, 2.0, 0.5).minI()
         val result = i1*i2*i3*i4
 
-        SincMathsTests.assert((result - 24.0).absoluteValue lt testTol)
+        SincMathsTest.assert((result - 24.0).absoluteValue lt testTol)
     }
 
     private fun testMatrixMinIMaxI() {
@@ -503,7 +503,7 @@ class SincMatrixMathsAndStats {
         val i4 = A.minI(2)
         val result = i1*i2*i3*i4
 
-        SincMathsTests.assert((result - matlabResult).absoluteValue lt testTol)
+        SincMathsTest.assert((result - matlabResult).absoluteValue lt testTol)
     }
 
     private fun testMatrixMinIMaxIB() {
@@ -524,7 +524,7 @@ class SincMatrixMathsAndStats {
         val i3 = A.minI(2)
         val i4 = A.minI(1)
         val result = (i1*i2*i3*i4).sum().sum().cos()
-        SincMathsTests.assert((result - matlabResult).absoluteValue lt testTol)
+        SincMathsTest.assert((result - matlabResult).absoluteValue lt testTol)
     }
 
     fun performAll() {

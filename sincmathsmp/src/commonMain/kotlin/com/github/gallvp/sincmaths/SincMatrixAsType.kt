@@ -1,6 +1,5 @@
 package com.github.gallvp.sincmaths
 
-
 expect fun SincMatrix.asArray(): DoubleArray
 expect fun SincMatrix.asRowMajorArray(): DoubleArray
 

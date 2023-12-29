@@ -14,6 +14,16 @@
 + `iscolumn()` is now `isColumn`
 + `isempty()` is now `isEmpty()`
 + `isScalar` is now `isScalar`
++ `circshift()` is now `circShift`
++ `repmat()` is now `repMat()`
++ `csvread()` is now `csvRead()`
++ `transpose()` is now `transpose`
++ `movsum()` is now `movSum()`
++ `movmean()` is now `movMean()`
++ `filtfilt()` is now `filtfilt()`
++ `sgolayFilter()` is now `sgolayFilter()`
++ `findpeaks()` is now `findPeaks()`
++ `cumsum()` is now `cumSum()`
 
 ## Version 0.2.2 <13042022>
 

@@ -8,7 +8,7 @@ package com.github.gallvp.sincmaths
  * If headerInfo is empty, no header row is assumed. Default date format: "yyyy-MM-dd HH:mm:ss.SSS"
  * @param bundleID A string identifier for the iOS bundle which contains the file.
  */
-fun SincMatrix.Companion.csvread(
+fun SincMatrix.Companion.csvRead(
     filePath: String,
     separator: String = ",",
     headerInfo: List<String> = listOf(),

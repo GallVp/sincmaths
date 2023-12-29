@@ -2,15 +2,15 @@ package com.github.gallvp.sincmaths
 
 import kotlin.test.Test
 
-class SincMathsTests {
+class SincMathsTest {
 
     @Test
-    fun performAllTests() {
-        SincMatrixBasicTests().performAll()
-        SincMatrixIOTests().performAll()
-        SincMatrixRobotics().performAll()
-        SincMatrixMathsAndStats().performAll()
-        SincMatrixSignalProcTests().performAll()
+    fun performAll() {
+        SincMatrixTest().performAll()
+        SincMatrixCSVTest().performAll()
+        SincMatrixRotMatTest().performAll()
+        SincMatrixMathsStatsTest().performAll()
+        SincMatrixSignalTest().performAll()
     }
 
     companion object {

@@ -1,14 +1,14 @@
 package com.github.gallvp.sincmaths
 
-import com.github.gallvp.sincmaths.SincMathsTests.Companion.convTestTol
+import com.github.gallvp.sincmaths.SincMathsTest.Companion.convTestTol
 
 
-class SincMatrixIOTests {
+class SincMatrixCSVTest {
 
     private fun testMatrixCSVRead() {
 
         val filePath = "test_csv.csv"
-        val A = SincMatrix.csvread(
+        val A = SincMatrix.csvRead(
             filePath = filePath,
             separator = ",",
             headerInfo = listOf("t", "d", "d", "d", "d", "d", "d", "d", "d", "d")
@@ -16,16 +16,16 @@ class SincMatrixIOTests {
         val resultMATLAB = 1.040499533820819
         val sgMatrix = SincMatrix.from(SGCoeffs.sgo3x41)
         val result = A.getCols(2..10)
-            .sgolayfilter(sgMatrix)
+            .sgolayFilter(sgMatrix)
             .sum()
             .diff()
             .abs()
             .asRowVector()
-            .cumsum()
+            .cumSum()
             .asRowVector()
             .flip()
             .rms() / 10000.0
-        SincMathsTests.assert((resultMATLAB - result).absoluteValue lt convTestTol)
+        SincMathsTest.assert((resultMATLAB - result).absoluteValue lt convTestTol)
     }
 
     fun performAll() {

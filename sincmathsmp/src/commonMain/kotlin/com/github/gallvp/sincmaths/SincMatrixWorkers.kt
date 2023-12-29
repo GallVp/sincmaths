@@ -7,7 +7,7 @@ internal expect fun diffCWTFTWorker(
     dt: Double
 ): DoubleArray
 
-internal expect fun convWorker(A: DoubleArray, B: DoubleArray): DoubleArray
+internal expect fun convWorker(aArray: DoubleArray, bArray: DoubleArray): DoubleArray
 internal expect fun parseToInt(expression: String): Int?
 
 /**
@@ -21,7 +21,7 @@ internal fun sgolayWorker(vectorIn: SincMatrix, B: SincMatrix): SincMatrix {
     val vectorIsRow = vector.isRow
     val filterLength = B.size.first()
     if (vectorIsRow) {
-        vector = vector.transpose()
+        vector = vector.transpose
     }
     var startsAt = (filterLength - 1) / 2 + 2
     var endsAt = B.size.first()
@@ -29,7 +29,7 @@ internal fun sgolayWorker(vectorIn: SincMatrix, B: SincMatrix): SincMatrix {
         mlRows = (startsAt..endsAt).reversed().toList().toIntArray()
     ) * vector.getRows(mlRows = (1..filterLength).reversed().toList().toIntArray())
     val convCoeffs = B.getRow(mlRow = (filterLength - 1) / 2 + 1)
-    val middleSegment = vector.conv(B = convCoeffs, shape = ConvolutionShape.valid)
+    val middleSegment = vector.conv(bVector = convCoeffs, shape = ConvolutionShape.VALID)
     startsAt = 1
     endsAt = (filterLength - 1) / 2
     val finalSegment = B.getRows(
@@ -43,7 +43,7 @@ internal fun sgolayWorker(vectorIn: SincMatrix, B: SincMatrix): SincMatrix {
     var returnVector =
         SincMatrix(rowMajArray = computedVector, m = vector.numRows, n = vector.numCols)
     if (vectorIsRow) {
-        returnVector = returnVector.transpose()
+        returnVector = returnVector.transpose
     }
     return returnVector
 }
