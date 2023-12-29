@@ -1,9 +1,9 @@
 # SincMaths
 
-This Kotlin Multiplatform library provides a 2D matrix `SincMatrix` with the aim to facilitate
-translation of Octave/MATLAB code to mobile applications. `SincMatrix` stores data in row-major
-format as opposed to column-major format used by Octave/MATLAB. See [docs](./docs/index.md) for 
-a comprehensive list of functions.
+SincMaths is a Kotlin Multiplatform library which provides a 2D matrix `SincMatrix` with the aim to 
+facilitate translation of Octave/MATLAB code to mobile applications. `SincMatrix` stores data 
+in row-major format as opposed to column-major format used by Octave/MATLAB. See [docs](.
+/docs/index.md) for a comprehensive list of functions.
 
 ## Examples
 
@@ -54,11 +54,11 @@ fun SincMatrix.acf(numLags: Int): SincMatrix {
     val convSum = zeroMeanVector.conv(B = zeroMeanVector.flip())
     val scale = 1.0 / zeroMeanVector.dot(zeroMeanVector).scalar
     val scaledConvSum = convSum * scale
-    val numElements = ((this.numel + 1)..(this.numel + numLags)).toList().toIntArray()
+    val acfElements = this.numel + 1..this.numel + numLags
     return if (this.isRow) {
-        scaledConvSum.getCols(mlCols = numElements)
+        scaledConvSum[this.rowIndicesRange, acfElements]
     } else {
-        scaledConvSum.getRows(mlRows = numElements)
+        scaledConvSum[acfElements, this.colIndicesRange]
     }
 }
 ```
