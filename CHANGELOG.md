@@ -1,6 +1,6 @@
 # Change Log
 
-## Version 0.3 <29122023>
+## Version 0.3 <30122023>
 
 + Ported the project to Android Studio
 + Updated kotlin to 1.9.20
