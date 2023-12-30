@@ -11,8 +11,11 @@ jobs:
       with:
         submodules: recursive
 
+    - name: ktlint
+      run: ktlint
+
     - name: Gradle assemble
       run: ./gradlew assemble
 
-    - name: Gradle test
+    - name: Gradle iOS test
       run: ./gradlew iosX64Test
