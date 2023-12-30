@@ -1,9 +1,16 @@
 # SincMaths
 
-SincMaths is a Kotlin Multiplatform library which provides a 2D matrix `SincMatrix` with the aim to
-facilitate translation of Octave/MATLAB code to mobile applications. `SincMatrix` stores data
-in row-major format as opposed to column-major format used by Octave/MATLAB.
-See [docs](./docs/index.md) for a comprehensive list of functions.
+SincMaths is a Kotlin Multiplatform library which provides a 2D matrix `SincMatrix` to
+facilitate translation of signal processing code written in Octave/MATLAB to mobile applications.
+Originally written for the [Gait&Balance app](https://doi.org/10.3390/s22010124).
+See [docs](./docs/index.md) for a comprehensive list of functions. Key implementation aspects:
+
++ Stores data in row-major format as opposed to column-major format used by Octave/MATLAB
++ Uses [ejml-simple](https://github.com/lessthanoptimal/ejml) for Android side optimisations
++ Uses [Apple Accelerate](https://developer.apple.com/accelerate/) for iOS side optimisations
++ Uses [rafat/wavelib](https://github.com/rafat/wavelib) to provide wavelet-based demonising
++ Uses [codeplea/tinyexpr](https://github.com/codeplea/tinyexpr) to provide Octave/MATLAB style
+  indexing
 
 ## Examples
 

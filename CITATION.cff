@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Rashid"
+  given-names: "Usman"
+  orcid: "https://orcid.org/0000-0002-1109-5493"
+title: "SincMaths: A Kotlin multi-platform implementation of 2D matrix with signal processing capabilities"
+version: 0.3
+date-released: 2023-12-30
+url: "https://github.com/GallVp/sincmaths"
