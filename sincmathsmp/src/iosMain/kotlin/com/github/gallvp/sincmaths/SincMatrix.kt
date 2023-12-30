@@ -1,7 +1,6 @@
 package com.github.gallvp.sincmaths
 
 actual class SincMatrix actual constructor(rowMajArray: DoubleArray, internal var m: Int, internal var n: Int) {
-
     internal var matrixData: DoubleArray
 
     init {
@@ -22,10 +21,12 @@ actual val SincMatrix.numel
     get() = this.matrixData.size
 
 actual val SincMatrix.transpose: SincMatrix
-    get() = transposeOfRowMajorMatrix(this.matrixData, this.numRows, this.numCols).asSincMatrix(
-        this.numCols,
-        this.numRows
-    )
+    get() =
+        transposeOfRowMajorMatrix(this.matrixData, this.numRows, this.numCols).asSincMatrix(
+            this.numCols,
+            this.numRows,
+        )
+
 actual fun SincMatrix.find(): SincMatrix {
     val actualIndices = findNonZeroIndices(this.matrixData, false)
     val actualCount = actualIndices.size
@@ -38,4 +39,3 @@ actual fun SincMatrix.find(): SincMatrix {
         SincMatrix(rowMajArray = actualIndices, m = actualCount, n = 1)
     }
 }
-

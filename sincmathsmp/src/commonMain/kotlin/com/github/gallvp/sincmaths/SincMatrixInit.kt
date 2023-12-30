@@ -17,11 +17,11 @@ import kotlin.math.floor
  */
 fun SincMatrix.Companion.from(script: String): SincMatrix {
     if (script.contains(":")) {
-        //2:5 or 1:2:7 type expression
+        // 2:5 or 1:2:7 type expression
         val range = createRange(script.trim())
         return SincMatrix(range, 1, range.size)
     } else {
-        //[1, 2, 3; 4, 5, 6] type expression
+        // [1, 2, 3; 4, 5, 6] type expression
         val mlScriptTrimmed = script.trim()
         val firstBrace = mlScriptTrimmed.first()
         val lastBrace = mlScriptTrimmed.last()
@@ -67,14 +67,15 @@ private fun SincMatrix.Companion.createRange(mlScript: String): DoubleArray {
         change = literals[1].toDouble()
         endPoint = literals[2].toDouble()
     } else {
-        //2:5 type
+        // 2:5 type
         startPoint = literals[0].toDouble()
         endPoint = literals[1].toDouble()
-        change = if (endPoint < startPoint) {
-            -1.0
-        } else {
-            1.0
-        }
+        change =
+            if (endPoint < startPoint) {
+                -1.0
+            } else {
+                1.0
+            }
     }
 
     val numElements = floor((endPoint - startPoint) / change).toInt() + 1
@@ -84,32 +85,62 @@ private fun SincMatrix.Companion.createRange(mlScript: String): DoubleArray {
     }.toDoubleArray()
 }
 
-fun SincMatrix.Companion.zeros(m: Int, n: Int): SincMatrix = DoubleArray(m * n) {
-    0.0
-}.asSincMatrix(m, n)
+fun SincMatrix.Companion.zeros(
+    m: Int,
+    n: Int,
+): SincMatrix =
+    DoubleArray(m * n) {
+        0.0
+    }.asSincMatrix(m, n)
 
-fun SincMatrix.Companion.ones(m: Int, n: Int): SincMatrix = DoubleArray(m * n) {
-    1.0
-}.asSincMatrix(m, n)
+fun SincMatrix.Companion.ones(
+    m: Int,
+    n: Int,
+): SincMatrix =
+    DoubleArray(m * n) {
+        1.0
+    }.asSincMatrix(m, n)
 
-fun SincMatrix.Companion.nans(m: Int, n: Int): SincMatrix {
-    val data = DoubleArray(m * n) {
-        Double.NaN
-    }
+fun SincMatrix.Companion.nans(
+    m: Int,
+    n: Int,
+): SincMatrix {
+    val data =
+        DoubleArray(m * n) {
+            Double.NaN
+        }
     return SincMatrix(data, m, n)
 }
 
 fun rowVectorOf(vararg values: Double): SincMatrix = values.asSincMatrix()
+
 fun colVectorOf(vararg values: Double): SincMatrix = values.asSincMatrix(asRowVector = false)
-fun matrixOf(m: Int, n: Int, vararg values: Double): SincMatrix = values.asSincMatrix(m, n)
+
+fun matrixOf(
+    m: Int,
+    n: Int,
+    vararg values: Double,
+): SincMatrix = values.asSincMatrix(m, n)
 
 fun rowVectorOf(vararg values: Int): SincMatrix = values.asSincMatrix()
+
 fun colVectorOf(vararg values: Int): SincMatrix = values.asSincMatrix(asRowVector = false)
-fun matrixOf(m: Int, n: Int, vararg values: Int): SincMatrix = values.asSincMatrix(m, n)
+
+fun matrixOf(
+    m: Int,
+    n: Int,
+    vararg values: Int,
+): SincMatrix = values.asSincMatrix(m, n)
 
 fun rowVectorOf(values: IntRange): SincMatrix = values.asSincMatrix()
+
 fun colVectorOf(values: IntRange): SincMatrix = values.asSincMatrix(asRowVector = false)
-fun matrixOf(m: Int, n: Int, values: IntRange): SincMatrix = values.asSincMatrix(m, n)
+
+fun matrixOf(
+    m: Int,
+    n: Int,
+    values: IntRange,
+): SincMatrix = values.asSincMatrix(m, n)
 
 /**
  * Creates a SincMatrix from Octave scripts, such as:
@@ -124,9 +155,8 @@ fun matrixOf(m: Int, n: Int, values: IntRange): SincMatrix = values.asSincMatrix
  *
  * matrixFrom("-1.5:-1:-7.9")
  */
-fun matrixFrom(script:String) = SincMatrix.from(script)
+fun matrixFrom(script: String) = SincMatrix.from(script)
 
 fun emptySincMatrix() = SincMatrix(doubleArrayOf(), 0, 0)
 
-fun emptySincMatrices(size:Int) = Array(size) { emptySincMatrix() }
-
+fun emptySincMatrices(size: Int) = Array(size) { emptySincMatrix() }

@@ -1,8 +1,7 @@
 package com.github.gallvp.sincmaths
 
 actual fun SincMatrix.asArray(): DoubleArray {
-
-    if(this.isEmpty()) {
+    if (this.isEmpty()) {
         return doubleArrayOf()
     }
 

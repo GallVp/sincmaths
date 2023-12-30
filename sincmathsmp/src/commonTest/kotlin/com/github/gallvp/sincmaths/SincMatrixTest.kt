@@ -4,7 +4,6 @@ import kotlin.math.absoluteValue
 import kotlin.test.assertFailsWith
 
 class SincMatrixTest {
-
     private fun testMatrixInput() {
         val A = matrixFrom("[1, 2, 3; 4, 5, 6]")
         val B = matrixFrom("[1, 2, 3, 4]")
@@ -58,48 +57,71 @@ class SincMatrixTest {
     }
 
     private fun testMatrixIndexingViaKotlin() {
-
         val M: SincMatrix = (1..110).asSincMatrix(11, 10)
 
         SincMathsTest.assert(
-            (M["1:5,4:7"] et M.get { _, _, _, _ ->
-                Pair(1..5, 4..7)
-            }).all()
+            (
+                M["1:5,4:7"] et
+                    M.get { _, _, _, _ ->
+                        Pair(1..5, 4..7)
+                    }
+            ).all(),
         )
         SincMathsTest.assert(
-            (M["1:5,4"] et M.get { _, _, _, _ ->
-                Pair(1..5, 4..4)
-            }).all()
+            (
+                M["1:5,4"] et
+                    M.get { _, _, _, _ ->
+                        Pair(1..5, 4..4)
+                    }
+            ).all(),
         )
         SincMathsTest.assert(
-            (M["1:5,:"] et M.get { _, _, _, allC ->
-                Pair(1..5, allC)
-            }).all()
+            (
+                M["1:5,:"] et
+                    M.get { _, _, _, allC ->
+                        Pair(1..5, allC)
+                    }
+            ).all(),
         )
         SincMathsTest.assert(
-            (M["1,4:7"] et M.get { _, _, _, _ ->
-                Pair(1..1, 4..7)
-            }).all()
+            (
+                M["1,4:7"] et
+                    M.get { _, _, _, _ ->
+                        Pair(1..1, 4..7)
+                    }
+            ).all(),
         )
         SincMathsTest.assert(
-            (M[":,4:7"] et M.get { _, _, allR, _ ->
-                Pair(allR, 4..7)
-            }).all()
+            (
+                M[":,4:7"] et
+                    M.get { _, _, allR, _ ->
+                        Pair(allR, 4..7)
+                    }
+            ).all(),
         )
         SincMathsTest.assert(
-            (M[":"] et M.get { _, all ->
-                all
-            }).all()
+            (
+                M[":"] et
+                    M.get { _, all ->
+                        all
+                    }
+            ).all(),
         )
         SincMathsTest.assert(
-            (M["1:5"] et M.get { _, _ ->
-                1..5
-            }).all()
+            (
+                M["1:5"] et
+                    M.get { _, _ ->
+                        1..5
+                    }
+            ).all(),
         )
         SincMathsTest.assert(
-            (M["1:end-1"] et M.get { end, _ ->
-                1 until end
-            }).all()
+            (
+                M["1:end-1"] et
+                    M.get { end, _ ->
+                        1 until end
+                    }
+            ).all(),
         )
     }
 
@@ -153,7 +175,7 @@ class SincMatrixTest {
         var X = A.copyOf()
         X.setWithIndices(selectorA, valueA)
         SincMathsTest.assert(
-            (X.mean().sum() / 100.0 - 2.923636363636364).absoluteValue lt SincMathsTest.testTol
+            (X.mean().sum() / 100.0 - 2.923636363636364).absoluteValue lt SincMathsTest.testTol,
         )
         // Octave code
         //  A = reshape(1:110, 10, 11);
@@ -164,7 +186,7 @@ class SincMatrixTest {
         X = A.copyOf()
         X.setWithIndices(selectorB, valuesB)
         SincMathsTest.assert(
-            (X.max().mean() - 104.5).absoluteValue lt SincMathsTest.testTol
+            (X.max().mean() - 104.5).absoluteValue lt SincMathsTest.testTol,
         )
         // Octave code
         //  A = reshape(1:110, 10, 11);
@@ -174,7 +196,7 @@ class SincMatrixTest {
         X = A.copyOf()
         X.setWithIndices(selectorC, valuesC)
         SincMathsTest.assert(
-            (X.std() / 10.0 - 3.151891402621514).absoluteValue lt SincMathsTest.testTol
+            (X.std() / 10.0 - 3.151891402621514).absoluteValue lt SincMathsTest.testTol,
         )
         // Octave code
         //  A = reshape(1:110, 10, 11);
@@ -184,7 +206,7 @@ class SincMatrixTest {
         X = A.copyOf()
         X.setWithLV(selectorD, valuesD)
         SincMathsTest.assert(
-            (X.std() / 10.0 - 1.630950643030009).abs() lt SincMathsTest.testTol
+            (X.std() / 10.0 - 1.630950643030009).abs() lt SincMathsTest.testTol,
         )
         // Octave code
         //  A = reshape(1:110, 10, 11);
@@ -194,7 +216,7 @@ class SincMatrixTest {
         X = A.copyOf()
         X.setWithLV(selectorE, valuesE)
         SincMathsTest.assert(
-            (X.mean().sum() / 100.0 - 1.998897272727273).absoluteValue lt SincMathsTest.testTol
+            (X.mean().sum() / 100.0 - 1.998897272727273).absoluteValue lt SincMathsTest.testTol,
         )
     }
 
@@ -204,14 +226,14 @@ class SincMatrixTest {
             A.setRow(row, 1.0)
         }
         SincMathsTest.assert(
-            (A.elSum() - A.numel.toDouble()).absoluteValue < SincMathsTest.testTol
+            (A.elSum() - A.numel.toDouble()).absoluteValue < SincMathsTest.testTol,
         )
 
         for (col in A.colIndices) {
             A.setCol(col, 0.0)
         }
         SincMathsTest.assert(
-            (A.elSum() - 0.0).absoluteValue < SincMathsTest.testTol
+            (A.elSum() - 0.0).absoluteValue < SincMathsTest.testTol,
         )
     }
 
@@ -227,10 +249,10 @@ class SincMatrixTest {
         SincMathsTest.assert(A.circShift(2).net(A.circShift(-2)).all())
         SincMathsTest.assert(A.circShift(10).et(A.circShift(-10)).all())
         SincMathsTest.assert(
-            A.circShift(2).et(matrixFrom("[9,10,1,2,3,4,5,6,7,8]")).all()
+            A.circShift(2).et(matrixFrom("[9,10,1,2,3,4,5,6,7,8]")).all(),
         )
         SincMathsTest.assert(
-            A.circShift(-12).et(matrixFrom("[3,4,5,6,7,8,9,10,1,2]")).all()
+            A.circShift(-12).et(matrixFrom("[3,4,5,6,7,8,9,10,1,2]")).all(),
         )
     }
 
@@ -252,22 +274,28 @@ class SincMatrixTest {
         val C = matrixOf(7, 12, 0 until 84)
 
         SincMathsTest.assert(
-            (A.cat(2, B).sum()
-                .sum() / 1000.0 - 1.086000000000000).absoluteValue lt SincMathsTest.testTol
+            (
+                A.cat(2, B).sum()
+                    .sum() / 1000.0 - 1.086000000000000
+            ).absoluteValue lt SincMathsTest.testTol,
         )
         SincMathsTest.assert(
-            (B.cat(1, C).sum()
-                .sum() / 1000.0 - 4.362000000000000).absoluteValue lt SincMathsTest.testTol
+            (
+                B.cat(1, C).sum()
+                    .sum() / 1000.0 - 4.362000000000000
+            ).absoluteValue lt SincMathsTest.testTol,
         )
 
         SincMathsTest.assert(A.cat(2, B).size == listOf(2, 22))
         SincMathsTest.assert(B.cat(1, C).size == listOf(9, 12))
 
         SincMathsTest.assert(
-            (B.cat(
-                1,
-                C
-            )[9, 9] - 80.0).absoluteValue < SincMathsTest.testTol
+            (
+                B.cat(
+                    1,
+                    C,
+                )[9, 9] - 80.0
+            ).absoluteValue < SincMathsTest.testTol,
         )
     }
 
@@ -283,38 +311,44 @@ class SincMatrixTest {
         // sum(repmat([1 0 0;0 1 0], 10, 7), 2)(1:3) = [7;7;7]
 
         SincMathsTest.assert(
-            colVectorOf(1, 0).repMat(20, 1).size == listOf(40, 1)
+            colVectorOf(1, 0).repMat(20, 1).size == listOf(40, 1),
         )
 
         SincMathsTest.assert(
-            (colVectorOf(1, 0).repMat(20, 1).sum() - 20.0).absoluteValue lt SincMathsTest.testTol
+            (colVectorOf(1, 0).repMat(20, 1).sum() - 20.0).absoluteValue lt SincMathsTest.testTol,
         )
 
         SincMathsTest.assert(
-            colVectorOf(1, 0).repMat(0, 0).isEmpty()
+            colVectorOf(1, 0).repMat(0, 0).isEmpty(),
         )
 
         SincMathsTest.assert(
-            (rowVectorOf(1, 0).repMat(1, 3) et rowVectorOf(1, 0, 1, 0, 1, 0)).all()
+            (rowVectorOf(1, 0).repMat(1, 3) et rowVectorOf(1, 0, 1, 0, 1, 0)).all(),
         )
 
         SincMathsTest.assert(
-            matrixFrom("[1, 0, 0;0, 1, 0]").repMat(10, 7).size == listOf(20, 21)
+            matrixFrom("[1, 0, 0;0, 1, 0]").repMat(10, 7).size == listOf(20, 21),
         )
 
         SincMathsTest.assert(
-            (matrixFrom("[1, 0, 0;0, 1, 0]").repMat(10, 7).sum()[1..3] et colVectorOf(
-                10,
-                10,
-                0
-            )).all()
+            (
+                matrixFrom("[1, 0, 0;0, 1, 0]").repMat(10, 7).sum()[1..3] et
+                    colVectorOf(
+                        10,
+                        10,
+                        0,
+                    )
+            ).all(),
         )
 
         SincMathsTest.assert(
-            (matrixFrom("[1, 0, 0;0, 1, 0]").repMat(10, 7).sum(2)[1..3] et rowVectorOf(7).repMat(
-                3,
-                1
-            )).all()
+            (
+                matrixFrom("[1, 0, 0;0, 1, 0]").repMat(10, 7).sum(2)[1..3] et
+                    rowVectorOf(7).repMat(
+                        3,
+                        1,
+                    )
+            ).all(),
         )
     }
 

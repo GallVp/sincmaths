@@ -5,7 +5,7 @@ actual fun SincMatrix.min(dim: Int): SincMatrix {
         return SincMatrix(
             rowMajArray = doubleArrayOf(this.matrixData.minOrNull()!!),
             m = 1,
-            n = 1
+            n = 1,
         )
     } else {
         return if (dim == 1) {
@@ -29,7 +29,7 @@ actual fun SincMatrix.max(dim: Int): SincMatrix {
         return SincMatrix(
             rowMajArray = doubleArrayOf(this.matrixData.maxOrNull()!!),
             m = 1,
-            n = 1
+            n = 1,
         )
     } else {
         return if (dim == 1) {

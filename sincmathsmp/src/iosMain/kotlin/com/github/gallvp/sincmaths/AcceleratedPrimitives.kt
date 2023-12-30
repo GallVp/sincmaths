@@ -1,6 +1,18 @@
 package com.github.gallvp.sincmaths
 
-import kotlinx.cinterop.*
+import kotlinx.cinterop.DoubleVar
+import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.IntVar
+import kotlinx.cinterop.alloc
+import kotlinx.cinterop.allocArray
+import kotlinx.cinterop.get
+import kotlinx.cinterop.memScoped
+import kotlinx.cinterop.nativeHeap
+import kotlinx.cinterop.plus
+import kotlinx.cinterop.ptr
+import kotlinx.cinterop.set
+import kotlinx.cinterop.toCValues
+import kotlinx.cinterop.value
 import platform.Accelerate.dsgesv_
 import platform.Accelerate.vDSP_convD
 import platform.Accelerate.vDSP_maxvD
@@ -24,7 +36,11 @@ import platform.Accelerate.vvpow
 import platform.Accelerate.vvsin
 
 @OptIn(ExperimentalForeignApi::class)
-internal fun createRampVector(startFrom: Double, increment: Double, totalCount: Int): DoubleArray {
+internal fun createRampVector(
+    startFrom: Double,
+    increment: Double,
+    totalCount: Int,
+): DoubleArray {
     memScoped {
         val resultVector = nativeHeap.allocArray<DoubleVar>(totalCount)
         vDSP_vrampD(
@@ -32,7 +48,7 @@ internal fun createRampVector(startFrom: Double, increment: Double, totalCount: 
             doubleArrayOf(increment).toCValues(),
             resultVector,
             1L,
-            totalCount.toULong()
+            totalCount.toULong(),
         )
         return resultVector.createCopyArray(totalCount)
     }
@@ -45,21 +61,24 @@ internal fun createZerosVector(totalCount: Int): DoubleArray {
         vDSP_vclrD(
             resultVector,
             1L,
-            totalCount.toULong()
+            totalCount.toULong(),
         )
         return resultVector.createCopyArray(totalCount)
     }
 }
 
 @OptIn(ExperimentalForeignApi::class)
-internal fun createVector(fillValue: Double, totalCount: Int): DoubleArray {
+internal fun createVector(
+    fillValue: Double,
+    totalCount: Int,
+): DoubleArray {
     memScoped {
         val resultVector = nativeHeap.allocArray<DoubleVar>(totalCount)
         vDSP_vfillD(
             doubleArrayOf(fillValue).toCValues(),
             resultVector,
             1L,
-            totalCount.toULong()
+            totalCount.toULong(),
         )
         return resultVector.createCopyArray(totalCount)
     }
@@ -68,7 +87,10 @@ internal fun createVector(fillValue: Double, totalCount: Int): DoubleArray {
 internal fun createOnesVector(totalCount: Int) = createVector(1.0, totalCount)
 
 @OptIn(ExperimentalForeignApi::class)
-internal fun findNonZeroIndices(ofVector: DoubleArray, isZeroIndexed: Boolean = true): DoubleArray {
+internal fun findNonZeroIndices(
+    ofVector: DoubleArray,
+    isZeroIndexed: Boolean = true,
+): DoubleArray {
     memScoped {
         val vectorLen = ofVector.size
         val vectorOfOnes = createVector(1.0, vectorLen)
@@ -78,11 +100,12 @@ internal fun findNonZeroIndices(ofVector: DoubleArray, isZeroIndexed: Boolean = 
         }
         vDSP_vcmprsD(vectorOfOnes.toCValues(), 1L, ofVector.toCValues(), 1, resultVector, 1, vectorLen.toULong())
         val numberOfElements = sumOfVectorElements(resultVector.createCopyArray(vectorLen)).toInt()
-        val indices = if (isZeroIndexed) {
-            createRampVector(0.0, 1.0, vectorLen)
-        } else {
-            createRampVector(1.0, 1.0, vectorLen)
-        }
+        val indices =
+            if (isZeroIndexed) {
+                createRampVector(0.0, 1.0, vectorLen)
+            } else {
+                createRampVector(1.0, 1.0, vectorLen)
+            }
         vDSP_vcmprsD(indices.toCValues(), 1L, ofVector.toCValues(), 1, resultVector, 1, vectorLen.toULong())
         return resultVector.createCopyArray(vectorLen).slice(0 until numberOfElements).toDoubleArray()
     }
@@ -122,7 +145,10 @@ internal fun sumOfVectorElements(vector: DoubleArray): Double {
 }
 
 @OptIn(ExperimentalForeignApi::class)
-internal fun addVectors(vectorA: DoubleArray, vectorB: DoubleArray): DoubleArray {
+internal fun addVectors(
+    vectorA: DoubleArray,
+    vectorB: DoubleArray,
+): DoubleArray {
     memScoped {
         val vectorLen = vectorA.size
         val resultVector = nativeHeap.allocArray<DoubleVar>(vectorLen)
@@ -133,14 +159,17 @@ internal fun addVectors(vectorA: DoubleArray, vectorB: DoubleArray): DoubleArray
             1L,
             resultVector,
             1L,
-            vectorLen.toULong()
+            vectorLen.toULong(),
         )
         return resultVector.createCopyArray(vectorLen)
     }
 }
 
 @OptIn(ExperimentalForeignApi::class)
-internal fun addScalarToVector(vector: DoubleArray, scalar: Double): DoubleArray {
+internal fun addScalarToVector(
+    vector: DoubleArray,
+    scalar: Double,
+): DoubleArray {
     memScoped {
         val vectorLen = vector.size
         val resultVector = nativeHeap.allocArray<DoubleVar>(vectorLen)
@@ -150,14 +179,17 @@ internal fun addScalarToVector(vector: DoubleArray, scalar: Double): DoubleArray
             doubleArrayOf(scalar).toCValues(),
             resultVector,
             1L,
-            vectorLen.toULong()
+            vectorLen.toULong(),
         )
         return resultVector.createCopyArray(vectorLen)
     }
 }
 
 @OptIn(ExperimentalForeignApi::class)
-internal fun multiplyVectorToScalar(vector: DoubleArray, scalar: Double): DoubleArray {
+internal fun multiplyVectorToScalar(
+    vector: DoubleArray,
+    scalar: Double,
+): DoubleArray {
     memScoped {
         val vectorLen = vector.size
         val resultVector = nativeHeap.allocArray<DoubleVar>(vectorLen)
@@ -167,14 +199,17 @@ internal fun multiplyVectorToScalar(vector: DoubleArray, scalar: Double): Double
             doubleArrayOf(scalar).toCValues(),
             resultVector,
             1L,
-            vectorLen.toULong()
+            vectorLen.toULong(),
         )
         return resultVector.createCopyArray(vectorLen)
     }
 }
 
 @OptIn(ExperimentalForeignApi::class)
-internal fun multiplyElementsOfVectors(vectorA: DoubleArray, vectorB: DoubleArray): DoubleArray {
+internal fun multiplyElementsOfVectors(
+    vectorA: DoubleArray,
+    vectorB: DoubleArray,
+): DoubleArray {
     memScoped {
         val vectorLen = vectorA.size
         val resultVector = nativeHeap.allocArray<DoubleVar>(vectorLen)
@@ -185,7 +220,7 @@ internal fun multiplyElementsOfVectors(vectorA: DoubleArray, vectorB: DoubleArra
             1L,
             resultVector,
             1L,
-            vectorLen.toULong()
+            vectorLen.toULong(),
         )
 
         return resultVector.createCopyArray(vectorLen)
@@ -193,7 +228,10 @@ internal fun multiplyElementsOfVectors(vectorA: DoubleArray, vectorB: DoubleArra
 }
 
 @OptIn(ExperimentalForeignApi::class)
-internal fun divideElementsOfVectors(vectorA: DoubleArray, vectorB: DoubleArray): DoubleArray {
+internal fun divideElementsOfVectors(
+    vectorA: DoubleArray,
+    vectorB: DoubleArray,
+): DoubleArray {
     memScoped {
         val vectorLen = vectorA.size
         val resultVector = nativeHeap.allocArray<DoubleVar>(vectorLen)
@@ -204,7 +242,7 @@ internal fun divideElementsOfVectors(vectorA: DoubleArray, vectorB: DoubleArray)
             1L,
             resultVector,
             1L,
-            vectorLen.toULong()
+            vectorLen.toULong(),
         )
 
         return resultVector.createCopyArray(vectorLen)
@@ -212,7 +250,10 @@ internal fun divideElementsOfVectors(vectorA: DoubleArray, vectorB: DoubleArray)
 }
 
 @OptIn(ExperimentalForeignApi::class)
-internal fun exponentOfVector(vector: DoubleArray, exponent: Double): DoubleArray {
+internal fun exponentOfVector(
+    vector: DoubleArray,
+    exponent: Double,
+): DoubleArray {
     memScoped {
         val vectorLen = vector.size
         val resultVector = nativeHeap.allocArray<DoubleVar>(vectorLen)
@@ -220,7 +261,7 @@ internal fun exponentOfVector(vector: DoubleArray, exponent: Double): DoubleArra
             resultVector,
             createVector(exponent, vectorLen).toCValues(),
             vector.toCValues(),
-            intArrayOf(vectorLen).toCValues()
+            intArrayOf(vectorLen).toCValues(),
         )
 
         return resultVector.createCopyArray(vectorLen)
@@ -278,7 +319,7 @@ internal fun multiplyRowMajorMatrices(
     lhsN: Int,
     rhsMat: DoubleArray,
     rhsM: Int,
-    rhsN: Int
+    rhsN: Int,
 ): DoubleArray {
     memScoped {
         val matrixSize = lhsM * rhsN
@@ -292,14 +333,18 @@ internal fun multiplyRowMajorMatrices(
             1L,
             lhsM.toULong(),
             rhsN.toULong(),
-            lhsN.toULong()
+            lhsN.toULong(),
         )
         return resultMatrix.createCopyArray(matrixSize)
     }
 }
 
 @OptIn(ExperimentalForeignApi::class)
-internal fun transposeOfRowMajorMatrix(mat: DoubleArray, m: Int, n: Int): DoubleArray {
+internal fun transposeOfRowMajorMatrix(
+    mat: DoubleArray,
+    m: Int,
+    n: Int,
+): DoubleArray {
     memScoped {
         val matrixSize = m * n
         val transposedMatrix = nativeHeap.allocArray<DoubleVar>(matrixSize)
@@ -309,14 +354,17 @@ internal fun transposeOfRowMajorMatrix(mat: DoubleArray, m: Int, n: Int): Double
             transposedMatrix,
             1,
             n.toULong(),
-            m.toULong()
+            m.toULong(),
         )
         return transposedMatrix.createCopyArray(matrixSize)
     }
 }
 
 @OptIn(ExperimentalForeignApi::class)
-internal fun convolveVectors(vectorA: DoubleArray, vectorB: DoubleArray): DoubleArray {
+internal fun convolveVectors(
+    vectorA: DoubleArray,
+    vectorB: DoubleArray,
+): DoubleArray {
     memScoped {
         val initArray = createZerosVector(vectorB.size - 1)
         val midArray = vectorA
@@ -339,7 +387,7 @@ internal fun convolveVectors(vectorA: DoubleArray, vectorB: DoubleArray): Double
             buffer,
             1L,
             bufferLength.toULong(),
-            vectorB.size.toULong()
+            vectorB.size.toULong(),
         )
 
         return buffer.createCopyArray(bufferLength)
@@ -354,7 +402,7 @@ internal fun solveNonsymSquareSystem(
     rowMajorMatrix: DoubleArray,
     m: Int,
     n: Int,
-    bVector: DoubleArray
+    bVector: DoubleArray,
 ): DoubleArray {
     memScoped {
         val colMajMatA = transposeOfRowMajorMatrix(rowMajorMatrix, m, n)
@@ -384,9 +432,22 @@ internal fun solveNonsymSquareSystem(
         val iter = intArrayOf(0).toCValues()
         val info = intArrayOf(0).toCValues()
 
-        dsgesv_(numEq.ptr, numColsB.ptr, mutableA, leadDimOfA, ipiv, b, ldb, xVector, ldx, work, swork, iter, info)
+        dsgesv_(
+            numEq.ptr,
+            numColsB.ptr,
+            mutableA,
+            leadDimOfA,
+            ipiv,
+            b,
+            ldb,
+            xVector,
+            ldx,
+            work,
+            swork,
+            iter,
+            info,
+        )
 
-        val returnArray = xVector.createCopyArray(m)
-        return returnArray
+        return xVector.createCopyArray(m)
     }
 }

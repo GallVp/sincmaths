@@ -1,7 +1,6 @@
 package com.github.gallvp.sincmaths
 
 actual operator fun SincMatrix.times(rhs: SincMatrix): SincMatrix {
-
     if (this.isScalar) {
         return rhs * this.scalar
     }
@@ -18,8 +17,8 @@ actual operator fun SincMatrix.times(rhs: SincMatrix): SincMatrix {
 }
 
 actual operator fun SincMatrix.times(rhs: Double): SincMatrix = this.asSimpleMatrix().scale(rhs).asSincMatrix()
-actual operator fun SincMatrix.plus(rhs: SincMatrix): SincMatrix {
 
+actual operator fun SincMatrix.plus(rhs: SincMatrix): SincMatrix {
     if (this.isScalar) {
         return rhs + this.scalar
     }
@@ -31,10 +30,9 @@ actual operator fun SincMatrix.plus(rhs: SincMatrix): SincMatrix {
     return this.asSimpleMatrix().plus(rhs.asSimpleMatrix()).asSincMatrix()
 }
 
-
 actual operator fun SincMatrix.plus(rhs: Double): SincMatrix = this.asSimpleMatrix().plus(rhs).asSincMatrix()
-actual infix fun SincMatrix.elMul(rhs: SincMatrix): SincMatrix {
 
+actual infix fun SincMatrix.elMul(rhs: SincMatrix): SincMatrix {
     if (this.isScalar) {
         return rhs * this.scalar
     }
@@ -47,7 +45,6 @@ actual infix fun SincMatrix.elMul(rhs: SincMatrix): SincMatrix {
 }
 
 actual infix fun SincMatrix.elDiv(rhs: SincMatrix): SincMatrix {
-
     if (this.isScalar && rhs.isScalar) {
         return this / rhs.scalar
     }
@@ -64,12 +61,16 @@ actual infix fun SincMatrix.elDiv(rhs: SincMatrix): SincMatrix {
 }
 
 actual fun SincMatrix.elSum(): Double = this.asSimpleMatrix().elementSum()
+
 actual infix fun SincMatrix.elPow(power: Double): SincMatrix = this.asSimpleMatrix().elementPower(power).asSincMatrix()
 
 actual fun SincMatrix.floor(): SincMatrix =
-    SincMatrix(this.matrixData.map {
-        kotlin.math.floor(it)
-    }.toDoubleArray(), numRows, numCols)
+    SincMatrix(
+        this.matrixData.map {
+            kotlin.math.floor(it)
+        }.toDoubleArray(),
+        numRows,
+        numCols,
+    )
 
-actual fun SincMatrix.abs(): SincMatrix =
-    SincMatrix(this.matrixData.map { kotlin.math.abs(it) }.toDoubleArray(), numRows, numCols)
+actual fun SincMatrix.abs(): SincMatrix = SincMatrix(this.matrixData.map { kotlin.math.abs(it) }.toDoubleArray(), numRows, numCols)

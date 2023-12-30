@@ -1,12 +1,11 @@
 package com.github.gallvp.sincmaths
 
 actual operator fun SincMatrix.times(rhs: SincMatrix): SincMatrix {
-
-    if(this.isScalar) {
+    if (this.isScalar) {
         return rhs * this.scalar
     }
 
-    if(rhs.isScalar) {
+    if (rhs.isScalar) {
         return this * rhs.scalar
     }
 
@@ -18,7 +17,7 @@ actual operator fun SincMatrix.times(rhs: SincMatrix): SincMatrix {
     require(lhsN == rhsM) { "Dimension mismatch. In A*B, ncols(A) == nrows(B)" }
     return multiplyRowMajorMatrices(this.matrixData, lhsM, lhsN, rhs.matrixData, rhsM, rhsN).asSincMatrix(
         lhsM,
-        rhsN
+        rhsN,
     )
 }
 
@@ -26,12 +25,11 @@ actual operator fun SincMatrix.times(rhs: Double): SincMatrix =
     multiplyVectorToScalar(this.matrixData, rhs).asSincMatrix(this.numRows, this.numCols)
 
 actual operator fun SincMatrix.plus(rhs: SincMatrix): SincMatrix {
-
-    if(this.isScalar) {
+    if (this.isScalar) {
         return rhs + this.scalar
     }
 
-    if(rhs.isScalar) {
+    if (rhs.isScalar) {
         return this + rhs.scalar
     }
 
@@ -43,12 +41,11 @@ actual operator fun SincMatrix.plus(rhs: Double): SincMatrix =
     addScalarToVector(this.matrixData, rhs).asSincMatrix(this.numRows, this.numCols)
 
 actual infix fun SincMatrix.elMul(rhs: SincMatrix): SincMatrix {
-
-    if(this.isScalar) {
+    if (this.isScalar) {
         return rhs * this.scalar
     }
 
-    if(rhs.isScalar) {
+    if (rhs.isScalar) {
         return this * rhs.scalar
     }
 
@@ -58,8 +55,7 @@ actual infix fun SincMatrix.elMul(rhs: SincMatrix): SincMatrix {
 }
 
 actual infix fun SincMatrix.elDiv(rhs: SincMatrix): SincMatrix {
-
-    if(this.isScalar && rhs.isScalar) {
+    if (this.isScalar && rhs.isScalar) {
         return this / rhs.scalar
     }
 
@@ -87,8 +83,6 @@ actual fun SincMatrix.elSum(): Double {
 actual infix fun SincMatrix.elPow(power: Double): SincMatrix =
     exponentOfVector(this.matrixData, power).asSincMatrix(this.numRows, this.numCols)
 
-actual fun SincMatrix.floor(): SincMatrix =
-    floorOfElementsOfVector(this.matrixData).asSincMatrix(this.numRows, this.numCols)
+actual fun SincMatrix.floor(): SincMatrix = floorOfElementsOfVector(this.matrixData).asSincMatrix(this.numRows, this.numCols)
 
-actual fun SincMatrix.abs(): SincMatrix =
-    absOfElementsOfVector(this.matrixData).asSincMatrix(this.numRows, this.numCols)
+actual fun SincMatrix.abs(): SincMatrix = absOfElementsOfVector(this.matrixData).asSincMatrix(this.numRows, this.numCols)

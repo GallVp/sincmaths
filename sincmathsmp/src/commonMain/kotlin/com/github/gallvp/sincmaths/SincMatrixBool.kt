@@ -8,12 +8,11 @@ fun SincMatrix.equalsTo(rhs: Double): SincMatrix {
 fun Double.equalsTo(rhs: SincMatrix) = rhs et this
 
 fun SincMatrix.equalsTo(rhs: SincMatrix): SincMatrix {
-
-    if(this.isScalar) {
+    if (this.isScalar) {
         return rhs et this.scalar
     }
 
-    if(rhs.isScalar) {
+    if (rhs.isScalar) {
         return this et rhs.scalar
     }
 
@@ -29,12 +28,11 @@ fun SincMatrix.notEqualsTo(rhs: Double): SincMatrix = (this - rhs).sign().abs()
 fun Double.notEqualsTo(rhs: SincMatrix) = rhs net this
 
 fun SincMatrix.notEqualsTo(rhs: SincMatrix): SincMatrix {
-
-    if(this.isScalar) {
+    if (this.isScalar) {
         return rhs net this.scalar
     }
 
-    if(rhs.isScalar) {
+    if (rhs.isScalar) {
         return this net rhs.scalar
     }
 
@@ -62,9 +60,11 @@ fun SincMatrix.greaterThan(rhs: Double): SincMatrix {
 fun Double.greaterThan(rhs: SincMatrix) = rhs lt this
 
 fun SincMatrix.any(): Boolean = this.asRowVector().asBoolArray().contains(true)
+
 fun SincMatrix.all(): Boolean = !this.asRowVector().asBoolArray().contains(false)
 
 infix fun SincMatrix.and(rhs: SincMatrix): SincMatrix = this.elMul(rhs).abs() net 0.0
+
 infix fun SincMatrix.or(rhs: SincMatrix): SincMatrix = (this.abs() + rhs.abs()) net 0.0
 
 /**

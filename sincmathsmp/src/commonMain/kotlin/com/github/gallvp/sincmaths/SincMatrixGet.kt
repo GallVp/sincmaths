@@ -4,7 +4,6 @@ package com.github.gallvp.sincmaths
  * Indexing starts at 1, like Octave/MATLAB.
  */
 fun SincMatrix.getWithLV(logicalVect: SincMatrix): SincMatrix {
-
     if (this.isEmpty() || logicalVect.isEmpty()) {
         return emptySincMatrix()
     }
@@ -22,38 +21,42 @@ fun SincMatrix.getWithLV(logicalVect: SincMatrix): SincMatrix {
  *
  * Indexing starts at 1, like Octave/MATLAB.
  */
-operator fun SincMatrix.get(mlScript: String): SincMatrix = if (mlScript.contains(",")) {
-    val stringLiterals = mlScript.split(",")
+operator fun SincMatrix.get(mlScript: String): SincMatrix =
+    if (mlScript.contains(",")) {
+        val stringLiterals = mlScript.split(",")
 
-    require(stringLiterals.count() == 2) { "With comma usage, mlScript must contain both row and column indices" }
+        require(stringLiterals.count() == 2) { "With comma usage, mlScript must contain both row and column indices" }
 
-    val rowsScript = stringLiterals.first().replace("end", this.numRows.toString(), false)
-    val colsScript = stringLiterals.last().replace("end", this.numCols.toString(), false)
-    val mlRows = if (rowsScript == ":") {
-        this.rowIndices
+        val rowsScript = stringLiterals.first().replace("end", this.numRows.toString(), false)
+        val colsScript = stringLiterals.last().replace("end", this.numCols.toString(), false)
+        val mlRows =
+            if (rowsScript == ":") {
+                this.rowIndices
+            } else {
+                SincMatrix.createIndexRange(mlScript = rowsScript)
+            }
+        val mlCols =
+            if (colsScript == ":") {
+                this.colIndices
+            } else {
+                SincMatrix.createIndexRange(mlScript = colsScript)
+            }
+        this.get(mlRows = mlRows, mlCols = mlCols)
     } else {
-        SincMatrix.createIndexRange(mlScript = rowsScript)
+        val numericScript = mlScript.replace("end", this.numel.toString(), false)
+        val indices =
+            if (numericScript == ":") {
+                this.indices
+            } else {
+                SincMatrix.createIndexRange(mlScript = numericScript)
+            }
+        this[indices]
     }
-    val mlCols = if (colsScript == ":") {
-        this.colIndices
-    } else {
-        SincMatrix.createIndexRange(mlScript = colsScript)
-    }
-    this.get(mlRows = mlRows, mlCols = mlCols)
-} else {
-    val numericScript = mlScript.replace("end", this.numel.toString(), false)
-    val indices = if (numericScript == ":") {
-        this.indices
-    } else {
-        SincMatrix.createIndexRange(mlScript = numericScript)
-    }
-    this[indices]
-}
 
 /**
  * kotlin-way of doing get(mlScript: String).
  */
-fun SincMatrix.get(selector: (endR:Int, endC:Int, allR:IntRange, allC:IntRange) -> Pair<IntRange, IntRange>): SincMatrix {
+fun SincMatrix.get(selector: (endR: Int, endC: Int, allR: IntRange, allC: IntRange) -> Pair<IntRange, IntRange>): SincMatrix {
     val indices = selector(this.numRows, this.numCols, this.rowIndicesRange, this.colIndicesRange)
     return this[indices.first, indices.second]
 }
@@ -61,7 +64,7 @@ fun SincMatrix.get(selector: (endR:Int, endC:Int, allR:IntRange, allC:IntRange) 
 /**
  * kotlin-way of doing get(mlScript: String).
  */
-fun SincMatrix.get(selector: (end:Int, all:IntRange) -> IntRange): SincMatrix {
+fun SincMatrix.get(selector: (end: Int, all: IntRange) -> IntRange): SincMatrix {
     val indices = selector(this.numel, this.indicesRange)
     return this[indices]
 }
@@ -79,42 +82,45 @@ operator fun SincMatrix.get(indices: IntArray): SincMatrix {
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
-fun SincMatrix.getCols(mlCols: IntArray): SincMatrix =
-    this.get(mlRows = this.rowIndices, mlCols = mlCols)
+fun SincMatrix.getCols(mlCols: IntArray): SincMatrix = this.get(mlRows = this.rowIndices, mlCols = mlCols)
 
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
-fun SincMatrix.getCols(mlCols: IntRange): SincMatrix =
-    this.get(mlRows = this.rowIndicesRange, mlCols = mlCols)
+fun SincMatrix.getCols(mlCols: IntRange): SincMatrix = this.get(mlRows = this.rowIndicesRange, mlCols = mlCols)
 
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
-fun SincMatrix.getCol(mlCol: Int): SincMatrix =
-    this.getCols(mlCols = intArrayOf(mlCol))
+fun SincMatrix.getCol(mlCol: Int): SincMatrix = this.getCols(mlCols = intArrayOf(mlCol))
 
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
-operator fun SincMatrix.get(mlRows: IntArray, mlCols: IntArray): SincMatrix {
+operator fun SincMatrix.get(
+    mlRows: IntArray,
+    mlCols: IntArray,
+): SincMatrix {
     val indices = this.indexBuilder(mlRows = mlRows, mlCols = mlCols)
     return SincMatrix(
         rowMajArray = this[indices].asRowMajorArray(),
         m = mlRows.size,
-        n = mlCols.size
+        n = mlCols.size,
     )
 }
 
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
-operator fun SincMatrix.get(mlRows: IntRange, mlCols: IntRange): SincMatrix {
+operator fun SincMatrix.get(
+    mlRows: IntRange,
+    mlCols: IntRange,
+): SincMatrix {
     val indices = this.indexBuilder(mlRows = mlRows, mlCols = mlCols)
     return SincMatrix(
         rowMajArray = this[indices].asRowMajorArray(),
         m = mlRows.count(),
-        n = mlCols.count()
+        n = mlCols.count(),
     )
 }
 
@@ -126,7 +132,10 @@ operator fun SincMatrix.get(index: Int): Double = this.asRowMajorArray()[index -
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
-operator fun SincMatrix.get(mlRow: Int, mlCol:Int): Double = this[getIndex(mlRow, mlCol)]
+operator fun SincMatrix.get(
+    mlRow: Int,
+    mlCol: Int,
+): Double = this[getIndex(mlRow, mlCol)]
 
 /**
  * Indexing starts at 1, like Octave/MATLAB.
@@ -151,14 +160,15 @@ fun SincMatrix.getRows(mlRows: IntRange): SincMatrix = this.get(mlRows = mlRows,
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
-fun SincMatrix.getRow(mlRow: Int): SincMatrix =
-    this.getRows(mlRows = intArrayOf(mlRow))
+fun SincMatrix.getRow(mlRow: Int): SincMatrix = this.getRows(mlRows = intArrayOf(mlRow))
 
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
-internal fun SincMatrix.indexBuilder(mlRows: IntArray, mlCols: IntArray): IntArray {
-
+internal fun SincMatrix.indexBuilder(
+    mlRows: IntArray,
+    mlCols: IntArray,
+): IntArray {
     val vectIndices: ArrayList<Int> = ArrayList()
     vectIndices.ensureCapacity(mlRows.size * mlCols.size)
     for (row in mlRows) {
@@ -171,8 +181,10 @@ internal fun SincMatrix.indexBuilder(mlRows: IntArray, mlCols: IntArray): IntArr
 /**
  * Indexing starts at 1, like Octave/MATLAB.
  */
-internal fun SincMatrix.indexBuilder(mlRows: IntRange, mlCols: IntRange): IntArray {
-
+internal fun SincMatrix.indexBuilder(
+    mlRows: IntRange,
+    mlCols: IntRange,
+): IntArray {
     val vectIndices: ArrayList<Int> = ArrayList()
     vectIndices.ensureCapacity(mlRows.count() * mlCols.count())
     for (row in mlRows) {
@@ -182,7 +194,10 @@ internal fun SincMatrix.indexBuilder(mlRows: IntRange, mlCols: IntRange): IntArr
     return vectIndices.toIntArray()
 }
 
-internal fun SincMatrix.getIndex(mlRow: Int, mlCol: Int): Int {
+internal fun SincMatrix.getIndex(
+    mlRow: Int,
+    mlCol: Int,
+): Int {
     val numElementsBehind: Int = (mlRow - 1) * this.numCols
     return mlCol + numElementsBehind
 }
@@ -203,9 +218,8 @@ internal fun SincMatrix.Companion.createIndexRange(mlScript: String): IntArray {
         startPoint = parseToInt(literals[0])
         change = parseToInt(literals[1])
         endPoint = parseToInt(literals[2])
-
     } else {
-        //2:5 type
+        // 2:5 type
         startPoint = parseToInt(literals[0])
         endPoint = parseToInt(literals[1])
         change = 1

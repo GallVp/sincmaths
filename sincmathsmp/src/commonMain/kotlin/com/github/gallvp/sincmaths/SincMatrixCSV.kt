@@ -13,9 +13,8 @@ fun SincMatrix.Companion.csvRead(
     separator: String = ",",
     headerInfo: List<String> = listOf(),
     dateFormat: String = "yyyy-MM-dd HH:mm:ss.SSS",
-    bundleID: String? = null
+    bundleID: String? = null,
 ): SincMatrix {
-
     val contents: String? = fileReadWorker(filePath, bundleID)
     require(!contents.isNullOrEmpty()) { "File: $filePath is empty" }
 
@@ -31,11 +30,12 @@ fun SincMatrix.Companion.csvRead(
     }
     val data: ArrayList<Double> = ArrayList()
     data.ensureCapacity(text.size * text[0].size)
-    val startRow: Int = if (headerInfo.isEmpty()) {
-        0
-    } else {
-        1
-    }
+    val startRow: Int =
+        if (headerInfo.isEmpty()) {
+            0
+        } else {
+            1
+        }
     for (i in startRow until (text.size - removeRows)) {
         val rowItem = text[i]
         for (j in 0 until rowItem.size) {
@@ -46,7 +46,7 @@ fun SincMatrix.Companion.csvRead(
                 when (headerInfo[j]) {
                     "t" -> {
                         data.add(
-                            dateToTimeStampWorker(dateFormat, columnItem)
+                            dateToTimeStampWorker(dateFormat, columnItem),
                         )
                     }
                     "d" -> {

@@ -1,10 +1,17 @@
 package com.github.gallvp.sincmaths
 
-actual operator fun SincMatrix.set(mlRow: Int, mlCol: Int, value: Double) {
+actual operator fun SincMatrix.set(
+    mlRow: Int,
+    mlCol: Int,
+    value: Double,
+) {
     this.matrixData[this.getIndex(mlRow, mlCol) - 1] = value
 }
 
-actual operator fun SincMatrix.set(index: Int, value: Double) {
+actual operator fun SincMatrix.set(
+    index: Int,
+    value: Double,
+) {
     this.matrixData[index - 1] = value
 }
 

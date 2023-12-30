@@ -3,17 +3,27 @@ package com.github.gallvp.sincmaths
 import kotlin.math.pow
 
 expect operator fun SincMatrix.times(rhs: SincMatrix): SincMatrix
+
 expect operator fun SincMatrix.times(rhs: Double): SincMatrix
+
 expect operator fun SincMatrix.plus(rhs: SincMatrix): SincMatrix
+
 expect operator fun SincMatrix.plus(rhs: Double): SincMatrix
+
 expect infix fun SincMatrix.elDiv(rhs: SincMatrix): SincMatrix
+
 expect infix fun SincMatrix.elMul(rhs: SincMatrix): SincMatrix
+
 expect fun SincMatrix.elSum(): Double
+
 expect infix fun SincMatrix.elPow(power: Double): SincMatrix
 
 operator fun SincMatrix.minus(rhs: SincMatrix): SincMatrix = this + (rhs * -1.0)
+
 operator fun SincMatrix.minus(rhs: Double): SincMatrix = this + (rhs * -1.0)
+
 operator fun SincMatrix.div(rhs: Double): SincMatrix = this * (1 / rhs)
+
 operator fun SincMatrix.unaryMinus(): SincMatrix {
     return this * -1.0
 }
@@ -21,11 +31,15 @@ operator fun SincMatrix.unaryMinus(): SincMatrix {
 infix fun SincMatrix.elMul(rhs: Double): SincMatrix = this * rhs
 
 operator fun Double.plus(rhs: SincMatrix) = rhs + this
+
 operator fun Double.minus(rhs: SincMatrix) = -rhs + this
+
 operator fun Double.times(rhs: SincMatrix) = rhs * this
+
 operator fun Double.div(rhs: SincMatrix) = (SincMatrix.ones(rhs.numRows, rhs.numCols) * this) elDiv rhs
 
 expect fun SincMatrix.floor(): SincMatrix
+
 expect fun SincMatrix.abs(): SincMatrix
 
 fun SincMatrix.sign(): SincMatrix {
@@ -42,7 +56,7 @@ fun SincMatrix.sqrt(): SincMatrix = this elPow (1.0 / 2.0)
 fun SincMatrix.cross(ontoVector: SincMatrix): SincMatrix {
     require(
         this.isVector && ontoVector.isVector &&
-                this.numel == 3 && ontoVector.numel == 3
+            this.numel == 3 && ontoVector.numel == 3,
     ) {
         "This function works only for vectors of length 3"
     }
@@ -60,6 +74,7 @@ fun SincMatrix.cross(ontoVector: SincMatrix): SincMatrix {
 
 fun SincMatrix.dot(rhs: SincMatrix): SincMatrix = (this elMul rhs).sum()
 
-fun SincMatrix.round(n: Int): SincMatrix = map {
-    kotlin.math.round(it * 10.0.pow(n)) / 10.0.pow(n)
-}
+fun SincMatrix.round(n: Int): SincMatrix =
+    map {
+        kotlin.math.round(it * 10.0.pow(n)) / 10.0.pow(n)
+    }

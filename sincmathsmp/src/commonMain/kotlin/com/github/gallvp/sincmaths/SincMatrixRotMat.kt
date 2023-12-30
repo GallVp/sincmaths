@@ -4,72 +4,85 @@ import kotlin.math.sqrt
 
 fun SincMatrix.quat2rotm(): SincMatrix = SincMatrix.quat2rotm(quat = this.asArray()).asSincMatrix(m = 3, n = 3)
 
-
 fun SincMatrix.rotm2quat(): SincMatrix = SincMatrix.rotm2quat(rotm = this.asRowMajorArray()).asSincMatrix()
 
-fun SincMatrix.Companion.eul2rotm(xyzRadianAngles: DoubleArray, sequence: AngleSequence): SincMatrix {
+fun SincMatrix.Companion.eul2rotm(
+    xyzRadianAngles: DoubleArray,
+    sequence: AngleSequence,
+): SincMatrix {
     val rowOne: DoubleArray
     val rowTwo: DoubleArray
     val rowThree: DoubleArray
-    val cosTheta: DoubleArray = (doubleArrayOf(0.0) + xyzRadianAngles).map {
-        kotlin.math.cos(it)
-    }.toDoubleArray()
+    val cosTheta: DoubleArray =
+        (doubleArrayOf(0.0) + xyzRadianAngles).map {
+            kotlin.math.cos(it)
+        }.toDoubleArray()
     // For Octave like indexing
-    val sinTheta: DoubleArray = (doubleArrayOf(0.0) + xyzRadianAngles).map {
-        kotlin.math.sin(it)
-    }.toDoubleArray()
+    val sinTheta: DoubleArray =
+        (doubleArrayOf(0.0) + xyzRadianAngles).map {
+            kotlin.math.sin(it)
+        }.toDoubleArray()
     // For Octave like indexing
     when (sequence) {
         AngleSequence.XYZ -> {
-            rowOne = doubleArrayOf(
-                cosTheta[2] * cosTheta[3],
-                -cosTheta[2] * sinTheta[3],
-                sinTheta[2]
-            )
-            rowTwo = doubleArrayOf(
-                cosTheta[1] * sinTheta[3] + cosTheta[3] * sinTheta[1] * sinTheta[2],
-                cosTheta[1] * cosTheta[3] - sinTheta[1] * sinTheta[2] * sinTheta[3],
-                -cosTheta[2] * sinTheta[1]
-            )
-            rowThree = doubleArrayOf(
-                sinTheta[1] * sinTheta[3] - cosTheta[1] * cosTheta[3] * sinTheta[2],
-                cosTheta[3] * sinTheta[1] + cosTheta[1] * sinTheta[2] * sinTheta[3],
-                cosTheta[1] * cosTheta[2]
-            )
+            rowOne =
+                doubleArrayOf(
+                    cosTheta[2] * cosTheta[3],
+                    -cosTheta[2] * sinTheta[3],
+                    sinTheta[2],
+                )
+            rowTwo =
+                doubleArrayOf(
+                    cosTheta[1] * sinTheta[3] + cosTheta[3] * sinTheta[1] * sinTheta[2],
+                    cosTheta[1] * cosTheta[3] - sinTheta[1] * sinTheta[2] * sinTheta[3],
+                    -cosTheta[2] * sinTheta[1],
+                )
+            rowThree =
+                doubleArrayOf(
+                    sinTheta[1] * sinTheta[3] - cosTheta[1] * cosTheta[3] * sinTheta[2],
+                    cosTheta[3] * sinTheta[1] + cosTheta[1] * sinTheta[2] * sinTheta[3],
+                    cosTheta[1] * cosTheta[2],
+                )
         }
         AngleSequence.ZYX -> {
-            rowOne = doubleArrayOf(
-                cosTheta[2] * cosTheta[1],
-                sinTheta[3] * sinTheta[2] * cosTheta[1] - cosTheta[3] * sinTheta[1],
-                cosTheta[3] * sinTheta[2] * cosTheta[1] + sinTheta[3] * sinTheta[1]
-            )
-            rowTwo = doubleArrayOf(
-                cosTheta[2] * sinTheta[1],
-                sinTheta[3] * sinTheta[2] * sinTheta[1] + cosTheta[3] * cosTheta[1],
-                cosTheta[3] * sinTheta[2] * sinTheta[1] - sinTheta[3] * cosTheta[1]
-            )
-            rowThree = doubleArrayOf(
-                -sinTheta[2],
-                sinTheta[3] * cosTheta[2],
-                cosTheta[3] * cosTheta[2]
-            )
+            rowOne =
+                doubleArrayOf(
+                    cosTheta[2] * cosTheta[1],
+                    sinTheta[3] * sinTheta[2] * cosTheta[1] - cosTheta[3] * sinTheta[1],
+                    cosTheta[3] * sinTheta[2] * cosTheta[1] + sinTheta[3] * sinTheta[1],
+                )
+            rowTwo =
+                doubleArrayOf(
+                    cosTheta[2] * sinTheta[1],
+                    sinTheta[3] * sinTheta[2] * sinTheta[1] + cosTheta[3] * cosTheta[1],
+                    cosTheta[3] * sinTheta[2] * sinTheta[1] - sinTheta[3] * cosTheta[1],
+                )
+            rowThree =
+                doubleArrayOf(
+                    -sinTheta[2],
+                    sinTheta[3] * cosTheta[2],
+                    cosTheta[3] * cosTheta[2],
+                )
         }
         AngleSequence.ZYZ -> {
-            rowOne = doubleArrayOf(
-                cosTheta[1] * cosTheta[3] * cosTheta[2] - sinTheta[1] * sinTheta[3],
-                -cosTheta[1] * cosTheta[2] * sinTheta[3] - sinTheta[1] * cosTheta[3],
-                cosTheta[1] * sinTheta[2]
-            )
-            rowTwo = doubleArrayOf(
-                sinTheta[1] * cosTheta[3] * cosTheta[2] + cosTheta[1] * sinTheta[3],
-                -sinTheta[1] * cosTheta[2] * sinTheta[3] + cosTheta[1] * cosTheta[3],
-                sinTheta[1] * sinTheta[2]
-            )
-            rowThree = doubleArrayOf(
-                -sinTheta[2] * cosTheta[3],
-                sinTheta[2] * sinTheta[3],
-                cosTheta[2]
-            )
+            rowOne =
+                doubleArrayOf(
+                    cosTheta[1] * cosTheta[3] * cosTheta[2] - sinTheta[1] * sinTheta[3],
+                    -cosTheta[1] * cosTheta[2] * sinTheta[3] - sinTheta[1] * cosTheta[3],
+                    cosTheta[1] * sinTheta[2],
+                )
+            rowTwo =
+                doubleArrayOf(
+                    sinTheta[1] * cosTheta[3] * cosTheta[2] + cosTheta[1] * sinTheta[3],
+                    -sinTheta[1] * cosTheta[2] * sinTheta[3] + cosTheta[1] * cosTheta[3],
+                    sinTheta[1] * sinTheta[2],
+                )
+            rowThree =
+                doubleArrayOf(
+                    -sinTheta[2] * cosTheta[3],
+                    sinTheta[2] * sinTheta[3],
+                    cosTheta[2],
+                )
         }
     }
     return SincMatrix(rowMajArray = rowOne + rowTwo + rowThree, m = 3, n = 3)
@@ -94,7 +107,7 @@ fun SincMatrix.Companion.quat2rotm(quat: DoubleArray): DoubleArray {
         2 * (qy * qz - qw * qx),
         2 * (qx * qz - qw * qy),
         2 * (qy * qz + qw * qx),
-        1 - 2 * (qx * qx + qy * qy)
+        1 - 2 * (qx * qx + qy * qy),
     )
 }
 
@@ -119,7 +132,7 @@ fun SincMatrix.Companion.rotm2quat(rotm: DoubleArray): DoubleArray {
     val m22 = rotm[8]
     val t: Double
     var q: DoubleArray
-    //<w:Double, x:Double, y:Double, z: Double>
+    // <w:Double, x:Double, y:Double, z: Double>
     if ((m22 < 0)) {
         if ((m00 > m11)) {
             t = 1 + m00 - m11 - m22

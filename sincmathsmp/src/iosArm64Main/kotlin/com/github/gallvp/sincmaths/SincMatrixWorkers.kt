@@ -16,7 +16,6 @@ import wavelib.diff_cwtft
 internal actual fun parseToInt(expression: String): Int? {
     val doubleValue = parseToDouble(expr = expression) ?: return null
     return doubleValue.toInt()
-
 }
 
 @OptIn(ExperimentalForeignApi::class)
@@ -41,7 +40,7 @@ internal actual fun diffCWTFTWorker(
     signalVector: DoubleArray,
     signalLength: Int,
     scale: Double,
-    dt: Double
+    dt: Double,
 ): DoubleArray {
     memScoped {
         val outVector = nativeHeap.allocArray<DoubleVar>(signalLength)

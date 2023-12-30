@@ -1,7 +1,6 @@
 package com.github.gallvp.sincmaths
 
 expect class SincMatrix(rowMajArray: DoubleArray, m: Int, n: Int) {
-
     override fun toString(): String
 
     companion object
@@ -97,7 +96,6 @@ val SincMatrix.indicesRange: IntRange
 fun SincMatrix.copyOf(): SincMatrix = this.asRowMajorArray().copyOf().asSincMatrix(this.numRows, this.numCols)
 
 fun SincMatrix.circShift(n: Int): SincMatrix {
-
     require(this.isVector) {
         "This function works only for vectors"
     }
@@ -105,7 +103,6 @@ fun SincMatrix.circShift(n: Int): SincMatrix {
     return if (n == 0) {
         this
     } else if (n > 0) {
-
         val normalisedN = n % this.length
 
         val matrixData = this.asRowMajorArray()
@@ -142,23 +139,32 @@ val SincMatrix.t: SincMatrix
         return this.transpose
     }
 
-fun SincMatrix.cat(dim: Int = 1, vararg matrices: SincMatrix): SincMatrix {
+fun SincMatrix.cat(
+    dim: Int = 1,
+    vararg matrices: SincMatrix,
+): SincMatrix {
     return if (dim == 1) {
         matrices.map {
             require(this.numCols == it.numCols) { "For dim = 1, numCols(A) = numCols(B) is violated." }
         }
 
-        (this.asRowMajorArray() + matrices.flatMap {
-            it.asRowMajorArray().toList()
-        }).asSincMatrix(this.numRows + matrices.sumOf { it.numRows }, this.numCols)
+        (
+            this.asRowMajorArray() +
+                matrices.flatMap {
+                    it.asRowMajorArray().toList()
+                }
+        ).asSincMatrix(this.numRows + matrices.sumOf { it.numRows }, this.numCols)
     } else {
         matrices.map {
             require(this.numRows == it.numRows) { "For dim = 2, numRows(A) = numRows(B) is violated." }
         }
 
-        (this.t.asRowMajorArray() + matrices.flatMap {
-            it.t.asRowMajorArray().toList()
-        }).asSincMatrix(this.numCols + matrices.sumOf { it.numCols }, this.numRows).t
+        (
+            this.t.asRowMajorArray() +
+                matrices.flatMap {
+                    it.t.asRowMajorArray().toList()
+                }
+        ).asSincMatrix(this.numCols + matrices.sumOf { it.numCols }, this.numRows).t
     }
 }
 
@@ -166,23 +172,29 @@ fun SincMatrix.cat(dim: Int = 1, vararg matrices: SincMatrix): SincMatrix {
  * As SincMatrix is row-major, reshape picks data from rows first and also fills rows first.
  * Thus, a reshape such as reshape(A, 4, 3) on SincMatrix is equal to reshape(A', 3, 4)' on MATLAB/Octave.
  */
-fun SincMatrix.reshape(m: Int, n: Int): SincMatrix = this.asRowMajorArray().asSincMatrix(m, n)
+fun SincMatrix.reshape(
+    m: Int,
+    n: Int,
+): SincMatrix = this.asRowMajorArray().asSincMatrix(m, n)
 
-fun SincMatrix.repMat(m: Int, n: Int): SincMatrix {
-
+fun SincMatrix.repMat(
+    m: Int,
+    n: Int,
+): SincMatrix {
     if (m == 0 || n == 0) {
         return SincMatrix(doubleArrayOf(), 0, 0)
     }
 
-    val rowRepeatedMat = if (m == 1) {
-        this
-    } else {
-        (1..m).map {
-            this.asRowMajorArray().copyOf()
-        }.flatMap {
-            it.toList()
-        }.asSincMatrix(this.numRows * m, this.numCols)
-    }
+    val rowRepeatedMat =
+        if (m == 1) {
+            this
+        } else {
+            (1..m).map {
+                this.asRowMajorArray().copyOf()
+            }.flatMap {
+                it.toList()
+            }.asSincMatrix(this.numRows * m, this.numCols)
+        }
 
     return if (n == 1) {
         rowRepeatedMat

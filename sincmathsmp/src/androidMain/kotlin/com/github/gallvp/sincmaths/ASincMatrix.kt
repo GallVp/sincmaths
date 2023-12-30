@@ -1,7 +1,6 @@
 package com.github.gallvp.sincmaths
 
 actual class SincMatrix actual constructor(rowMajArray: DoubleArray, internal var m: Int, internal var n: Int) {
-
     internal var matrixData: DoubleArray
 
     init {
@@ -38,13 +37,13 @@ actual fun SincMatrix.find(): SincMatrix {
         SincMatrix(
             rowMajArray = actualIndices.map { it.toDouble() + 1.0 }.toDoubleArray(),
             m = 1,
-            n = actualCount
+            n = actualCount,
         )
     } else {
         SincMatrix(
             rowMajArray = actualIndices.map { it.toDouble() + 1.0 }.toDoubleArray(),
             m = actualCount,
-            n = 1
+            n = 1,
         )
     }
 }

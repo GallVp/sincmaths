@@ -5,7 +5,7 @@
 
 extern "C"
 JNIEXPORT jdoubleArray JNICALL
-Java_com_github_gallvp_sincmaths__1SincMatrixWorkersKt_convWithWavelib(JNIEnv *env, jclass clazz,
+Java_com_github_gallvp_sincmaths_ASincMatrixWorkersKt_convWithWavelib(JNIEnv *env, jclass clazz,
                                                                        jdoubleArray signal_vector,
                                                                        jint signal_length,
                                                                        jdoubleArray kernel_vector,
@@ -25,7 +25,7 @@ Java_com_github_gallvp_sincmaths__1SincMatrixWorkersKt_convWithWavelib(JNIEnv *e
 }
 extern "C"
 JNIEXPORT jdoubleArray JNICALL
-Java_com_github_gallvp_sincmaths__1SincMatrixWorkersKt_diffCWTFT(JNIEnv *env, jclass clazz,
+Java_com_github_gallvp_sincmaths_ASincMatrixWorkersKt_diffCWTFT(JNIEnv *env, jclass clazz,
                                                                  jdoubleArray signal_vector,
                                                                  jint signal_length, jdouble scale,
                                                                  jdouble dt) {

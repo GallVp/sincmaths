@@ -1,0 +1,2 @@
+[sincmathsmp/src/commonTest/**/*.{kt,kts}]
+ktlint_standard_property-naming = disabled

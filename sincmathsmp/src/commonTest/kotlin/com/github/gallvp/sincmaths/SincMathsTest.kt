@@ -3,7 +3,6 @@ package com.github.gallvp.sincmaths
 import kotlin.test.Test
 
 class SincMathsTest {
-
     @Test
     fun performAll() {
         SincMatrixTest().performAll()

@@ -61,10 +61,10 @@ kotlin {
             isStatic = false
         }
     }
-    
+
     sourceSets {
         commonMain.dependencies {
-            //put your multiplatform dependencies here
+            // put your multiplatform dependencies here
         }
         androidMain {
             dependencies {

@@ -4,9 +4,7 @@ import com.github.gallvp.sincmaths.SincMathsTest.Companion.convTestTolAndroid
 import com.github.gallvp.sincmaths.SincMathsTest.Companion.multSumTestTol
 import com.github.gallvp.sincmaths.SincMathsTest.Companion.testTol
 
-
 class SincMatrixMathsStatsTest {
-
     private val testCaseIIMatrices: Pair<SincMatrix, SincMatrix>
         get() {
             // Octave code
@@ -17,7 +15,7 @@ class SincMatrixMathsStatsTest {
             val A =
                 matrixFrom(
                     "[7.301949858665466e-01, 8.112192153930664e-02, 5.081893205642700e-01," +
-                            " 1.602365076541901e-01, 4.644139707088470e-01]"
+                        " 1.602365076541901e-01, 4.644139707088470e-01]",
                 )
             val B = matrixFrom("-7:0.3890210:401")
 
@@ -34,7 +32,7 @@ class SincMatrixMathsStatsTest {
             val A =
                 matrixFrom(
                     "[1.650966703891754e-01, 9.907181560993195e-02, 9.253824949264526e-01, " +
-                            "5.843927264213562e-01, 2.296017855405807e-01]"
+                        "5.843927264213562e-01, 2.296017855405807e-01]",
                 )
             val B = matrixFrom("-7:0.00001:-0.00001")
 
@@ -53,7 +51,7 @@ class SincMatrixMathsStatsTest {
         val A =
             matrixFrom(
                 "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, " +
-                        "9.351466298103333e-01, 1.077670305967331e-01]"
+                    "9.351466298103333e-01, 1.077670305967331e-01]",
             )
         val B = matrixFrom("[1, 2, 3, 4, 5]")
         val result = ((B * (A.t * B)) * A.t) elDiv B.sum()
@@ -85,7 +83,7 @@ class SincMatrixMathsStatsTest {
         val A =
             matrixFrom(
                 "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, " +
-                        "9.351466298103333e-01, 1.077670305967331e-01]"
+                    "9.351466298103333e-01, 1.077670305967331e-01]",
             )
         val B = matrixFrom("[1, 2, 3, 4, 5]")
         val M = A.transpose * B
@@ -118,7 +116,7 @@ class SincMatrixMathsStatsTest {
         val A =
             matrixFrom(
                 "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, " +
-                        "9.351466298103333e-01, 1.077670305967331e-01]"
+                    "9.351466298103333e-01, 1.077670305967331e-01]",
             )
         val B = matrixFrom("[1, 2, 3, 4, 5]")
         val M = A.transpose * B
@@ -166,21 +164,23 @@ class SincMatrixMathsStatsTest {
         //  B = rand(1, 6);
         // median(A) - median(B)
         val resultOctave = -9.426563978195190e-02
-        val A = listOf(
-            3.248022496700287e-01,
-            8.384426236152649e-01,
-            4.031754136085510e-01,
-            9.351466298103333e-01,
-            1.077670305967331e-01
-        ).asSincMatrix()
-        val B = listOf(
-            7.065400481224060e-02,
-            3.377643823623657e-01,
-            6.571177244186401e-01,
-            1.300063729286194e-01,
-            6.679516434669495e-01,
-            8.918364644050598e-01
-        ).asSincMatrix()
+        val A =
+            listOf(
+                3.248022496700287e-01,
+                8.384426236152649e-01,
+                4.031754136085510e-01,
+                9.351466298103333e-01,
+                1.077670305967331e-01,
+            ).asSincMatrix()
+        val B =
+            listOf(
+                7.065400481224060e-02,
+                3.377643823623657e-01,
+                6.571177244186401e-01,
+                1.300063729286194e-01,
+                6.679516434669495e-01,
+                8.918364644050598e-01,
+            ).asSincMatrix()
         val computed = A.median() - B.median()
         SincMathsTest.assert((computed - resultOctave).absoluteValue lt testTol)
     }
@@ -195,11 +195,14 @@ class SincMatrixMathsStatsTest {
         val A = matrixOf(10, 12, 1..120)
 
         SincMathsTest.assert(
-            (A.median(2).median() / 10.0 - 6.050000000000000).absoluteValue lt testTol
+            (A.median(2).median() / 10.0 - 6.050000000000000).absoluteValue lt testTol,
         )
         SincMathsTest.assert(
-            (A.median(1).sum() * A.median(2)
-                .sum() / 100000.0 - 4.392300000000000).absoluteValue lt testTol
+            (
+                A.median(1).sum() *
+                    A.median(2)
+                        .sum() / 100000.0 - 4.392300000000000
+            ).absoluteValue lt testTol,
         )
 
         SincMathsTest.assert(A.median(1).size == listOf(1, 12))
@@ -250,7 +253,7 @@ class SincMatrixMathsStatsTest {
         val A =
             matrixFrom(
                 "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, " +
-                        "9.351466298103333e-01, 1.077670305967331e-01]"
+                    "9.351466298103333e-01, 1.077670305967331e-01]",
             )
         val B = matrixFrom("[1, 2, 3, 4, 5]")
         val M = A.transpose * B
@@ -270,7 +273,7 @@ class SincMatrixMathsStatsTest {
         val A =
             matrixFrom(
                 "[3.248022496700287e-01, 8.384426236152649e-01, 4.031754136085510e-01, " +
-                        "9.351466298103333e-01, 1.077670305967331e-01]"
+                    "9.351466298103333e-01, 1.077670305967331e-01]",
             )
         val B = matrixFrom("[1, 2, 3, 4, 5]")
         val M = A.t * B
@@ -293,131 +296,176 @@ class SincMatrixMathsStatsTest {
         // Compared against octave
         val testVector = matrixFrom("[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
         SincMathsTest.assert(
-            (((testVector lt 0.3) - doubleArrayOf(
-                0.0,
-                1.0,
-                1.0,
-                1.0,
-                0.0,
-                1.0,
-                1.0,
-                1.0,
-                1.0,
-                0.0
-            ).asSincMatrix()) net 1.0).all()
+            (
+                (
+                    (testVector lt 0.3) -
+                        doubleArrayOf(
+                            0.0,
+                            1.0,
+                            1.0,
+                            1.0,
+                            0.0,
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0,
+                            0.0,
+                        ).asSincMatrix()
+                ) net 1.0
+            ).all(),
         )
         SincMathsTest.assert(
-            (((testVector gt 5.0) - doubleArrayOf(
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0
-            ).asSincMatrix()) et 0.0).all()
+            (
+                (
+                    (testVector gt 5.0) -
+                        doubleArrayOf(
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                        ).asSincMatrix()
+                ) et 0.0
+            ).all(),
         )
         SincMathsTest.assert(
-            (((testVector gt 0.2) - doubleArrayOf(
-                1.0,
-                0.0,
-                0.0,
-                0.0,
-                1.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                1.0
-            ).asSincMatrix()) net 1.0).all()
+            (
+                (
+                    (testVector gt 0.2) -
+                        doubleArrayOf(
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                        ).asSincMatrix()
+                ) net 1.0
+            ).all(),
         )
         SincMathsTest.assert(
-            (((testVector et 0.2) - doubleArrayOf(
-                0.0,
-                0.0,
-                0.0,
-                1.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0
-            ).asSincMatrix()) net -1.0).all()
+            (
+                (
+                    (testVector et 0.2) -
+                        doubleArrayOf(
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                        ).asSincMatrix()
+                ) net -1.0
+            ).all(),
         )
         SincMathsTest.assert(
-            (((testVector et 0.0) - doubleArrayOf(
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                1.0,
-                1.0,
-                0.0,
-                1.0,
-                0.0
-            ).asSincMatrix()) et 0.0).all()
+            (
+                (
+                    (testVector et 0.0) -
+                        doubleArrayOf(
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            1.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                        ).asSincMatrix()
+                ) et 0.0
+            ).all(),
         )
         SincMathsTest.assert(
-            (((testVector et -0.12) - doubleArrayOf(
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                1.0,
-                0.0,
-                0.0
-            ).asSincMatrix()) net 0.1).all()
+            (
+                (
+                    (testVector et -0.12) -
+                        doubleArrayOf(
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                        ).asSincMatrix()
+                ) net 0.1
+            ).all(),
         )
 
         SincMathsTest.assert(
-            (((testVector net -0.12) - listOf(
-                1,
-                1,
-                1,
-                1,
-                1,
-                1,
-                1,
-                0,
-                1,
-                1
-            ).asSincMatrix()) et 0.0).all()
+            (
+                (
+                    (testVector net -0.12) -
+                        listOf(
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            0,
+                            1,
+                            1,
+                        ).asSincMatrix()
+                ) et 0.0
+            ).all(),
         )
         SincMathsTest.assert(
-            (((testVector net 0.0) - listOf(
-                1,
-                1,
-                1,
-                1,
-                1,
-                0,
-                0,
-                1,
-                0,
-                1
-            ).asSincMatrix()) et 0.0).all()
+            (
+                (
+                    (testVector net 0.0) -
+                        listOf(
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            0,
+                            0,
+                            1,
+                            0,
+                            1,
+                        ).asSincMatrix()
+                ) et 0.0
+            ).all(),
         )
         SincMathsTest.assert(
-            (((testVector net 5.0) - listOf(
-                1,
-                1,
-                1,
-                1,
-                1,
-                1,
-                1,
-                1,
-                1,
-                1
-            ).asSincMatrix()) et 0.0).all()
+            (
+                (
+                    (testVector net 5.0) -
+                        listOf(
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                        ).asSincMatrix()
+                ) et 0.0
+            ).all(),
         )
 
         SincMathsTest.assert(testVector.gt(0.0).any())
@@ -430,14 +478,14 @@ class SincMatrixMathsStatsTest {
 
         SincMathsTest.assert(
             vectorA.and(vectorB).et(
-                rowVectorOf(0, 1, 0, 0, 0, 1, 1, 1, 1)
-            ).all()
+                rowVectorOf(0, 1, 0, 0, 0, 1, 1, 1, 1),
+            ).all(),
         )
 
         SincMathsTest.assert(
             vectorA.or(vectorB).et(
-                rowVectorOf(0, 1, 0, 1, 1, 1, 1, 1, 1)
-            ).all()
+                rowVectorOf(0, 1, 0, 1, 1, 1, 1, 1, 1),
+            ).all(),
         )
     }
 
@@ -448,18 +496,18 @@ class SincMatrixMathsStatsTest {
 
         val testVector = matrixFrom("[1, -1, 0.1, 0.2, 0.3, 0, 0, -0.12, 0, 1.2]")
         SincMathsTest.assert(
-            testVector.greaterThan(5.0).find().asIntArray().isEmpty()
+            testVector.greaterThan(5.0).find().asIntArray().isEmpty(),
         )
 
         SincMathsTest.assert(
-            testVector.getWithLV(emptyVector).isEmpty()
+            testVector.getWithLV(emptyVector).isEmpty(),
         )
 
         val testVectorCopy = testVector.copyOf()
         testVectorCopy.setWithLV(emptyVector, 2.0)
 
         SincMathsTest.assert(
-            (testVectorCopy et testVector).all()
+            (testVectorCopy et testVector).all(),
         )
     }
 
@@ -479,7 +527,7 @@ class SincMatrixMathsStatsTest {
         val i2 = rowVectorOf(2, 3, 2).maxI()
         val i3 = rowVectorOf(2, 2, 1).minI()
         val i4 = rowVectorOf(2.0, 1.0, 2.0, 0.5).minI()
-        val result = i1*i2*i3*i4
+        val result = i1 * i2 * i3 * i4
 
         SincMathsTest.assert((result - 24.0).absoluteValue lt testTol)
     }
@@ -496,12 +544,12 @@ class SincMatrixMathsStatsTest {
 
         val matlabResult = 721255227.0
 
-        val A = SincMatrix.from(SGCoeffs.sgo3x41)
+        val A = SincMatrix.from(SGCoeffs.SGO3X41)
         val i1 = A.maxI(1)
         val i2 = A.maxI(2)
         val i3 = A.minI(1)
         val i4 = A.minI(2)
-        val result = i1*i2*i3*i4
+        val result = i1 * i2 * i3 * i4
 
         SincMathsTest.assert((result - matlabResult).absoluteValue lt testTol)
     }
@@ -518,12 +566,12 @@ class SincMatrixMathsStatsTest {
 
         val matlabResult = 0.997478874339581
 
-        val A = SincMatrix.from(SGCoeffs.sgo3x41)
+        val A = SincMatrix.from(SGCoeffs.SGO3X41)
         val i1 = A.maxI(2)
         val i2 = A.maxI(1)
         val i3 = A.minI(2)
         val i4 = A.minI(1)
-        val result = (i1*i2*i3*i4).sum().sum().cos()
+        val result = (i1 * i2 * i3 * i4).sum().sum().cos()
         SincMathsTest.assert((result - matlabResult).absoluteValue lt testTol)
     }
 
@@ -550,5 +598,4 @@ class SincMatrixMathsStatsTest {
         testMatrixMinIMaxI()
         testMatrixMinIMaxIB()
     }
-
 }
