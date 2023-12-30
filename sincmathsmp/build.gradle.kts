@@ -117,3 +117,14 @@ tasks.getByName("iosX64Test") {
         }
     }
 }
+
+publishing {
+    publications.withType<MavenPublication> {
+        val artifactId = "sincmaths"
+        if (name == "kotlinMultiplatform") {
+            setArtifactId(artifactId)
+        } else {
+            setArtifactId("$artifactId-$name")
+        }
+    }
+}
