@@ -50,21 +50,6 @@ kotlin {
             }
         }
     }
-    iosSimulatorArm64 {
-        compilations.getByName("main") {
-            cinterops {
-                val tinyexpr by creating {
-                    defFile(project.file("src/nativeInterop/cinterop/tinyexpr.def"))
-                    includeDirs.allHeaders(project.file("src/cpp/tinyexpr/include"))
-                }
-
-                val wavelib by creating {
-                    defFile(project.file("src/nativeInterop/cinterop/wavelib.def"))
-                    includeDirs.allHeaders(project.file("src/cpp/wavelib/include"))
-                }
-            }
-        }
-    }
 
     cocoapods {
         summary = "sincmaths kotlin multiplatform library"
@@ -131,12 +116,4 @@ tasks.getByName("iosX64Test") {
             include("*.csv")
         }
     }
-}
-
-tasks.getByName("linkPodDebugFrameworkIosSimulatorArm64") {
-    enabled = false
-}
-
-tasks.getByName("linkPodReleaseFrameworkIosSimulatorArm64") {
-    enabled = false
 }
