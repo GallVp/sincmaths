@@ -6,6 +6,7 @@
 + Updated kotlin to 1.9.20
 + Updated ejml-simple to 0.43.1
 + Updated AGP to 8.2.0
++ Added tinyexpr and wavelib libraries as submodules
 + `isVector` now replaced by `isVector`
 + `numRows()` and `numCols()` are now `numRows` and `numCols`
 + `length()` is now `length`

@@ -1,9 +1,9 @@
 # SincMaths
 
-SincMaths is a Kotlin Multiplatform library which provides a 2D matrix `SincMatrix` with the aim to 
-facilitate translation of Octave/MATLAB code to mobile applications. `SincMatrix` stores data 
-in row-major format as opposed to column-major format used by Octave/MATLAB. See [docs](.
-/docs/index.md) for a comprehensive list of functions.
+SincMaths is a Kotlin Multiplatform library which provides a 2D matrix `SincMatrix` with the aim to
+facilitate translation of Octave/MATLAB code to mobile applications. `SincMatrix` stores data
+in row-major format as opposed to column-major format used by Octave/MATLAB.
+See [docs](./docs/index.md) for a comprehensive list of functions.
 
 ## Examples
 
@@ -40,7 +40,7 @@ val matrixF = matrixM.get { endR, endC, allR, allC ->
 
 ### Implementation of `acf`
 
-Reference: https://au.mathworks.com/matlabcentral/fileexchange/30540-autocorrelation-function-acf
+Reference: <https://au.mathworks.com/matlabcentral/fileexchange/30540-autocorrelation-function-acf>
 
 ```kotlin
 fun SincMatrix.acf(numLags: Int): SincMatrix {
