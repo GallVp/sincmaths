@@ -132,3 +132,11 @@ tasks.getByName("iosX64Test") {
         }
     }
 }
+
+tasks.getByName("linkPodDebugFrameworkIosSimulatorArm64") {
+    enabled = false
+}
+
+tasks.getByName("linkPodReleaseFrameworkIosSimulatorArm64") {
+    enabled = false
+}
