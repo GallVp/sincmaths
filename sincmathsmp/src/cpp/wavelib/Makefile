@@ -11,7 +11,7 @@ ALL_OBJS = $(OBJ_iphonesimulator_x86_64) $(OBJ_iphoneos_arm64)
 # Output file
 OUT = $(OUT_DIR)/$(LIB_NAME).a
 # Include directories
-INCLUDES = -Iinclude
+INCLUDES = -Iinclude -Iheader -I./
 # Xcode setup
 XCODE_STP = xcrun -sdk
 # Compiler

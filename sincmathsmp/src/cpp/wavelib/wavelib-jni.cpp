@@ -1,7 +1,7 @@
 #include <jni.h>
 #include <string>
 #include "include/wt_helpers.h"
-#include "include/conv.h"
+#include "conv.h"
 
 extern "C"
 JNIEXPORT jdoubleArray JNICALL

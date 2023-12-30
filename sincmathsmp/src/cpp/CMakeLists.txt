@@ -40,4 +40,6 @@ add_library( # Sets the name of the library.
                 tinyexpr/tinyexpr.c)
 
 include_directories("wavelib/include")
+include_directories("wavelib/header")
+include_directories("wavelib")
 include_directories("tinyexpr/include")

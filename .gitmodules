@@ -1,3 +1,6 @@
 [submodule "tinyexpr"]
 	path = tinyexpr
 	url = git@github.com:codeplea/tinyexpr.git
+[submodule "wavelib"]
+	path = wavelib
+	url = git@github.com:rafat/wavelib.git
