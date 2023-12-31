@@ -17,6 +17,8 @@ kotlin {
                 jvmTarget = "1.8"
             }
         }
+
+        publishAllLibraryVariants()
     }
 
     applyDefaultHierarchyTemplate()
