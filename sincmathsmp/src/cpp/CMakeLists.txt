@@ -11,33 +11,33 @@ cmake_minimum_required(VERSION 3.4.1)
 # Gradle automatically packages shared libraries with your APK.
 
 add_library( # Sets the name of the library.
-             wavelib
+        wavelib
 
-             # Sets the library as a shared library.
-             SHARED
+        # Sets the library as a shared library.
+        SHARED
 
-             # Provides a relative path to your source file(s).
+        # Provides a relative path to your source file(s).
         wavelib/wavelib-jni.cpp
-                wavelib/wt_helpers.c
-                wavelib/conv.c
-                wavelib/cwt.c
-                wavelib/cwtmath.c
-                wavelib/hsfft.c
-                wavelib/real.c
-                wavelib/wavefilt.c
-                wavelib/wavefunc.c
-                wavelib/wavelib.c
-                wavelib/wtmath.c)
+        wavelib/wt_helpers.c
+        wavelib/conv.c
+        wavelib/cwt.c
+        wavelib/cwtmath.c
+        wavelib/hsfft.c
+        wavelib/real.c
+        wavelib/wavefilt.c
+        wavelib/wavefunc.c
+        wavelib/wavelib.c
+        wavelib/wtmath.c)
 
 add_library( # Sets the name of the library.
-             tinyexpr
+        tinyexpr
 
-             # Sets the library as a shared library.
-             SHARED
+        # Sets the library as a shared library.
+        SHARED
 
-             # Provides a relative path to your source file(s).
+        # Provides a relative path to your source file(s).
         tinyexpr/tinyexpr-jni.cpp
-                tinyexpr/tinyexpr.c)
+        tinyexpr/tinyexpr.c)
 
 include_directories("wavelib/include")
 include_directories("wavelib/header")

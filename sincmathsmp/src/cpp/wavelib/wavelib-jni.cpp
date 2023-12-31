@@ -5,17 +5,17 @@
 
 extern "C"
 JNIEXPORT jdoubleArray JNICALL
-Java_com_github_gallvp_sincmaths_ASincMatrixWorkersKt_convWithWavelib(JNIEnv *env, jclass clazz,
-                                                                       jdoubleArray signal_vector,
-                                                                       jint signal_length,
-                                                                       jdoubleArray kernel_vector,
-                                                                       jint kernel_length) {
+Java_io_github_gallvp_sincmaths_ASincMatrixWorkersKt_convWithWavelib(JNIEnv *env, jclass clazz,
+                                                                     jdoubleArray signal_vector,
+                                                                     jint signal_length,
+                                                                     jdoubleArray kernel_vector,
+                                                                     jint kernel_length) {
 
     jdouble *input_signal = env->GetDoubleArrayElements(signal_vector, 0);
     jdouble *kernel_signal = env->GetDoubleArrayElements(kernel_vector, 0);
     jdouble output_signal[signal_length + 2 * kernel_length];
 
-    conv_direct(input_signal,signal_length, kernel_signal, kernel_length,output_signal);
+    conv_direct(input_signal, signal_length, kernel_signal, kernel_length, output_signal);
 
     jdoubleArray returnArray = env->NewDoubleArray(signal_length + 2 * kernel_length);
 
@@ -25,10 +25,10 @@ Java_com_github_gallvp_sincmaths_ASincMatrixWorkersKt_convWithWavelib(JNIEnv *en
 }
 extern "C"
 JNIEXPORT jdoubleArray JNICALL
-Java_com_github_gallvp_sincmaths_ASincMatrixWorkersKt_diffCWTFT(JNIEnv *env, jclass clazz,
-                                                                 jdoubleArray signal_vector,
-                                                                 jint signal_length, jdouble scale,
-                                                                 jdouble dt) {
+Java_io_github_gallvp_sincmaths_ASincMatrixWorkersKt_diffCWTFT(JNIEnv *env, jclass clazz,
+                                                               jdoubleArray signal_vector,
+                                                               jint signal_length, jdouble scale,
+                                                               jdouble dt) {
     jdouble *input_signal = env->GetDoubleArrayElements(signal_vector, 0);
     jdouble output_signal[signal_length];
 

@@ -15,7 +15,8 @@ extern "C" {
 
 #define PI 3.14159265358979323846
 
-void diff_cwtft(double* t_in_signal, double* t_out_signal, int t_signal_length, double t_scale, double t_dt);
+void diff_cwtft(double *t_in_signal, double *t_out_signal, int t_signal_length, double t_scale,
+                double t_dt);
 
 #ifdef __cplusplus
 }

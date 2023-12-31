@@ -6,7 +6,8 @@ plugins {
     `maven-publish`
 }
 
-group = "com.github.gallvp"
+group = "io.github.gallvp"
+val artifactID = "sincmaths"
 version = "0.3"
 
 kotlin {
@@ -57,7 +58,7 @@ kotlin {
         authors = "Usman Rashid"
         ios.deploymentTarget = "13.0"
         framework {
-            baseName = "sincmaths"
+            baseName = artifactID
             isStatic = false
         }
     }
@@ -86,7 +87,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.gallvp.sincmaths"
+    namespace = "$group.$artifactID"
     compileSdk = 34
     defaultConfig {
         minSdk = 24
@@ -102,7 +103,8 @@ android {
 }
 
 interface Injected {
-    @get:Inject val fs: FileSystemOperations
+    @get:Inject
+    val fs: FileSystemOperations
 }
 
 tasks.getByName("iosX64Test") {
@@ -111,7 +113,7 @@ tasks.getByName("iosX64Test") {
 
     doFirst {
         injected.fs.copy {
-            from("src/androidInstrumentedTest/resources/com/github/gallvp/sincmaths")
+            from("src/androidInstrumentedTest/resources/io/github/gallvp/sincmaths")
             into("build/bin/iosX64/debugTest")
             include("*.csv")
         }
@@ -120,7 +122,7 @@ tasks.getByName("iosX64Test") {
 
 publishing {
     publications.withType<MavenPublication> {
-        val artifactId = "sincmaths"
+        val artifactId = artifactID
         if (name == "kotlinMultiplatform") {
             setArtifactId(artifactId)
         } else {
