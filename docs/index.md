@@ -6,4 +6,4 @@
 
 | Name |
 |---|
-| [sincmaths](sincmathsmp/sincmaths/index.md) |
+| [io.github.gallvp.sincmaths](sincmathsmp/io.github.gallvp.sincmaths/index.md) |

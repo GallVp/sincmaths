@@ -1,0 +1,17 @@
+[versions]
+agp = "8.2.0"
+espresso-core = "3.5.1"
+kotlin = "1.9.20"
+ejml-simple = "0.43.1"
+dokka = "1.9.10"
+
+[libraries]
+espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+ejml-simple = { module = "org.ejml:ejml-simple", version.ref = "ejml-simple" }
+
+[plugins]
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
