@@ -8,6 +8,7 @@ plugins {
 
 group = "io.github.gallvp"
 val artifactID = "sincmaths"
+val podName = "SincMaths"
 version = "0.3"
 
 kotlin {
@@ -58,9 +59,10 @@ kotlin {
         summary = "sincmaths kotlin multiplatform library"
         homepage = "https://github.com/GallVp/sincmaths"
         authors = "Usman Rashid"
+        name = podName
         ios.deploymentTarget = "13.0"
         framework {
-            baseName = artifactID
+            baseName = podName
             isStatic = false
         }
     }
