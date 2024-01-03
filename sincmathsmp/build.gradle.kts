@@ -1,5 +1,3 @@
-import com.android.build.gradle.internal.tasks.factory.dependsOn
-
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
@@ -14,7 +12,7 @@ version = "0.3"
 
 object Meta {
     const val PROJECT_NAME = "sincmaths"
-    const val POD_NAME = "SincMaths"
+    const val PUBLISH_NAME = "SincMaths"
     const val DESC =
         "SincMaths: A Kotlin multi-platform implementation of 2D matrix with signal processing capabilities"
     const val LICENSE = "MIT"
@@ -74,10 +72,10 @@ kotlin {
         summary = Meta.DESC
         homepage = "https://github.com/${Meta.GITHUB_REPO}"
         authors = Meta.DEVELOPER
-        name = Meta.POD_NAME
+        name = Meta.PUBLISH_NAME
         ios.deploymentTarget = "13.0"
         framework {
-            baseName = Meta.POD_NAME
+            baseName = Meta.PUBLISH_NAME
             isStatic = false
         }
     }
@@ -153,6 +151,7 @@ publishing {
         artifact(javadocJar)
 
         pom {
+            name.set(Meta.PUBLISH_NAME)
             description.set(Meta.DESC)
             url.set("https://github.com/${Meta.GITHUB_REPO}")
             licenses {
