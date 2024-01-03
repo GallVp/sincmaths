@@ -3,7 +3,8 @@
 SincMaths is a Kotlin Multiplatform library which provides a 2D matrix `SincMatrix` to
 facilitate translation of signal processing code written in Octave/MATLAB to mobile applications.
 Originally written for the [Gait&Balance app](https://doi.org/10.3390/s22010124).
-See [docs](./docs/index.md) for a comprehensive list of functions. Key implementation aspects:
+See [docs](https://gallvp.github.io/sincmaths/index.html) for a comprehensive list of functions.
+Key implementation aspects:
 
 + Stores data in row-major format as opposed to column-major format used by Octave/MATLAB
 + Uses [ejml-simple](https://github.com/lessthanoptimal/ejml) for Android side optimisations
@@ -45,7 +46,7 @@ val matrixF = matrixM.get { endR, endC, allR, allC ->
 } // same as matrixM[":,4:7"]
 ```
 
-### Implementation of `acf`
+### Implementation of `acf` from MATLAB Central
 
 Reference: <https://au.mathworks.com/matlabcentral/fileexchange/30540-autocorrelation-function-acf>
 
@@ -68,4 +69,49 @@ fun SincMatrix.acf(numLags: Int): SincMatrix {
         scaledConvSum[acfElements, this.colIndicesRange]
     }
 }
+```
+
+## Usage
+
+### Kotlin Project: [MavenCentral]()
+
+> **Note:** This library does not work with `iosSimulatorArm64` target. Android tests have to be
+> performed on an emulator or a connected device, otherwise, the underlying JAVA JNI libraries
+> fail to load.
+
+Add dependency:
+
+```kotlin
+implementation("io.github.gallvp:sincmathsmp:0.3")
+```
+
+Try a test:
+
+```kotlin
+expect(5050.0) {
+    matrixFrom("1:100").sum().scalar
+}
+```
+
+### Swift Project: [CocoaPods](https://kotlinlang.org/docs/native-cocoapods.html#update-podfile-for-xcode)
+
+> **Note:** Global functions such as `matrixFrom` are converted into open class functions as
+> `SincMatrixInitKt.matrixFrom`. Use 'Jump to Definition' on 'SincMaths' to locate the class and
+> function definitions.
+
+Clone this project and add it to your project's Podfile:
+
+```pod
+pod 'SincMaths', :path => '/path/to/cloned/sincmaths/sincmathsmp'
+```
+
+Import it in your project and try a test:
+
+```swift
+import SincMaths
+
+XCTAssertEqual(
+    SincMatrixInitKt.matrixFrom(script: "1:100").sum(dim: 1).scalar,
+    5050.0
+)
 ```
