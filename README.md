@@ -73,7 +73,7 @@ fun SincMatrix.acf(numLags: Int): SincMatrix {
 
 ## Usage
 
-### Kotlin Project: [MavenCentral]()
+### Kotlin Project: [MavenCentral](https://central.sonatype.com/artifact/io.github.gallvp/sincmathsmp)
 
 > **Note:** This library does not work with `iosSimulatorArm64` target. Android tests have to be
 > performed on an emulator or a connected device, otherwise, the underlying JAVA JNI libraries
