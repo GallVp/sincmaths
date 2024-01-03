@@ -5,7 +5,7 @@ Pod::Spec.new do |spec|
     spec.source                   = { :http=> ''}
     spec.authors                  = 'Usman Rashid'
     spec.license                  = ''
-    spec.summary                  = 'sincmaths kotlin multiplatform library'
+    spec.summary                  = 'SincMaths: A Kotlin multi-platform implementation of 2D matrix with signal processing capabilities'
     spec.vendored_frameworks      = 'build/cocoapods/framework/SincMaths.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '13.0'
