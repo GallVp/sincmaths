@@ -9,8 +9,8 @@ Pod::Spec.new do |spec|
     spec.vendored_frameworks      = 'build/cocoapods/framework/SincMaths.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '13.0'
-                
-                
+
+
     if !Dir.exist?('build/cocoapods/framework/SincMaths.framework') || Dir.empty?('build/cocoapods/framework/SincMaths.framework')
         raise "
 
@@ -21,12 +21,12 @@ Pod::Spec.new do |spec|
 
         Alternatively, proper pod installation is performed during Gradle sync in the IDE (if Podfile location is set)"
     end
-                
+
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':sincmathsmp',
         'PRODUCT_MODULE_NAME' => 'SincMaths',
     }
-                
+
     spec.script_phases = [
         {
             :name => 'Build SincMaths',
@@ -46,5 +46,5 @@ Pod::Spec.new do |spec|
             SCRIPT
         }
     ]
-                
+
 end
