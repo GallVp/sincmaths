@@ -1,5 +1,7 @@
 # SincMaths
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10457067.svg)](https://doi.org/10.5281/zenodo.10457067)
+
 SincMaths is a Kotlin Multiplatform library which provides a 2D matrix `SincMatrix` to
 facilitate translation of signal processing code written in Octave/MATLAB to mobile applications.
 Originally written for the [Gait&Balance app](https://doi.org/10.3390/s22010124).
@@ -73,7 +75,7 @@ fun SincMatrix.acf(numLags: Int): SincMatrix {
 
 ## Usage
 
-### Kotlin Project: [MavenCentral]()
+### Kotlin Project: [MavenCentral](https://central.sonatype.com/artifact/io.github.gallvp/sincmathsmp)
 
 > **Note:** This library does not work with `iosSimulatorArm64` target. Android tests have to be
 > performed on an emulator or a connected device, otherwise, the underlying JAVA JNI libraries
