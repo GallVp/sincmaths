@@ -1,6 +1,6 @@
 # SincMaths
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10457068.svg)](https://doi.org/10.5281/zenodo.10457068)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10457067.svg)](https://doi.org/10.5281/zenodo.10457067)
 
 SincMaths is a Kotlin Multiplatform library which provides a 2D matrix `SincMatrix` to
 facilitate translation of signal processing code written in Octave/MATLAB to mobile applications.
