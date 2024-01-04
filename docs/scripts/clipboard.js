@@ -53,4 +53,3 @@ const copyAndShowPopup = (element, after) => {
 }
 
 const hrefWithoutCurrentlyUsedAnchor = () => window.location.href.split('#')[0]
-
